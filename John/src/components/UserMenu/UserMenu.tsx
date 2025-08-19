@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { IconChevronDown } from '@tabler/icons-react';
+
 import { Group, Avatar, Text, UnstyledButton } from '@mantine/core';
 import './UserMenu.css';
 

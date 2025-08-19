@@ -1,0 +1,29 @@
+.DashboardContainer{
+    display: flex;
+    flex-direction: row !important;
+    width: 90vw;
+
+}
+.DashboardCard{
+    width: 60vw !important;
+    margin-left: 12vw;
+    margin-top: 2vw;
+}
+.DashboardTitleCard { 
+    width: 52vw !important;
+    margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-bottom: 1px solid #877E7E;
+    font-size: 1.1vw;
+}
+
+.FavoriteCard, .FavoriteCard1 {
+    border-left: #29AAE1 solid 5px;
+    border-radius: 10px;
+    background-color: #F0FCFF;
+    margin-bottom: 2vh;
+}
+
+.FavoriteCard1 {
+  border-left: #073041 solid 5px;
+}
