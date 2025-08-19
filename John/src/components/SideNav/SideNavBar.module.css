@@ -1,6 +1,6 @@
 .navbar {
   height: 600px;
-  width: 300px;
+  width: 350px !important;
   display: flex;
   flex-direction: column;
   border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
@@ -8,6 +8,11 @@
   box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -webkit-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -moz-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
+position: fixed;
+top: 10;
+left:0;
+
+
 }
 
 .navbarMain {
