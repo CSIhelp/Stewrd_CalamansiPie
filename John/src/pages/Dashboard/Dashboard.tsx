@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../../components/Header/Header'
-import { Card, Text, Group, Button, Divider, ActionIcon } from '@mantine/core';
+import { Card, Text, Group, Button, Divider, ActionIcon, Container} from '@mantine/core';
 import { SideNavBar } from '../../components/SideNav/SideNavBar'
 import './Dashboard.css'; 
 import NewItemCard from '../../components/NewItemCard/NewItemCard';
@@ -14,7 +14,7 @@ function Dashboard() {
       <Header title="Dashboard" />
       <div className='DashboardContainer'>
      <SideNavBar />
-
+<Container className='DashboardCardContainer'>
 {/* Favorite / Bookmarked Container */}
  <Card withBorder radius="md" p="lg" className= "DashboardCard">
 <Group  className='DashboardTitleCard'>
@@ -36,7 +36,9 @@ function Dashboard() {
             buttonText='View Report'
             buttonLink='https://example.com/collection-receipts'
             />
-</Card>
+          
+</Card>  
+</Container>
      </div>
      </div>
     </>
