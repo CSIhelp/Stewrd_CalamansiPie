@@ -10,7 +10,9 @@
     margin-top: 2vw;
 }
 .DashboardTitleCard { 
-    width: 55vw !important;
+    width: 55
+    
+    vw !important;
     margin-left: 1vw;
     margin-bottom: 2vw;
     border-bottom: 1px solid #877E7E;
