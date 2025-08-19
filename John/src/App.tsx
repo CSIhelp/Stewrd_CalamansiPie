@@ -1,14 +1,13 @@
 
 import './App.css'
-import { SideNavBar } from './components/SideNavBar'
+import Dashboard from './pages/Dashboard/Dashboard'
 function App() {
 
 
   return (
     <>
       <div>
-        
-     <SideNavBar />
+      <Dashboard />
       </div>
  
     </>

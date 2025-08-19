@@ -10,7 +10,7 @@ import {
   IconLogout
 
 } from '@tabler/icons-react';
-import { Code, Group } from '@mantine/core';
+import { Group } from '@mantine/core';
 import classes from './SideNavBar.module.css';
 
 
@@ -45,7 +45,7 @@ export function SideNavBar() {
     return (
         <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <Group className={classes.header} justify="space-between">
+        <Group className={classes.header} >
               <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
           <IconHome className={classes.linkIcon} stroke={1.5} />
           <span>Dashboard</span>
