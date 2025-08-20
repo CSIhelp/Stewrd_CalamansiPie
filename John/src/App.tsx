@@ -1,6 +1,6 @@
 
 import './App.css'
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Import pages
 import LogIn from './pages/LogIn/LogIn';  
@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import Invoice from './pages/Invoice/Invoice'
 import PettyCash from './pages/PettyCash/PettyCash';
 import CollectionReceipt from './pages/CollectionReceipt/CollectionReceipt';
+import Bills from './pages/Bills/Bills'
 function App() {
 
 
@@ -19,9 +20,8 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/invoice" element={<Invoice />} />
           <Route path="/pettycash" element={<PettyCash />} />
-           <Route path="/pettycash" element={<PettyCash />} />
            <Route path="/collectionreceipt" element={<CollectionReceipt />} />
-     
+           <Route path='/bills' element={<Bills/>} />
         </Routes>
  </BrowserRouter>
     </>

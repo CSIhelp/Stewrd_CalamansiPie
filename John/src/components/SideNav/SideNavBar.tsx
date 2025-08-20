@@ -20,7 +20,7 @@ const SideBarLinks = [
     {link: '/invoice', label: 'Invoices', icon: IconFileInvoice},
     {link: '/collectionreceipt', label: 'Collection Receipts', icon: IconReceiptDollar},
     {link: '/pettycash', label: ' Petty Cash', icon: IconCash},
-    {link: '', label: 'Bills', icon: IconInvoice},
+    {link: '/bills', label: 'Bills', icon: IconInvoice},
     {link: '', label: 'Payments', icon: IconCreditCardPay},
 
 ]
