@@ -18,7 +18,7 @@ import { NavLink } from 'react-router-dom';
 const SideBarLinks = [
     
     {link: '/invoice', label: 'Invoices', icon: IconFileInvoice},
-    {link: '', label: 'Collection Receipts', icon: IconReceiptDollar},
+    {link: '/collectionreceipt', label: 'Collection Receipts', icon: IconReceiptDollar},
     {link: '/pettycash', label: ' Petty Cash', icon: IconCash},
     {link: '', label: 'Bills', icon: IconInvoice},
     {link: '', label: 'Payments', icon: IconCreditCardPay},

@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Dashboard from './pages/Dashboard/Dashboard'
 import Invoice from './pages/Invoice/Invoice'
 import PettyCash from './pages/PettyCash/PettyCash';
+import CollectionReceipt from './pages/CollectionReceipt/CollectionReceipt';
 function App() {
 
 
@@ -16,6 +17,8 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/invoice" element={<Invoice />} />
           <Route path="/pettycash" element={<PettyCash />} />
+           <Route path="/pettycash" element={<PettyCash />} />
+           <Route path="/collectionreceipt" element={<CollectionReceipt />} />
      
         </Routes>
  </BrowserRouter>
