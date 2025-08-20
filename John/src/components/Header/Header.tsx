@@ -3,16 +3,20 @@ import { IconChevronDown, IconLogout } from '@tabler/icons-react';
 import { Menu } from '@mantine/core';
 import UserMenu from '../UserMenu/UserMenu';
 import './Header.modules.css';
+import { useNavigate } from 'react-router-dom';
 import '@mantine/core/styles.css';
 
 interface HeaderProps {
-  title: string; // dynamic page title
+  title: string; 
 }
 
+
 const Header: FC<HeaderProps> = ({ title }) => {
+    const navigate = useNavigate();
+    
   const handleLogout = () => {
     console.log('User logged out');
-    // Logout logic here 
+    navigate ('/login')
   };
 
   return (
