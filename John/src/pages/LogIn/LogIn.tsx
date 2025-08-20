@@ -1,8 +1,17 @@
 import React from "react";
 import { Fieldset, PasswordInput, Card, Group, Container, TextInput, Button, UnstyledButton } from '@mantine/core';
+import { useNavigate } from "react-router-dom";
 import "./LogIn.css";
 
 function LogIn() {
+
+    const navigate = useNavigate();
+        
+const handleLogIn = () => {
+    console.log('User logged in');
+    navigate ('/')
+  };
+
     return (
         <>
         <header className="Header">    
@@ -22,7 +31,7 @@ function LogIn() {
                 <Fieldset  className="LogInFieldset">
                      <TextInput label="Client ID" placeholder="Enter your Client Id" mt="md" />
                     <PasswordInput label="Password" placeholder="Enter your password" required />
-                    <Button fullWidth className="LogInBtn"> Log In </Button>
+                    <Button fullWidth className="LogInBtn" onClick={handleLogIn}> Log In </Button>
                     <UnstyledButton className="ForgotPasswordBtn"> forgot password?</UnstyledButton>
                 </Fieldset>
             </Card>
