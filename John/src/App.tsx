@@ -1,8 +1,11 @@
 
 import './App.css'
-import Dashboard from './pages/Dashboard/Dashboard'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+// Import pages
+import Dashboard from './pages/Dashboard/Dashboard'
 import Invoice from './pages/Invoice/Invoice'
+import PettyCash from './pages/PettyCash/PettyCash';
 function App() {
 
 
@@ -12,6 +15,8 @@ function App() {
     <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/invoice" element={<Invoice />} />
+          <Route path="/pettycash" element={<PettyCash />} />
+     
         </Routes>
  </BrowserRouter>
     </>

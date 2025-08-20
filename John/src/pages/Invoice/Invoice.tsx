@@ -1,8 +1,10 @@
 import React from "react";
-import Header from "../../components/Header/Header";
 import { Card, Group, Container } from "@mantine/core";
-import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import "./Invoice.css";
+
+// Import components
+import Header from "../../components/Header/Header";
+import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
 import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
 
@@ -10,9 +12,7 @@ import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
 function Invoice () {
 
     return(
-    
-        <>
-      
+        <> 
 <div>
 <Header title="Invoices"/>
 <div className="InvoiceContainer">
@@ -20,7 +20,7 @@ function Invoice () {
 <Container className="InvoiceCardContainer">
 <Card withBorder radius="md" p="lg" className="InvoiceCard">
 <Group className="InvoiceTitleCard">
-<h1>Invoices</h1>
+<h1>New</h1>
 </Group>
 
 {/* Invoice Item card 1 Reusable */}

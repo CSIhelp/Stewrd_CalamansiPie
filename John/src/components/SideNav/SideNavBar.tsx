@@ -14,12 +14,12 @@ import { Group } from '@mantine/core';
 import classes from './SideNavBar.module.css';
 import { NavLink } from 'react-router-dom';
 
-
+//Links for the sidebar navigation
 const SideBarLinks = [
     
     {link: '/invoice', label: 'Invoices', icon: IconFileInvoice},
     {link: '', label: 'Collection Receipts', icon: IconReceiptDollar},
-    {link: '', label: ' Petty Cash', icon: IconCash},
+    {link: '/pettycash', label: ' Petty Cash', icon: IconCash},
     {link: '', label: 'Bills', icon: IconInvoice},
     {link: '', label: 'Payments', icon: IconCreditCardPay},
 

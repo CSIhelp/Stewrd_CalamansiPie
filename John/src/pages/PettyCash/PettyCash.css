@@ -1,0 +1,30 @@
+.PettyCashContainer{
+    display: flex;
+    flex-direction: row !important;
+    width: 100vw;
+
+}
+.PettyCashCardContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100vw !important;
+    margin-left: 30vw;
+    margin-top: 2vw;
+ justify-items: center;
+
+}
+
+.PettyCashCard{
+    width: 60vw !important;
+    margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-radius: 10px;
+}
+
+.PettyCashTitleCard { 
+    width: 52vw !important;
+    margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-bottom: 1px solid #877E7E;
+    font-size: 0.8vw;
+}
