@@ -9,6 +9,8 @@ import Invoice from './pages/Invoice/Invoice'
 import PettyCash from './pages/PettyCash/PettyCash';
 import CollectionReceipt from './pages/CollectionReceipt/CollectionReceipt';
 import Bills from './pages/Bills/Bills'
+import Payments from './pages/Payments/Payments';
+import Documentation from './pages/Documentation/Documentation';
 function App() {
 
 
@@ -22,6 +24,8 @@ function App() {
           <Route path="/pettycash" element={<PettyCash />} />
            <Route path="/collectionreceipt" element={<CollectionReceipt />} />
            <Route path='/bills' element={<Bills/>} />
+           <Route path='/payments' element={<Payments/>} />
+           <Route path='/Documentation' element={<Documentation/>} />
         </Routes>
  </BrowserRouter>
     </>

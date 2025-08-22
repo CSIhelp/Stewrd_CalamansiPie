@@ -1,0 +1,32 @@
+.DocumentationContainer{
+    display: flex;
+    flex-direction: row !important;
+    width: 90vw;
+    
+
+}
+.DocumentationCardContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100vw !important;
+    margin-left: 30vw;
+    margin-top: 2vw;
+    align-items: center;
+     justify-items: center;
+
+}
+
+.DocumentationCard{
+    width: 60vw !important;
+    margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-radius: 10px;
+}
+
+.DocumentationTitleCard { 
+    width: 52vw !important;
+    margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-bottom: 1px solid #877E7E;
+    font-size: 0.8vw;
+}

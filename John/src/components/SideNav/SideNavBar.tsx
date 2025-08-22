@@ -21,7 +21,7 @@ const SideBarLinks = [
     {link: '/collectionreceipt', label: 'Collection Receipts', icon: IconReceiptDollar},
     {link: '/pettycash', label: ' Petty Cash', icon: IconCash},
     {link: '/bills', label: 'Bills', icon: IconInvoice},
-    {link: '', label: 'Payments', icon: IconCreditCardPay},
+    {link: '/payments', label: 'Payments', icon: IconCreditCardPay},
 
 ]
 
@@ -51,7 +51,7 @@ export function SideNavBar() {
         </Group>
         {links}
         <Group className={classes.documentation} justify="space-between">
-            <NavLink to="/Documentation" className={classes.link} onClick={(event) => event.preventDefault()}>
+            <NavLink to="/documentation" className={classes.link} onClick={()=> setActive("Documentation")}>
             <IconClipboard className={classes.linkIcon} stroke={1.5} />
           <span>Documentation</span>
         </NavLink>
