@@ -44,6 +44,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
             color="red"
             leftSection={<IconLogout size={16} />}
             onClick={handleLogout}
+            className='HeaderLogout'
           >
             Log out
           </Menu.Item>   

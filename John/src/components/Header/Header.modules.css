@@ -10,6 +10,7 @@
   z-index: 1;
   position: sticky;
   top: 0;
+  
 }
 
 .HeaderLogo {
@@ -18,10 +19,16 @@
 }
 
 .HeaderTitle {
-  font-size: 1.125rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
+  align-self: center;
+  margin-left: 15vw;
+
 }
 .mantine-Menu-dropdown {
   z-index: 9999 !important;
+}
+.HeaderLogout {
+  width: 15vw !important;
 }
