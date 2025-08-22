@@ -35,7 +35,7 @@ function Documentation() {
             key={index }
             title={title}
             description="Access pre-configured templates for data entry and reporting."
-            buttonText="View Report"
+            buttonText="View Documentation"
             buttonLink="https://example.com/payments-report"/>
 
             ))}
