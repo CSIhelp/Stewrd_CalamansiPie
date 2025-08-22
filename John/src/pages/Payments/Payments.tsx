@@ -32,7 +32,7 @@ function Payments() {
 
             <Card withBorder radius="md" p="lg" className="PaymentsCard">
             <Group className="PaymentsTitleCard">
-                <h1>Documetation</h1>
+                <h1>Reports</h1>
             </Group>
             <ReportItemCard 
             title="Payments Google Sheets"

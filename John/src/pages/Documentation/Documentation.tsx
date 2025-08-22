@@ -28,7 +28,7 @@ function Documentation() {
   
             <Card withBorder radius="md" p="lg" className="DocumentationCard">
             <Group className="DocumentationTitleCard">
-                <h1>Reports</h1>
+                <h1>Documentation</h1>
             </Group>
            {DocumentationTitle.map((title, index) => (   
            <ReportItemCard 
