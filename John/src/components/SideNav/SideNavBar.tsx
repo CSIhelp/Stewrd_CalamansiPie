@@ -30,7 +30,7 @@ export function SideNavBar() {
     const links = SideBarLinks.map((item) => (
             <NavLink
                  to={item.link}
-      className={classes.link}
+      className= {({isActive}) => isActive? classes.activeLink: classes.link}
       key={item.label}
       onClick={() => setActive(item.label)}
 
@@ -44,14 +44,14 @@ export function SideNavBar() {
         <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Group className={classes.header} >
-              <NavLink to="/" className={classes.link} onClick={() => setActive("Dashboard")}>
+              <NavLink to="/"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={() => setActive("Dashboard")}>
           <IconHome className={classes.linkIcon} stroke={1.5} />
           <span>Dashboard</span>
         </NavLink>
         </Group>
         {links}
         <Group className={classes.documentation} justify="space-between">
-            <NavLink to="/documentation" className={classes.link} onClick={()=> setActive("Documentation")}>
+            <NavLink to="/documentation"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={()=> setActive("Documentation")}>
             <IconClipboard className={classes.linkIcon} stroke={1.5} />
           <span>Documentation</span>
         </NavLink>

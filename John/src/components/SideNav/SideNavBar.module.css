@@ -40,9 +40,24 @@ left:0;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.link:hover, .link:active {
+.link:hover {
+
  background-color: #29AAE1;
  color: white;
+}
+.activeLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: var(--mantine-font-size-s);
+  background-color: #29AAE1 !important;
+  color: white !important;
+  padding: 10px;
+  border-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  
 }
 
 .linkIcon {
