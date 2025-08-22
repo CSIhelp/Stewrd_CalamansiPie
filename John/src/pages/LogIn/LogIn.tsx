@@ -20,9 +20,11 @@ const handleLogIn = () => {
         </header>
         <Container className="LogInContainer">
             <Card className="LogInTitleCard">
-                <h1 className="WelcomeTxt"> Welcome to</h1>
+                <Group className="LogInTitleGroup">
+                <h2 className="WelcomeTxt"> Welcome to</h2>
                 <h1 className="JohnTxt">JOHN</h1>
                 <p className="JohnTagline"> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+           </Group>
             </Card>
             <Card withBorder radius="md" p="lg" className="LogInCard">
           

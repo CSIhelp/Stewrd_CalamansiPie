@@ -6,6 +6,17 @@
     justify-content: center;
     align-items: center;
 }
+
+.LogInTitleGroup {
+    display: flex;
+    flex-direction: column !important;
+    gap: 0px !important;
+    width: 100%;
+
+
+    
+
+}
 .LogInTitleCard{
     width: 40%;
     height: 80%;
@@ -21,6 +32,7 @@
 font-size: 35px;
 padding: 0;
 margin: 0;
+
 }
 .JohnTxt {
     font-size: 40px;
@@ -28,6 +40,8 @@ margin: 0;
     font-weight: 800;
     margin: 0;
     padding:0;
+    margin-top:0px !important;
+    line-height: 0.8;
 }
 .JohnTagline {
     width:60%;
