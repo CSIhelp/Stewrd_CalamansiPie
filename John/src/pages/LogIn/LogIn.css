@@ -1,0 +1,100 @@
+.LogInContainer {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.LogInTitleGroup {
+    display: flex;
+    flex-direction: column !important;
+    gap: 0px !important;
+    width: 100%;
+
+
+    
+
+}
+.LogInTitleCard{
+    width: 40%;
+    height: 80%;
+    justify-content: center;
+    align-items: center;
+    background-color: #29AAE1 !important;
+ border-top-left-radius: 10px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 10px !important;
+}
+.WelcomeTxt{
+font-size: 35px;
+padding: 0;
+margin: 0;
+
+}
+.JohnTxt {
+    font-size: 40px;
+    color: white;
+    font-weight: 800;
+    margin: 0;
+    padding:0;
+    margin-top:0px !important;
+    line-height: 0.8;
+}
+.JohnTagline {
+    width:60%;
+    text-align: center;
+    font-weight: 600 !important;
+    font-size: 15px;
+}
+.LogInCard{
+     width: 40%;
+    height: 80%;
+ border-top-left-radius:0px !important;
+  border-top-right-radius: 10px !important ;
+  border-bottom-right-radius: 10px !important;
+  border-bottom-left-radius: 0px !important;
+}
+.LogInTxt {
+ font-size: 30px;
+padding: 0;
+margin: 0;
+}
+.LogInDesc{
+    font-size: 12px;
+    padding: 0;
+    margin-top: 2px;
+    margin-bottom: 5vh;
+}
+
+.LogInFieldset{
+    border: none !important;
+}
+.LogInBtn{
+    margin-top: 5vh;
+}
+
+
+.ForgotPasswordBtn{
+    text-decoration: underline !important;
+    margin-top: 10px;
+    font-size: 13px !important;
+}
+
+footer {
+    width: 100%;
+    background-color: #29AAE1;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 0;
+    height: 5vh;
+
+    position: relative;
+}
+footer p {
+
+text-align: center;
+color: white;
+}

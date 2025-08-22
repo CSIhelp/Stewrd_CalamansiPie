@@ -1,10 +1,23 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { useState } from 'react';
+import './index.css';
+import App from './App.tsx';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import { MantineProvider } from '@mantine/core';
+
+
+
+const Main = () => {
+
+  return (
+    <MantineProvider
+      theme={{primaryColor: 'blue' }}
+      defaultColorScheme="light"
+    >
+      <App />
+    </MantineProvider>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')!).render(<Main />);

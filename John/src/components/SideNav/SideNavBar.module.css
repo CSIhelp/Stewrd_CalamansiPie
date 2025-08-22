@@ -1,0 +1,75 @@
+.navbar {
+  height: 600px;
+  width: 350px !important;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  background-color: white;
+  box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
+-webkit-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
+-moz-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
+position: fixed;
+top: 10;
+left:0;
+
+
+}
+
+.navbarMain {
+  flex: 1;
+}
+
+.header {
+  margin-top: 5vh;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #877E7E ;
+  width: 100% !important;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: var(--mantine-font-size-s);
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
+  padding: 10px;
+  border-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.link:hover {
+
+ background-color: #29AAE1;
+ color: white;
+}
+.activeLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: var(--mantine-font-size-s);
+  background-color: #29AAE1 !important;
+  color: white !important;
+  padding: 10px;
+  border-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  
+}
+
+.linkIcon {
+  color: black;
+  margin-right: 10px;
+  width: 25px;
+  height: 25px;
+}
+
+.documentation{
+  margin-top:15vh;
+  border-top: 1px solid #877E7E;
+  padding-top: 20px;
+ 
+}
