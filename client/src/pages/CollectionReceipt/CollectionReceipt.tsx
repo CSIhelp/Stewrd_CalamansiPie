@@ -29,19 +29,7 @@ function CollectionReceipt() {
                 />
               </Card>
               
-              <Card withBorder radius="md" p="lg" className="CollectionReceiptCard">
-                <Group className="CollectionReceiptTitleCard">
-                  <h1>Reports</h1>
-                </Group>
-
-                {/* Collection Receipt Item card 2 Reusable */}
-                <ReportItemCard 
-                    title="Collection Receipt Google Sheets"
-                    description="Access pre-configured templates for data entry and reporting."
-                    buttonText="View Report"
-                    buttonLink="https://example.com/collection-receipt-report"    
-                />
-              </Card>
+              
               </Container>
         </>
     )

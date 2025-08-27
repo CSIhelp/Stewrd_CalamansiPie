@@ -28,19 +28,7 @@ function PettyCash() {
                 />
               </Card>
               
-              <Card withBorder radius="md" p="lg" className="PettyCashCard">
-                <Group className="PettyCashTitleCard">
-                  <h1>Reports</h1>
-                </Group>
-
-                {/* Petty Cash Item card 2 Reusable */}
-                <ReportItemCard 
-                    title="Petty Cash Google Sheets"
-                    description="Access pre-configured templates for data entry and reporting."
-                    buttonText="View Report"
-                    buttonLink="https://example.com/petty-cash-report"    
-                />
-              </Card>
+          
               </Container>
         </>
     )

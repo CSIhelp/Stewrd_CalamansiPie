@@ -51,7 +51,7 @@ export function SideNavBar() {
         onChange={(event) => setSearchQuery(event.currentTarget.value)}
         className= {classes.search} />
         <Group className={classes.header} >
-              <NavLink to="/"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={() => setActive("Dashboard")}>
+              <NavLink to="/dashboard"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={() => setActive("Dashboard")}>
           <IconHome className={classes.linkIcon} stroke={1.5} />
           <span>Dashboard</span>
         </NavLink>

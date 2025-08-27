@@ -28,15 +28,7 @@ function Dashboard() {
     buttonText="View Portal"
     buttonLink="https://example.com/invoices-upload"
 />
-      
-         {/* Favorite Item card 2 */}
-         <ReportItemCard 
-         title='Collection Receipts Google Sheets '
-            description='View and manage your collection receipts in Google Sheets.'
-            buttonText='View Report'
-            buttonLink='https://example.com/collection-receipts'
-            />
-          
+           
 </Card>  
 </Container>
      </div>

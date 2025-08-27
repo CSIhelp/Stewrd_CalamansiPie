@@ -29,19 +29,7 @@ function Bills() {
                 />
               </Card>
               
-              <Card withBorder radius="md" p="lg" className="BillsCard">
-                <Group className="BillsTitleCard">
-                  <h1>Reports</h1>
-                </Group>
-
-                {/* Bills Item card 2 Reusable */}
-                <ReportItemCard 
-                    title="Bills Google Sheets"
-                    description="Access pre-configured templates for data entry and reporting."
-                    buttonText="View Report"
-                    buttonLink="https://example.com/collection-receipt-report"    
-                />
-              </Card>
+          
               </Container>
         </>
     )

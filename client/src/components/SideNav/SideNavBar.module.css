@@ -1,5 +1,5 @@
 .navbar {
-  height: 600px;
+  height: 100vh;
   width: 350px !important;
   display: flex;
   flex-direction: column;
@@ -68,7 +68,7 @@ left:0;
 }
 
 .documentation{
-  margin-top:15vh;
+  margin-top:10vh;
   border-top: 1px solid #877E7E;
   padding-top: 20px;
  

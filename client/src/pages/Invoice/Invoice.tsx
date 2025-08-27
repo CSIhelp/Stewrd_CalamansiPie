@@ -32,20 +32,7 @@ function Invoice () {
     />
  
 </Card>
-<Card withBorder radius="md" p="lg" className="InvoiceCard">
-<Group className="InvoiceTitleCard">
-<h1> Reports </h1>
-</Group>
 
-{/* Invoice Item card 1 Reusable */}
-<ReportItemCard 
-    title="Invoice Google Sheets"
-    description="Access pre-configured templates for data entry and reporting."
-    buttonText="View Report"
-    buttonLink="https://example.com/collection-receipts"    
-/>
- 
-</Card>
    </Container>
 </div>
 </div>
