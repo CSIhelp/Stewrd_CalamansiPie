@@ -44,7 +44,7 @@ export function SideNavBar() {
         <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Group className={classes.header} >
-              <NavLink to="/"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={() => setActive("Dashboard")}>
+              <NavLink to="/john"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={() => setActive("Dashboard")}>
           <IconHome className={classes.linkIcon} stroke={1.5} />
           <span>Dashboard</span>
         </NavLink>
