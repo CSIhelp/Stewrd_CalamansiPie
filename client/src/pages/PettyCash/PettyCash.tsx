@@ -12,7 +12,7 @@ function PettyCash() {
           <Header title="Petty Cash"/>
           <div className="PettyCashContainer">
             <SideNavBar />
-            </div>  
+           
             <Container className="PettyCashCardContainer">
               <Card withBorder radius="md" p="lg" className="PettyCashCard">
                 <Group className="PettyCashTitleCard">
@@ -30,6 +30,7 @@ function PettyCash() {
               
           
               </Container>
+              </div>  
         </>
     )
 }

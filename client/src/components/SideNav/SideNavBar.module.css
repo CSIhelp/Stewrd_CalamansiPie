@@ -80,3 +80,41 @@ left:0;
   margin-bottom: 20px;
   border-radius: var(--mantine-radius-sm);
 }
+
+.SearchItemContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-bottom: 0.5px solid #E0E0E0;
+}
+.SearchItemContainer:hover {
+  background-color: #F0FCFF;
+  border-left: #29AAE1 solid 5px;
+  border-radius: 10px;
+}
+
+.SearchItemTXT {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  margin-bottom: 0;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0px;
+  
+}
+.SearchTitle {
+  margin-top: 0 !important;
+margin-bottom: 0 !important;
+  font-size: 14px;
+  font-weight: 600 !important;
+
+}
+.SearchDescription{
+  font-size: 12px;
+  color: #877E7E;
+}

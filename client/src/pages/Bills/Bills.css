@@ -1,8 +1,7 @@
 .BillsContainer{
     display: flex;
     flex-direction: row !important;
-    width: 100vw;
-
+    width: 90vw;
 }
 .BillsCardContainer{
     display: flex;
@@ -10,7 +9,9 @@
     width: 100vw !important;
     margin-left: 30vw;
     margin-top: 2vw;
- justify-items: center;
+    align-items: center;
+     justify-items: center;
+
 
 }
 

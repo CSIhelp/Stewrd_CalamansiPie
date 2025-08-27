@@ -13,7 +13,7 @@ function CollectionReceipt() {
           <Header title="Collection Receipts"/>
           <div className="CollectionReceiptContainer">
             <SideNavBar />
-            </div>  
+          
             <Container className="CollectionReceiptCardContainer">
               <Card withBorder radius="md" p="lg" className="CollectionReceiptCard">
                 <Group className="CollectionReceiptTitleCard">
@@ -30,7 +30,8 @@ function CollectionReceipt() {
               </Card>
               
               
-              </Container>
+              </Container> 
+               </div>  
         </>
     )
 }
