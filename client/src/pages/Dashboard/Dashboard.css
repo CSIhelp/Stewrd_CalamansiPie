@@ -2,11 +2,23 @@
     display: flex;
     flex-direction: row !important;
     width: 90vw;
+  
+}
+.DashboardCardContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100vw !important;
+    margin-left: 30vw !important;
+    margin-top: 2vw;
+    align-items: center;
+     justify-items: center;
 }
 .DashboardCard{
     width: 60vw !important;
-    margin-left: 12vw;
-    margin-top: 2vw;
+      margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-radius: 10px;
+ 
 }
 .DashboardTitleCard { 
     width: 55vw !important;

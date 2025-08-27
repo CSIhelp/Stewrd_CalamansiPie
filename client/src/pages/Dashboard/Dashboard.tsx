@@ -15,7 +15,6 @@ function Dashboard() {
       <div className='DashboardContainer'>
      <SideNavBar />
 <Container className='DashboardCardContainer'>
-{/* Favorite / Bookmarked Container */}
  <Card withBorder radius="md" p="lg" className= "DashboardCard">
 <Group  className='DashboardTitleCard'>
     <h1>Favorites/Bookmarked</h1>
