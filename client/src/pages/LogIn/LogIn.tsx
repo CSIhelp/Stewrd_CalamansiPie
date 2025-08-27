@@ -9,7 +9,7 @@ function LogIn() {
         
 const handleLogIn = () => {
     console.log('User logged in');
-    navigate ('/john');
+    navigate ('/');
   };
 
     return (
