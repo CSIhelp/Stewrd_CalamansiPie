@@ -6,11 +6,12 @@ import "./Payments.css";
 import Header from "../../components/Header/Header";
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
-import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
+import { NewCardsData }  from "../../data/AutomationCardData";
 
 
 
 function Payments() {
+  const paymentsCards = NewCardsData.filter(card => card.category === 'Payments');
     return (
       <>
       <Header title="Payments"/>
@@ -21,11 +22,16 @@ function Payments() {
         <Group className="PaymentsTitleCard">
             <h1>New</h1>
             </Group>
-            <NewItemCard 
-            title="Payments Upload"
-            description="Upload your payments to the system for processing."
-            buttonText="View Portal"
-            buttonLink="https://example.com/payments-upload"/>
+            {/* Payments Item card 1 Reusable */}
+  {paymentsCards.map(card => (  
+       <NewItemCard
+          key={card.id}
+          title={card.title}
+          description={card.description}
+          buttonText={card.buttonText}
+          buttonLink={card.buttonLink}
+        />
+ ))}
 
           
             </Card>
