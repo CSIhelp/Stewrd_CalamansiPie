@@ -4,7 +4,6 @@
 ## Overview
 John is a web platform that compiles various automation scripts and tools that provides a collection of automation tools for handling invoice management, payment tracking, and financial reporting. It aims to save time for businesses and individuals by automating repetitive billing and payment processes.
 
-
     
 ## Tech Stack
 
@@ -45,10 +44,12 @@ npm run dev
 ```
 src/
 ├── components/      # Reusable UI components
+├── data/      # Automation data ( title, links, etc. ) 
 ├── pages/          # Route-based components
 ├── context/        # React context providers
 ├── types/          # TypeScript definitions
 └── assets/         # Static assets
+
 
 ## Available Scripts
 - `npm run dev` - Start development server
