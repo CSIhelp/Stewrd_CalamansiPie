@@ -16,7 +16,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
     
   const handleLogout = () => {
     console.log('User logged out');
-    navigate ('/login')
+    navigate ('/')
   };
 
   return (
