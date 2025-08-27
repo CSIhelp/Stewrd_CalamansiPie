@@ -7,10 +7,10 @@ import {
   IconInvoice,
   IconCreditCardPay,
   IconClipboard,
-  IconLogout
+  IconSearch,
 
 } from '@tabler/icons-react';
-import { Group } from '@mantine/core';
+import { Group, TextInput } from '@mantine/core';
 import classes from './SideNavBar.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -27,6 +27,7 @@ const SideBarLinks = [
 
 export function SideNavBar() {
     const [active, setActive] = useState('Dashboard');
+    const [ searchQuery, setSearchQuery] = useState('');
     const links = SideBarLinks.map((item) => (
             <NavLink
                  to={item.link}
@@ -43,6 +44,12 @@ export function SideNavBar() {
     return (
         <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
+        <TextInput
+        placeholder='Search'
+        leftSection ={<IconSearch size={14} />}
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.currentTarget.value)}
+        className= {classes.search} />
         <Group className={classes.header} >
               <NavLink to="/"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={() => setActive("Dashboard")}>
           <IconHome className={classes.linkIcon} stroke={1.5} />

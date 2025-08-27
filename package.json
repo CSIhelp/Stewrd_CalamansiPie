@@ -1,7 +1,20 @@
 {
-  "dependencies": {
+  "name": "john",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://CSIhelp.github.io/john",
+   "dependencies": {
     "@mantine/core": "^8.2.5",
     "@mantine/hooks": "^8.2.5",
-    "@mantine/notifications": "^8.2.5"
+    "@mantine/notifications": "^8.2.5",
+    "react-scripts": "5.0.1",
+    "typescript": "4.9.5"
+  },
+  "scripts": {
+     "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "start": " vite"
   }
 }
