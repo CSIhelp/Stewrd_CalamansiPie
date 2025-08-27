@@ -30,17 +30,7 @@ function Payments() {
           
             </Card>
 
-            <Card withBorder radius="md" p="lg" className="PaymentsCard">
-            <Group className="PaymentsTitleCard">
-                <h1>Reports</h1>
-            </Group>
-            <ReportItemCard 
-            title="Payments Google Sheets"
-            description="Access pre-configured templates for data entry and reporting."
-            buttonText="View Report"
-            buttonLink="https://example.com/payments-report"/>
-
-            </Card>
+            
             </Container>
         </div>
       </>
