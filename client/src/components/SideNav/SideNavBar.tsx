@@ -1,4 +1,4 @@
-import { useState  } from 'react'
+import { useState } from 'react';
 import {
   IconHome,
   IconFileInvoice,
@@ -8,70 +8,111 @@ import {
   IconCreditCardPay,
   IconClipboard,
   IconSearch,
+  IconArrowUpRight
 
 } from '@tabler/icons-react';
-import { Group, TextInput } from '@mantine/core';
+import { Group, TextInput, Paper, Text, Container } from '@mantine/core';
 import classes from './SideNavBar.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useSearch } from '../../SearchContext';
+import { NewCardsData } from '../../data/AutomationCardData';
 
-//Links for the sidebar navigation
 const SideBarLinks = [
-    
-    {link: '/invoice', label: 'Invoices', icon: IconFileInvoice},
-    {link: '/collectionreceipt', label: 'Collection Receipts', icon: IconReceiptDollar},
-    {link: '/pettycash', label: ' Petty Cash', icon: IconCash},
-    {link: '/bills', label: 'Bills', icon: IconInvoice},
-    {link: '/payments', label: 'Payments', icon: IconCreditCardPay},
-
-]
+  { link: '/invoice', label: 'Invoices', icon: IconFileInvoice },
+  { link: '/collectionreceipt', label: 'Collection Receipts', icon: IconReceiptDollar },
+  { link: '/pettycash', label: 'Petty Cash', icon: IconCash },
+  { link: '/bills', label: 'Bills', icon: IconInvoice },
+  { link: '/payments', label: 'Payments', icon: IconCreditCardPay },
+];
 
 export function SideNavBar() {
-    const [active, setActive] = useState('Dashboard');
-    const [ searchQuery, setSearchQuery] = useState('');
-    const links = SideBarLinks.map((item) => (
-            <NavLink
-                 to={item.link}
-      className= {({isActive}) => isActive? classes.activeLink: classes.link}
+  const [active, setActive] = useState('Dashboard');
+  const { searchQuery, setSearchQuery } = useSearch();
+  const navigate = useNavigate();
+
+  const links = SideBarLinks.map((item) => (
+    <NavLink
+      to={item.link}
+      className={({ isActive }) => (isActive ? classes.activeLink : classes.link)}
       key={item.label}
       onClick={() => setActive(item.label)}
-
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
     </NavLink>
   ));
 
-    return (
-        <nav className={classes.navbar}>
+  // Filter cards by search query
+  const filteredCards = NewCardsData.filter((card) =>
+    card.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
+        {/* Search Input */}
         <TextInput
-        placeholder='Search'
-        leftSection ={<IconSearch size={14} />}
-        value={searchQuery}
-        onChange={(event) => setSearchQuery(event.currentTarget.value)}
-        className= {classes.search} />
-        <Group className={classes.header} >
-              <NavLink to="/dashboard"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={() => setActive("Dashboard")}>
-          <IconHome className={classes.linkIcon} stroke={1.5} />
-          <span>Dashboard</span>
-        </NavLink>
+          placeholder="Search"
+          leftSection={<IconSearch size={14} />}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.currentTarget.value)}
+          className={classes.search}
+        />
+
+        {/*  Dropdown Results */}
+        {searchQuery && filteredCards.length > 0 && (
+          <Paper shadow="md" radius="md" p="xs" className={classes.dropdown}>
+            {filteredCards.map((card) => (
+              <div
+                key={card.id}
+                className={classes.dropdownItem}
+                onClick={() => {
+                  if (card.buttonLink.startsWith('http')) {
+                    window.open(card.buttonLink, '_blank');
+                  } else {
+                    navigate(card.buttonLink);
+                  }
+                  setSearchQuery('');
+                }}
+              >
+                <Container className={classes.SearchItemContainer}>
+                  <Group className={classes.SearchItemTXT}>
+                <Text fw={500} className={classes.SearchTitle}>{card.title}  </Text>
+                <Text className={classes.SearchDescription}>
+                  {card.description}
+                </Text>
+                </Group>
+               <IconArrowUpRight size={25} /> 
+                </Container>
+              </div>
+            ))}
+          </Paper>
+        )}
+
+        <Group className={classes.header}>
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) => (isActive ? classes.activeLink : classes.link)}
+            onClick={() => setActive('Dashboard')}
+          >
+            <IconHome className={classes.linkIcon} stroke={1.5} />
+            <span>Dashboard</span>
+          </NavLink>
         </Group>
+
         {links}
+
         <Group className={classes.documentation} justify="space-between">
-            <NavLink to="/documentation"     className= {({isActive}) => isActive? classes.activeLink: classes.link}  onClick={()=> setActive("Documentation")}>
+          <NavLink
+            to="/documentation"
+            className={({ isActive }) => (isActive ? classes.activeLink : classes.link)}
+            onClick={() => setActive('Documentation')}
+          >
             <IconClipboard className={classes.linkIcon} stroke={1.5} />
-          <span>Documentation</span>
-        </NavLink>
+            <span>Documentation</span>
+          </NavLink>
         </Group>
       </div>
-
-      {/* <div className={classes.footer}>
-     
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
-        </a>
-      </div> */}
     </nav>
   );
 }
