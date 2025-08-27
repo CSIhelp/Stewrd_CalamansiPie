@@ -5,15 +5,15 @@ import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import "./Bills.css";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
 import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
-
+import { useSearch } from "../../SearchContext";
 function Bills() {
-
+const { searchQuery } = useSearch();
     return(
         <>
           <Header title="Bills"/>
           <div className="BillsContainer">
             <SideNavBar />
-            </div>  
+          
             <Container className="BillsCardContainer">
               <Card withBorder radius="md" p="lg" className="BillsCard">
                 <Group className="BillsTitleCard">
@@ -21,16 +21,17 @@ function Bills() {
                 </Group>
 
                 {/*Bills Item card 1 Reusable */}
-                <NewItemCard 
+                 {"Bills Upload".toLowerCase().includes(searchQuery.toLowerCase()) && (<NewItemCard 
                     title="Bills Upload"
-                    description="Upload your Billss to the system for processing."
+                    description="Upload your Bills to the system for processing."
                     buttonText="View Portal"
                     buttonLink="https://example.com/collection-receipt-upload"
-                />
+                />)}
               </Card>
               
           
-              </Container>
+              </Container> 
+               </div>  
         </>
     )
 }

@@ -6,8 +6,8 @@
 .BillsCardContainer{
     display: flex;
     flex-direction: column;
-     width: 70vw !important;
-    margin-left: 26.66vw;
+    width: 100vw !important;
+    margin-left: 30vw;
     margin-top: 2vw;
     align-items: center;
      justify-items: center;
