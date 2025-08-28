@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Text, Button, Group } from '@mantine/core';
+import './DeactivateAccountModal.css'
 
 interface DeactivateUserModalProps {
   opened: boolean;

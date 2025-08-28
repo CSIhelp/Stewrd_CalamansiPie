@@ -17,3 +17,17 @@
   gap: 8px;
   margin-top: 16px;
 }
+.AddActionsGroup {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.AddAccountTitle {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.CreateBtn {
+    width: 60vw;
+}

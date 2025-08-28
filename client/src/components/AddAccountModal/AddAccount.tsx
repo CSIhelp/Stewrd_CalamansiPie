@@ -37,7 +37,7 @@ export default function AddAccountModal ({ opened, onClose, onCreate }: AddAccou
 };
 
 return (
-    <Modal opened={opened} onClose={onClose} title="Add Account" centered>
+    <Modal opened={opened} onClose={onClose} title="Add Account" classNames={{title:"AddAccountTitle"}} centered>
       <div className="AddAccountContainer">
         <Text size="sm" className="AddDescription">
           Fill out all fields to create new user account
@@ -64,13 +64,14 @@ return (
           onChange={(e) => setConfirmPassword(e.currentTarget.value)}
         />
 
-        <div className="AddAction">
-          <Button color="blue" onClick={handleCreate} fullWidth>
-            Create Account
-          </Button>
-          <Button variant="outline" color="dark" onClick={onClose} fullWidth>
+        <div className="AddActionsGroup">
+         <Button variant="outline" color="dark" onClick={onClose} fullWidth>
             Cancel
           </Button>
+          <Button color="blue" className="CreateBtn" onClick={handleCreate} fullWidth>
+            Create Account
+          </Button>
+         
         </div>
       </div>
     </Modal>

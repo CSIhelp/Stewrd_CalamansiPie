@@ -29,6 +29,7 @@ import { useDisclosure } from "@mantine/hooks";
 import AddAccountModal from "../../components/AddAccountModal/AddAccount";
 import DeactivateAccountModal from "../../components/AccountActionsModal/DeactivateAccountModal";
 import DeleteUserModal from "../../components/AccountActionsModal/DeleteAccountModal";
+import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswordModal";
 
 const UserManagement = () => {
   // Sample users data ( save to local storage only)
@@ -39,6 +40,7 @@ const UserManagement = () => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [resetModalOpen, setResetModalOpen] = useState(false);
 
 
   //  Load users from localStorage on component mount
@@ -150,9 +152,20 @@ const UserManagement = () => {
                         color="blue"
                         className="ResetBtn"
                         leftSection={<IconKey size={16} />}
+                        onClick={() => setResetModalOpen(true) }
                       >
                         Reset Password
                       </Button>
+                      <ResetPasswordModal
+                            opened={resetModalOpen}
+                            onClose={() => setResetModalOpen(false) }
+                            onReset={(data: { adminPassword: string; newPassword: string }) => {
+                              // Handle password reset logic here
+                              console.log('Resetting password with data:', data);
+                              alert('Password reset successfully!');
+                              setResetModalOpen(false);
+                            }}
+                            />
                       {/* Account User Menu ( Deactivate / Delete) */}
                       <Menu>
                         <MenuTarget>
