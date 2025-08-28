@@ -1,8 +1,9 @@
-.AddAccountCpntainer {
+.AddAccountContainer{
   display: flex;
   flex-direction: column;
   gap: 14px;
   padding: 8px;
+  height: 70vh !important;
 }
 
 .AddDescription {
@@ -30,4 +31,20 @@
 }
 .CreateBtn {
     width: 60vw;
+}
+
+.PasswordStrengthContainer {
+    position:absolute; 
+    width: 20vw;
+    margin-top: 30vh;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+.PassRequirmentsTitle {
+    font-size: 14px;
+    margin-bottom: 5px;
 }
