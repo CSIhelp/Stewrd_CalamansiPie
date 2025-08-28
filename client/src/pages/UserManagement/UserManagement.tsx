@@ -166,20 +166,20 @@ const UserManagement = () => {
                         </MenuTarget>
                         <Menu.Dropdown 
                         className="AccountActionMenu">
-                          <Menu.Item >
-                            <Button   className="DeactivateBtn"
+                          <Menu.Item 
+                             className="DeactivateBtn"
                             color="yellow"
                             leftSection={<IconUserOff size={16} />}
                             onClick={() => setDeactivateModalOpen(true) }>
-                            Deactivate Account</Button>
+                            Deactivate Account?
                           </Menu.Item>
                           
-                            <Menu.Item >
-                            <Button   className="DeleteBtn"
+                            <Menu.Item 
+                              className="DeleteBtn"
                             color="red"
                             leftSection={<IconUserX size={16} />}
                             onClick={() => setDeleteModalOpen(true) }>
-                           Delete Account</Button>
+                           Delete Account
                           </Menu.Item>
                         </Menu.Dropdown>
                       </Menu>

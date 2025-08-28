@@ -65,22 +65,24 @@ align-items: center;
     margin-left: 1vw ;
     width: 15vw ;  
 
-    
-
+}
+.AccountActionMenu:hover {
+background-color: #fff !important ;
 }
 .DeactivateBtn, .DeleteBtn { 
-    border-radius: 15px ;
     width: 100% ;
    text-align: center ;
     justify-items: center ;
     align-items: center ;
-   
+   border-bottom: #e2eff5 solid 0.5px ;
 }
 .DeactivateBtn:hover {
     background-color: #FFDD57 ;
     color: black !important;
+      border-radius: 15px ;
 }
 .DeleteBtn:hover {
     background-color: #E91919 ;
     color: white !important;
+      border-radius: 15px ;
 }   
