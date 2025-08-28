@@ -59,3 +59,28 @@ align-items: center;
     border-radius: 15px ;
     margin-right: 5px ;
 }
+.AccountActionMenu {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1vw ;
+    width: 15vw ;  
+
+    
+
+}
+.DeactivateBtn, .DeleteBtn { 
+    border-radius: 15px ;
+    width: 100% ;
+   text-align: center ;
+    justify-items: center ;
+    align-items: center ;
+   
+}
+.DeactivateBtn:hover {
+    background-color: #FFDD57 ;
+    color: black !important;
+}
+.DeleteBtn:hover {
+    background-color: #E91919 ;
+    color: white !important;
+}   
