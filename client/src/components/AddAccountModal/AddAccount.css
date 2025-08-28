@@ -1,0 +1,19 @@
+.AddAccountCpntainer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px;
+}
+
+.AddDescription {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.AddActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
