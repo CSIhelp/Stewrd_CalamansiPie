@@ -11,6 +11,7 @@ import CollectionReceipt from './pages/CollectionReceipt/CollectionReceipt';
 import Bills from './pages/Bills/Bills'
 import Payments from './pages/Payments/Payments';
 import Documentation from './pages/Documentation/Documentation';
+import UserManagement from './pages/UserManagement/UserManagement';
 function App() {
 
 
@@ -26,6 +27,7 @@ function App() {
            <Route path='/bills' element={<Bills/>} />
            <Route path='/payments' element={<Payments/>} />
            <Route path='/Documentation' element={<Documentation/>} />
+           <Route path='/userManagement' element={<UserManagement/>} />
         </Routes>
  </BrowserRouter>
     </>

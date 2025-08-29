@@ -1,13 +1,17 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import { Card, Group, Container } from "@mantine/core";
-import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import "./Bills.css";
+
+// Import components
+import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
-import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
+import { NewCardsData }  from "../../data/AutomationCardData";
 import { useSearch } from "../../SearchContext";
+
 function Bills() {
-const { searchQuery } = useSearch();
+
+   const billsCards = NewCardsData.filter(card => card.category === 'Bills');
     return(
         <>
           <Header title="Bills"/>
@@ -20,13 +24,15 @@ const { searchQuery } = useSearch();
                   <h1>New</h1>
                 </Group>
 
-                {/*Bills Item card 1 Reusable */}
-                 {"Bills Upload".toLowerCase().includes(searchQuery.toLowerCase()) && (<NewItemCard 
-                    title="Bills Upload"
-                    description="Upload your Bills to the system for processing."
-                    buttonText="View Portal"
-                    buttonLink="https://example.com/collection-receipt-upload"
-                />)}
+               {billsCards.map(card => (
+        <NewItemCard
+          key={card.id}
+          title={card.title}
+          description={card.description}
+          buttonText={card.buttonText}
+          buttonLink={card.buttonLink}
+        />
+ ))}
               </Card>
               
           

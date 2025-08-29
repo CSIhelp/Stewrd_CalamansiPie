@@ -1,12 +1,13 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import { Card, Group, Container } from "@mantine/core";
-import { SideNavBar } from "../../components/SideNav/SideNavBar";
+
 import "./PettyCash.css";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
-import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
+import { SideNavBar } from "../../components/SideNav/SideNavBar";
+import { NewCardsData }  from "../../data/AutomationCardData";
 function PettyCash() {
-
+    const pettyCashCards = NewCardsData.filter(card => card.category === 'PettyCash');
     return(
         <>
           <Header title="Petty Cash"/>
@@ -20,12 +21,16 @@ function PettyCash() {
                 </Group>
 
                 {/* Petty Cash Item card 1 Reusable */}
-                <NewItemCard 
-                    title="Petty Cash Upload"
-                    description="Upload your petty cash transactions to the system for processing."
-                    buttonText="View Portal"
-                    buttonLink="https://example.com/petty-cash-upload"
-                />
+  {pettyCashCards.map(card => (
+   <NewItemCard
+          key={card.id}
+          title={card.title}
+          description={card.description}
+          buttonText={card.buttonText}
+          buttonLink={card.buttonLink}
+        />
+ ))}
+          
               </Card>
               
           

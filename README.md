@@ -4,17 +4,6 @@
 ## Overview
 John is a web platform that compiles various automation scripts and tools that provides a collection of automation tools for handling invoice management, payment tracking, and financial reporting. It aims to save time for businesses and individuals by automating repetitive billing and payment processes.
 
-
-
-## Installation
-
-Install John with npm
-
-```bash
-  git clone https://github.com/CSIhelp/John
-  npm install 
-  cd john
-```
     
 ## Tech Stack
 
@@ -46,8 +35,9 @@ cd John
 npm install
 ```
 
-3. Start development server
+3. Start development front-end server
 ```bash
+cd client
 npm run dev
 ```
 
@@ -55,10 +45,12 @@ npm run dev
 ```
 src/
 ├── components/      # Reusable UI components
+├── data/      # Automation data ( title, links, etc. ) 
 ├── pages/          # Route-based components
 ├── context/        # React context providers
 ├── types/          # TypeScript definitions
 └── assets/         # Static assets
+
 
 ## Available Scripts
 - `npm run dev` - Start development server

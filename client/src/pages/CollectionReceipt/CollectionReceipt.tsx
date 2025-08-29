@@ -1,12 +1,16 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import { Card, Group, Container } from "@mantine/core";
-import { SideNavBar } from "../../components/SideNav/SideNavBar";
+
 import "./CollectionReceipt.css";
+
+// Import components
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
-import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
+import { SideNavBar } from "../../components/SideNav/SideNavBar";
+import { NewCardsData }  from "../../data/AutomationCardData";
 
 function CollectionReceipt() {
+   const collectionReceiptCards = NewCardsData.filter(card => card.category === 'CollectionReceipt');
 
     return(
         <>
@@ -21,12 +25,16 @@ function CollectionReceipt() {
                 </Group>
 
                 {/* Collection Receipt Item card 1 Reusable */}
-                <NewItemCard 
-                    title="Collection Receipt Upload"
-                    description="Upload your collection receipts to the system for processing."
-                    buttonText="View Portal"
-                    buttonLink="https://example.com/collection-receipt-upload"
-                />
+            {/* Invoice Item card 1 Reusable uses data.ts */}
+ {collectionReceiptCards.map(card => (
+        <NewItemCard
+          key={card.id}
+          title={card.title}
+          description={card.description}
+          buttonText={card.buttonText}
+          buttonLink={card.buttonLink}
+        />
+ ))}
               </Card>
               
               

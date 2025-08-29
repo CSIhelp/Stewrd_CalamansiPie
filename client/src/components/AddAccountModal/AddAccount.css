@@ -1,0 +1,51 @@
+.AddAccountContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px;
+  height: 60vh !important;
+ justify-content: center;
+}
+
+.AddDescription {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.AddActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+.AddActionsGroup {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.AddAccountTitle {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.CreateBtn {
+    width: 60vw;
+}
+
+.PasswordStrengthContainer {
+    position:absolute; 
+    width: 20vw;
+    margin-top: 30vh;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+.PassRequirmentsTitle {
+    font-size: 14px;
+    margin-bottom: 5px;
+}

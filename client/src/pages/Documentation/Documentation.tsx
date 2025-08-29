@@ -7,18 +7,12 @@ import Header from "../../components/Header/Header";
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
 import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
+import { NewCardsData }  from "../../data/AutomationCardData";
 
 
 
 function Documentation() {
-        const DocumentationTitle = [
-      "Invoice Documentation","Petty Cash Documentation"
-        , "Collection Receipt Documentation"
-         , "Bills Documentation"
-          , "Payments Documentation"
-
-
-    ]
+  const documentationCards = NewCardsData.filter(card => card.category === 'Documentation');
     return (
       <>
       <Header title="Documentation"/>
@@ -30,15 +24,15 @@ function Documentation() {
             <Group className="DocumentationTitleCard">
                 <h1>Documentation</h1>
             </Group>
-           {DocumentationTitle.map((title, index) => (   
-           <ReportItemCard 
-            key={index }
-            title={title}
-            description="Access pre-configured templates for data entry and reporting."
-            buttonText="View Documentation"
-            buttonLink="https://example.com/payments-report"/>
-
-            ))}
+       {documentationCards.map(card => (
+   <ReportItemCard
+          key={card.id}
+          title={card.title}
+          description={card.description}
+          buttonText={card.buttonText}
+          buttonLink={card.buttonLink}
+        />
+ ))}
             </Card>
             </Container>
         </div>
