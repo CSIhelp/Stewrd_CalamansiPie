@@ -3,10 +3,13 @@ import { Fieldset, PasswordInput, Card, Group, Container, TextInput, Button, Uns
 import { useNavigate } from "react-router-dom";
 import "./LogIn.css";
 
+import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
+
 function LogIn() {
 
     const navigate = useNavigate();
-        
+    const [forgotOpened, setForgotOpened] = React.useState(false);  
+
 const handleLogIn = () => {
     console.log('User logged in');
     navigate ('/dashboard');
@@ -34,8 +37,9 @@ const handleLogIn = () => {
                      <TextInput label="Client ID" placeholder="Enter your Client Id" mt="md" />
                     <PasswordInput label="Password" placeholder="Enter your password" required />
                     <Button fullWidth className="LogInBtn" onClick={handleLogIn}> Log In </Button>
-                    <UnstyledButton className="ForgotPasswordBtn"> forgot password?</UnstyledButton>
+                    <UnstyledButton className="ForgotPasswordBtn" onClick={()=> setForgotOpened(true)}> forgot password?</UnstyledButton>
                 </Fieldset>
+                <ForgotUserModal opened={forgotOpened} onClose={() => setForgotOpened(false)} />
             </Card>
      
         </Container>

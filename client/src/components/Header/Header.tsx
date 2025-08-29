@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { IconChevronDown, IconLogout } from '@tabler/icons-react';
+import { IconChevronDown, IconLogout, IconUsers
+ } from '@tabler/icons-react';
 import { Menu } from '@mantine/core';
 import UserMenu from '../UserMenu/UserMenu';
 import './Header.modules.css';
@@ -17,6 +18,10 @@ const Header: FC<HeaderProps> = ({ title }) => {
   const handleLogout = () => {
     console.log('User logged out');
     navigate ('/')
+  };
+   const handleOpenUserManage = () => {
+    
+    navigate ('/userManagement')
   };
 
   return (
@@ -40,6 +45,14 @@ const Header: FC<HeaderProps> = ({ title }) => {
         </Menu.Target>
 
         <Menu.Dropdown>
+                <Menu.Item
+            color="blue"
+            leftSection={<IconUsers size={16} />}
+            onClick={handleOpenUserManage}
+            className='HeaderLogout'
+          >
+           User Management
+          </Menu.Item> 
           <Menu.Item
             color="red"
             leftSection={<IconLogout size={16} />}
@@ -48,6 +61,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
           >
             Log out
           </Menu.Item>   
+     
         </Menu.Dropdown>
       </Menu>
 

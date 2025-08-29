@@ -2,15 +2,16 @@ import React from "react";
 import { Card, Group, Container } from "@mantine/core";
 import "./Invoice.css";
 
+
 // Import components
 import Header from "../../components/Header/Header";
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
-import ReportItemCard from "../../components/ReportItemCard/ReportItemCard";
+import { NewCardsData }  from "../../data/AutomationCardData";
 
 
 function Invoice () {
-
+ const invoiceCards = NewCardsData.filter(card => card.category === 'Invoice');
     return(
         <> 
 <div>
@@ -23,14 +24,16 @@ function Invoice () {
 <h1>New</h1>
 </Group>
 
-{/* Invoice Item card 1 Reusable */}
-<NewItemCard 
-    title="Invoices Upload"
-    description="Upload your invoices to the system for processing."
-    buttonText="View Portal"
-    buttonLink="https://example.com/invoices-upload"
-    />
- 
+{/* Invoice Item card 1 Reusable uses data.ts */}
+ {invoiceCards.map(card => (
+        <NewItemCard
+          key={card.id}
+          title={card.title}
+          description={card.description}
+          buttonText={card.buttonText}
+          buttonLink={card.buttonLink}
+        />
+ ))}
 </Card>
 
    </Container>
