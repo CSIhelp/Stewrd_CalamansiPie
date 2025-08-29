@@ -35,8 +35,9 @@ cd John
 npm install
 ```
 
-3. Start development server
+3. Start development front-end server
 ```bash
+cd client
 npm run dev
 ```
 
