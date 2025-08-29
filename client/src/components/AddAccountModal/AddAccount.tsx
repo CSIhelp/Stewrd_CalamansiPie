@@ -47,6 +47,7 @@ export default function AddAccountModal({
   const [clientId, setClientId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  
   // Password validation
   const strength = getStrength(password);
   const [isFocused, setIsFocused] = useState(false);
