@@ -21,10 +21,11 @@ try {
       const res = await axios.post("http://localhost:5000/api/auth/login", {
         ClientId: clientId,
         Password: password,
-      });
+      })
 
       if (res.data.success) {
         navigate("/dashboard")
+        localStorage.setItem("userRole", res.data.role);
       } else {
         setError("Invalid login");
       }
