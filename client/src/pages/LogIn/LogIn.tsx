@@ -1,19 +1,38 @@
-import React from "react";
-import { Fieldset, PasswordInput, Card, Group, Container, TextInput, Button, UnstyledButton } from '@mantine/core';
+import React, { useState } from "react";
+import { Fieldset, PasswordInput, Card, Text, Group, Container, TextInput, Button, UnstyledButton } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import "./LogIn.css";
+import axios from "axios"; 
 
 import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
 
 function LogIn() {
 
     const navigate = useNavigate();
-    const [forgotOpened, setForgotOpened] = React.useState(false);  
+    const [clientId, setClientId] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [forgotOpened, setForgotOpened] = React.useState(false); 
+    const [token,setToken]=useState("");
 
-const handleLogIn = () => {
-    console.log('User logged in');
-    navigate ('/dashboard');
+
+const handleLogIn = async () => {
+try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        ClientId: clientId,
+        Password: password,
+      });
+
+      if (res.data.success) {
+        navigate("/dashboard")
+      } else {
+        setError("Invalid login");
+      }
+    } catch (err: any) {
+      setError("Login failed. Please check credentials.");
+    }
   };
+  
 
     return (
         <>
@@ -34,12 +53,23 @@ const handleLogIn = () => {
                     <h1 className="LogInTxt">Log In</h1>
                     <p className="LogInDesc">Log in with Company Credentials</p>
                 <Fieldset  className="LogInFieldset">
-                     <TextInput label="Client ID" placeholder="Enter your Client Id" mt="md" />
-                    <PasswordInput label="Password" placeholder="Enter your password" required />
+                     <TextInput label="Client ID" 
+                     value= {clientId} 
+                     placeholder="Enter your Client Id"
+                     onChange={(e) => setClientId(e.currentTarget.value)}
+                      mt="md" />
+                    <PasswordInput label="Password" 
+                    value = {password}
+                     placeholder="Enter your password" 
+                      onChange={(e) => setPassword(e.currentTarget.value)}
+                     required />
+                    {error && <Text color="red">{error}</Text>}
                     <Button fullWidth className="LogInBtn" onClick={handleLogIn}> Log In </Button>
                     <UnstyledButton className="ForgotPasswordBtn" onClick={()=> setForgotOpened(true)}> forgot password?</UnstyledButton>
                 </Fieldset>
                 <ForgotUserModal opened={forgotOpened} onClose={() => setForgotOpened(false)} />
+
+            
             </Card>
      
         </Container>
