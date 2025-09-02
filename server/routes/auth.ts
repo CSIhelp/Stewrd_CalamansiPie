@@ -72,7 +72,45 @@ router.delete("/userManagement/:clientId", async (req, res) => {
     }
 });
 
+// Deactivate user
+router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
+    try {
+        const { clientId } = req.params;
+        const user = await User.findOneAndUpdate(
+            { ClientId: clientId },
+            { Active: false },
+            { new: true }
+        );
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
+        console.log(`⚠️ User ${clientId} deactivated`);
+        res.json({ success: true, message: `User ${clientId} deactivated`, user });
+    } catch (err: any) {
+        console.error("User deactivation error:", err);
+        res.status(500).json({ success: false, error: "Failed to deactivate user", details: err.message });
+    }
+});
+
+
+// Reactivate user
+
+router.patch("/userManagement/reactivate/:clientId", async (req, res) => {
+    try {
+        const { clientId } = req.params;
+        const user = await User.findOneAndUpdate(
+            { ClientId: clientId },
+            { Active: true },
+            { new: true }
+        );
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+        console.log(`✅ User ${clientId} reactivated`);
+        res.json({ success: true, message: `User ${clientId} reactivated`, user });
+    } catch (err: any) {
+        console.error("User reactivation error:", err);
+        res.status(500).json({ success: false, error: "Failed to reactivate user", details: err.message });
+    }
+});
 
 
 router.get("/Dashboard", async (req, res) => {
