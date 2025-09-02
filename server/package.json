@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.ts",
-    "build": "tsc server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc",
     "dev": "nodemon server.ts"
   },
-    "engines": {
+  "engines": {
     "node": "18.x"
   },
   "keywords": [],
@@ -26,7 +26,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongo": "^0.1.0",
     "mongodb": "^6.19.0",
-    "mongoose": "^8.18.0"
+    "mongoose": "^8.18.0",
+    "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
@@ -36,7 +37,6 @@
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.3.0",
     "nodemon": "^3.1.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "ts-node": "^10.9.2"
   }
 }
