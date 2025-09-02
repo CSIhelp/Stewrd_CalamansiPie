@@ -16,7 +16,8 @@
   },
   "include": [
     "server.ts",
-    "routes/**/*.ts"
+    "routes/**/*.ts",
+      "**/*.ts"
   ],
   "exclude": [
     "node_modules",
