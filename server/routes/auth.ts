@@ -56,6 +56,25 @@ router.post('/login', async (req, res) => {
         }  
 });
 
+//Delete User
+router.delete("/userManagement/:clientId", async (req, res) => {
+    try {
+        const { clientId } = req.params;
+        const user = await User.findOneAndDelete({ ClientId: clientId });
+
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+        console.log(`❌ User ${clientId} deleted`);
+        res.json({ success: true, message: `User ${clientId} deleted successfully` });
+    } catch (err: any) {
+        console.error("User deletion error:", err);
+        res.status(500).json({ success: false, error: "Failed to delete user", details: err.message });
+    }
+});
+
+
+
+
 router.get("/Dashboard", async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: "No token" });
