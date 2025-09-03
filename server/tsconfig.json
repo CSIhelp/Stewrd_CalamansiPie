@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["server/**/*", "routes/**/*", "models/**/*"],
+  "include": ["server/**/*", "routes/**/*", "models/**/*", "express.d.ts"],
   
   "exclude": [
     "node_modules"

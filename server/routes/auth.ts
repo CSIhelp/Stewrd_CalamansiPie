@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import User from "../models/User.js"; 
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import {authenticateToken} from "../authentication/AuthenticationToken"
 
 
 const router = express.Router();
+
+
+
 
 // add user account
 
@@ -34,6 +38,9 @@ router.post("/userManagement", async (req, res) => {
 }
 });
 
+
+
+
 // Log In
 router.post('/login', async (req, res) => {
     try {
@@ -45,9 +52,9 @@ router.post('/login', async (req, res) => {
             if (!valid) return res.status(401).json({ error: "Invalid password" }); 
 
             const token = jwt.sign (
-                {id: user.ClientId, role: user.Role},
+                { id: user.ClientId, role: user.Role, company: user.Company },
                 process.env.JWT_SECRET!,
-                {expiresIn: "1h"}
+                {expiresIn: "4h"}
 
             );
             res.json ({ success: true, token, role: user.Role });
