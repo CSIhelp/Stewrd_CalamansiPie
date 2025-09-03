@@ -11,6 +11,7 @@ import Bills from './pages/Bills/Bills'
 import Payments from './pages/Payments/Payments';
 import Documentation from './pages/Documentation/Documentation';
 import UserManagement from './pages/UserManagement/UserManagement';
+import Unauthorized from './pages/Authentication/Authentication';
 function App() {
 
 
@@ -18,7 +19,11 @@ function App() {
 
        <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<LogIn />} />
+        <Route path = "/unauthorizedAcess" element={<Unauthorized/>}/>
+
+        {/* Protected Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
