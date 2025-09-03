@@ -12,7 +12,7 @@ interface DeleteUserModalProps {
 export default function DeleteUserModal({ opened, onClose, clientId, onDeleted }: DeleteUserModalProps) {
 const handleDelete = async () => {
     try {
-      const response = await fetch(`https://johnbackend-cgzq7qjv2-csis-projects-620122e0.vercel.app/api/auth//userManagement/${clientId}`, {
+      const response = await fetch(`https://johnbackend-99pzhbl2v-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

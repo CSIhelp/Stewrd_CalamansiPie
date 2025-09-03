@@ -58,7 +58,9 @@ router.post('/login', async (req, res) => {
         const { ClientId, Password} = req.body;
         const user = await User.findOne ({ ClientId });
         if (!user) return res.status(401).json({error: 'Invalid Client Id'})  
-    
+        if (!user.Active) {
+            return res.status(403).json({ success: false, error: 'Account is deactivated' });
+        }
             const valid = await bcrypt.compare(Password, user.Password);
             if (!valid) return res.status(401).json({ error: "Invalid password" }); 
 

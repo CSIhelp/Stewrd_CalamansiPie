@@ -17,25 +17,40 @@ function LogIn() {
 
 
 const handleLogIn = async () => {
-try {
-      const res = await axios.post("https://johnbackend-4rssxo1vu-csis-projects-620122e0.vercel.app/api/auth/login", {
-        ClientId: clientId,
-        Password: password,
-      })
+  try {
+    const res = await axios.post("https://johnbackend-99pzhbl2v-csis-projects-620122e0.vercel.app/api/auth/login", {
+      ClientId: clientId,
+      Password: password,
+    });
 
-      if (res.data.success) {
-        navigate("/dashboard")
-        localStorage.setItem("userRole", res.data.role);
-        localStorage.setItem("token", res.data.token);
-        
+    if (res.data.success) {
+      navigate("/dashboard");
+      localStorage.setItem("userRole", res.data.role);
+      localStorage.setItem("token", res.data.token);
+    } else {
+      // This handles 200 responses with success: false
+      if (res.data.error && res.data.error.toLowerCase().includes("deactivated")) {
+        setError("Your account is deactivated. Please contact your administrator.");
+        alert("Your account is deactivated. Please contact your administrator.");
       } else {
         setError("Invalid login");
       }
-    } catch (err: any) {
+    }
+  } catch (err: any) {
+    // If the backend returns a non-200 code, Axios throws and response is in err.response
+    if (
+      err.response &&
+      err.response.data &&
+      err.response.data.error &&
+      err.response.data.error.toLowerCase().includes("deactivated")
+    ) {
+      setError("Your account is deactivated. Please contact your administrator.");
+      alert("Your account is deactivated. Please contact your administrator.");
+    } else {
       setError("Login failed. Please check credentials.");
     }
-  };
-  
+  }
+};
 
     return (
         <>
