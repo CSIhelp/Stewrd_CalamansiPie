@@ -10,7 +10,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
 
   if (!isAuthenticated) {
     // will return to Login if not authenticated
-    return <Navigate to="/" replace />;
+    return <Navigate to="/unauthorizedAcess" replace />;
   }
   // If authenticated, render the requested page
   return <>{children}</>;
