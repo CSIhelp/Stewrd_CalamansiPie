@@ -18,6 +18,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
 
   const handleLogout = () => {
     console.log('User logged out');
+   localStorage.clear();
     navigate ('/')
   };
    const handleOpenUserManage = () => {
