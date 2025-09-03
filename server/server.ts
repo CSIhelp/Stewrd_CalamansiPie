@@ -24,7 +24,7 @@ process.env.JWT_SECRET = JWT_SECRET;
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: 'https://9c765b23.john-64g.pages.dev/',
+  origin: true,
   credentials: true,
 }));
 
