@@ -14,7 +14,8 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ title }) => {
     const navigate = useNavigate();
-    
+    const userRole = localStorage.getItem("userRole");
+
   const handleLogout = () => {
     console.log('User logged out');
     navigate ('/')
@@ -45,14 +46,14 @@ const Header: FC<HeaderProps> = ({ title }) => {
         </Menu.Target>
 
         <Menu.Dropdown>
-                <Menu.Item
+              { userRole =="admin" && (<Menu.Item
             color="blue"
             leftSection={<IconUsers size={16} />}
             onClick={handleOpenUserManage}
             className='HeaderLogout'
           >
            User Management
-          </Menu.Item> 
+          </Menu.Item> )}
           <Menu.Item
             color="red"
             leftSection={<IconLogout size={16} />}

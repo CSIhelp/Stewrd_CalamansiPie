@@ -15,12 +15,17 @@ John is a web platform that compiles various automation scripts and tools that p
 - **State Management:** React Context
 - **Styling:** CSS Modules
 
+### Backend
+- **Server:** Express.js (Node.js)  
+- **Database:** MongoDB Atlas  
+
 ## Getting Started
 
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm (v7 or higher)
 - Git
+- MongoDB Atlas account (or local MongoDB instance)
 
 
 ### Installation
@@ -31,12 +36,20 @@ cd John
 ```
 
 2. Install dependencies
-```bash
+# Install root dependencies 
 npm install
-```
 
-3. Start development server
+# Install frontend dependencies
+cd client
+npm install
+
+# Install backend dependencies
+cd server
+npm install
+
+3. Start development front-end server
 ```bash
+cd client
 npm run dev
 ```
 
