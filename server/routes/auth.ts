@@ -38,6 +38,17 @@ router.post("/userManagement", async (req, res) => {
 }
 });
 
+// Get users
+router.get('/userManagement', async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json({ success: true, users });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Server error' });
+  }
+});
+
+
 
 
 

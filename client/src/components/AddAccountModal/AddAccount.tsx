@@ -36,13 +36,16 @@ function getStrength(password: string) {
 interface AddAccountModalProps {
   opened: boolean;
   onClose: () => void;
-  onCreate: (data: { clientId: string; password: string }) => void;
+ onCreate: (data: { clientId: string; password: string; company: string }) => void;
+  adminCompany: string;
 }
 
 export default function AddAccountModal({
   opened,
   onClose,
   onCreate,
+  adminCompany,
+  
 }: AddAccountModalProps) {
   const [clientId, setClientId] = useState("");
   const [password, setPassword] = useState("");
@@ -52,24 +55,25 @@ export default function AddAccountModal({
   const strength = getStrength(password);
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleCreate = () => {
+   const handleCreate = () => {
     if (!clientId || !password || !confirmPassword) {
       alert("All fields are required");
       return;
     }
-    if (password != confirmPassword) {
-      alert("Password do not match");
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
       return;
     }
 
-    onCreate({ clientId, password });
+    // Send company as part of payload
+    onCreate({ clientId, password, company: adminCompany });
 
     setClientId("");
     setPassword("");
     setConfirmPassword("");
-
     onClose();
   };
+
 
   // Password requirement check indicators
   const checks = passwordRequirements.map((passwordRequirements, index) => (

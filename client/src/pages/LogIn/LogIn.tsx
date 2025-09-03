@@ -18,7 +18,7 @@ function LogIn() {
 
 const handleLogIn = async () => {
 try {
-      const res = await axios.post("https://johnbackend-cgzq7qjv2-csis-projects-620122e0.vercel.app/api/auth/login", {
+      const res = await axios.post("https://johnbackend-4rssxo1vu-csis-projects-620122e0.vercel.app/api/auth/login", {
         ClientId: clientId,
         Password: password,
       })
@@ -26,6 +26,8 @@ try {
       if (res.data.success) {
         navigate("/dashboard")
         localStorage.setItem("userRole", res.data.role);
+        localStorage.setItem("token", res.data.token);
+        
       } else {
         setError("Invalid login");
       }

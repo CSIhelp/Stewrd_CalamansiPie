@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
   Card,
-  Group,
   Container,
   Table,
-  Checkbox,
   Button,
   Badge,
-  Modal,
-  MenuLabel,
   Menu,
   MenuTarget,
   MenuItem,
-  rem,
 } from "@mantine/core";
-import "./UserManagement.css";
 import {
   IconUserPlus,
   IconKey,
@@ -22,80 +16,141 @@ import {
   IconUserX,
 } from "@tabler/icons-react";
 
-// import components
 import Header from "../../components/Header/Header";
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
-import { useDisclosure } from "@mantine/hooks";
 import AddAccountModal from "../../components/AddAccountModal/AddAccount";
-import DeactivateAccountModal from "../../components/AccountActionsModal/DeactivateAccountModal";
 import DeleteUserModal from "../../components/AccountActionsModal/DeleteAccountModal";
-import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswordModal";
+
+const API_BASE = "https://johnbackend-4rssxo1vu-csis-projects-620122e0.vercel.app/api/auth";
+
+type User = {
+  ClientId: string;
+  Role: string;
+  Company: string;
+};
+
+type DisplayUser = {
+  clientId: string;
+  role: string;
+};
 
 const UserManagement = () => {
-  // Sample users data ( save to local storage only)
-  const [users, setUsers] = useState<{ clientId: string; role: string }[]>([]);
-
-  // Modal
-
+  const [users, setUsers] = useState<DisplayUser[]>([]);
+  const [adminCompany, setAdminCompany] = useState("");
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [resetModalOpen, setResetModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<DisplayUser | null>(null);
 
-
-  //  Load users from localStorage on component mount
+  // Get admin company from JWT
   useEffect(() => {
-    const storedUsers = localStorage.getItem("users");
-    if (storedUsers) {
-      setUsers(JSON.parse(storedUsers));
-    } else {
-      const defaultUsers = [{ clientId: "AV84320", role: "Admin" }];
-      localStorage.setItem("users", JSON.stringify(defaultUsers));
-      setUsers(defaultUsers);
-    }
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    fetch(`${API_BASE}/Dashboard`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.user.company) {
+          setAdminCompany(data.user.company);
+        }
+      });
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
-  }, [users]);
+  // Fetch users for the same company from backend
+  const fetchUsers = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-  //  Add user (max 3 including Admin)
-  const handleCreateAccount = (data: {
-    clientId: string;
-    password: string;
-  }) => {
+    fetch(`${API_BASE}/userManagement`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+          console.log("User list response:", data);
+        if (data.success && Array.isArray(data.users)) {
+          const filteredUsers: DisplayUser[] = data.users
+            .filter((u: User) => u.Company === adminCompany)
+            .map((u: User) => ({
+              clientId: u.ClientId,
+              role: u.Role,
+            }));
+          setUsers(filteredUsers);
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (adminCompany) {
+      fetchUsers();
+    }
+  }, [adminCompany]);
+
+  // Add user
+  const handleCreateAccount = async (data: { clientId: string; password: string; role?: string }) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     if (users.length >= 3) {
       alert("You can only have a maximum of 3 accounts (including Admin).");
       return;
     }
 
-    const newUser = { clientId: data.clientId, role: "User" };
-
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-    alert(`User ${data.clientId} added successfully!`);
+    try {
+      const res = await fetch(`${API_BASE}/userManagement`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ClientId: data.clientId,
+          Company: adminCompany,
+          Password: data.password,
+          Role: data.role || "User",
+        }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert(`User ${data.clientId} added successfully!`);
+        fetchUsers();
+        setAddModalOpen(false);
+      } else {
+        alert(result.error || "Failed to add user");
+      }
+    } catch (err) {
+      alert("Network error, failed to add user");
+    }
   };
 
-  //  Prepare for Database/ Backend connection
-  //  const handleCreateAccount = async (data: { clientId: string; password: string }) => {
-  //     console.log('Data ready to send to backend:', data);
+  // Delete user
+  const handleDeleteUser = async (clientId: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_BASE}/userManagement/${clientId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert(`User ${clientId} deleted.`);
+        fetchUsers();
+        setDeleteModalOpen(false);
+      } else {
+        alert(result.message || "Failed to delete user");
+      }
+    } catch (err) {
+      alert("Network error. Could not delete user.");
+    }
+  };
 
-  //     try {
-  //       const response = await fetch('/api/users', {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify(data),
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error('Failed to create account');
-  //       }
-
-  //       alert('Account created successfully!');
-  //     } catch (error) {
-  //       console.error(error);
-  //       alert('Error creating account');
-  //     }
-  //   };
+  const handleOpenDelete = (user: DisplayUser) => {
+    setSelectedUser(user);
+    setDeleteModalOpen(true);
+  };
 
   return (
     <>
@@ -105,7 +160,7 @@ const UserManagement = () => {
         <Container className="UserManagementCardContainer">
           <Button
             className="AddUserButton"
-            variant="Filled"
+            variant="filled"
             color="blue"
             onClick={() => setAddModalOpen(true)}
             disabled={users.length >= 3}
@@ -117,22 +172,22 @@ const UserManagement = () => {
             opened={addModalOpen}
             onClose={() => setAddModalOpen(false)}
             onCreate={handleCreateAccount}
+            adminCompany={adminCompany}
           />
 
           <Card withBorder radius="md" p="lg" className="UserManagementCard">
-            <Table className="UserInformation" highlightOnHover withTableBorder>
+            <Table highlightOnHover withTableBorder>
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>Client ID</Table.Th>
                   <Table.Th>Role</Table.Th>
-
                   <Table.Th>Actions</Table.Th>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
                 {users.map((user, index) => (
                   <Table.Tr key={index}>
-                    <td style={{ padding: " 16px" }}>{user.clientId}</td>
+                    <td>{user.clientId}</td>
                     <td>
                       {user.role === "Admin" ? (
                         <Badge color="red" variant="light">
@@ -144,77 +199,31 @@ const UserManagement = () => {
                         </Badge>
                       )}
                     </td>
-
                     <td>
-                        {/* Change Password of Users */}
                       <Button
                         variant="subtle"
-                        color="blue"
-                        className="ResetBtn"
-                        leftSection={<IconKey size={16} />}
-                        onClick={() => setResetModalOpen(true) }
+                        color="red"
+                        onClick={() => handleOpenDelete(user)}
+                        leftSection={<IconUserX size={16} />}
                       >
-                        Reset Password
+                        Delete
                       </Button>
-                      <ResetPasswordModal
-                            opened={resetModalOpen}
-                            onClose={() => setResetModalOpen(false) }
-                            onReset={(data: { adminPassword: string; newPassword: string }) => {
-                              // Handle password reset logic here
-                              console.log('Resetting password with data:', data);
-                              alert('Password reset successfully!');
-                              setResetModalOpen(false);
-                            }}
-                            />
-                      {/* Account User Menu ( Deactivate / Delete) */}
-                      <Menu>
-                        <MenuTarget>
-                          <Button
-                            variant="subtle"
-                            color="red"
-                            className="AccountSettingsBtn"
-                          >
-                            {<IconUserOff size={16} />}
-                          </Button>
-                        </MenuTarget>
-                        <Menu.Dropdown 
-                        className="AccountActionMenu">
-                          <Menu.Item 
-                             className="DeactivateBtn"
-                            color="yellow"
-                            leftSection={<IconUserOff size={16} />}
-                            onClick={() => setDeactivateModalOpen(true) }>
-                            Deactivate Account?
-                          </Menu.Item>
-                          
-                            <Menu.Item 
-                              className="DeleteBtn"
-                            color="red"
-                            leftSection={<IconUserX size={16} />}
-                            onClick={() => setDeleteModalOpen(true) }>
-                           Delete Account
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
                     </td>
-
-
-                    <DeactivateAccountModal
-                            opened={deactivateModalOpen}
-                            onClose={() => setDeactivateModalOpen(false) }/>
-                    <DeleteUserModal 
-                            opened={deleteModalOpen}
-                            onClose={() => setDeleteModalOpen(false) }/>
-
-
                   </Table.Tr>
                 ))}
               </Table.Tbody>
             </Table>
           </Card>
+          <DeleteUserModal
+            opened={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            clientId={selectedUser?.clientId ?? ""}
+            onDeleted={fetchUsers}
+          />
         </Container>
       </div>
     </>
   );
 };
+
 export default UserManagement;
