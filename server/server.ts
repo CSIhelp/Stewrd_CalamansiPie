@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import router from "./routes/auth.js";
 import cors from "cors";
 import express from "express";
+import Bookmarkrouter from "./routes/BookmarkRoutes.js";
 
 
 const MONGO_URI = process.env.MONGO_URI;
@@ -33,7 +34,12 @@ console.log("✅ Backend server starting...");
 mongoose.connect(MONGO_URI, { dbName: "John_Users" })
   .then(() => {
     console.log("✅ Connected to MongoDB Atlas");
+    app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.url}`);
+  next();
+});
     app.use("/api/auth", router);
+    app.use("/api/bookmarks", Bookmarkrouter); 
     app.listen(PORT, () => {
       console.log(`✅ Backend server running on http://localhost:${PORT}`);
     });

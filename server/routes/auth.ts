@@ -5,7 +5,8 @@ import cors from "cors";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { authenticateToken } from "../authentication/AuthenticationToken"
+import { AuthPayload } from "../types/AuthPayload.js";
+import Bookmark from "../models/Bookmark.js";
 
 
 const router = express.Router();
@@ -170,6 +171,8 @@ router.get("/Dashboard", async (req, res) => {
         res.status(401).json({ error: "Invalid token" });
     }
 });
+
+
 
 
 
