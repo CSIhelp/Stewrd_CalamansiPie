@@ -41,6 +41,13 @@ cd client
 npm run dev
 ```
 
+4. Start development back-end server
+```bash
+cd server
+npm install && npm build
+npm start
+```
+
 ## Project Structure
 ```
 src/
