@@ -1,7 +1,7 @@
 .DashboardContainer{
     display: flex;
     flex-direction: row !important;
-    width: 90vw;
+   
   
 }
 .DashboardCardContainer{
@@ -15,9 +15,10 @@
 }
 .DashboardCard{
     width: 60vw !important;
-      margin-left: 1vw;
+    margin-left: 1vw;
     margin-bottom: 2vw;
     border-radius: 10px;
+
  
 }
 .DashboardTitleCard { 
@@ -33,6 +34,7 @@
     border-radius: 10px;
     background-color: #F0FCFF;
     margin-bottom: 2vh;
+ 
 }
 
 .FavoriteCard1 {

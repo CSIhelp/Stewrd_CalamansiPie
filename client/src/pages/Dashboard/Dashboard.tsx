@@ -1,12 +1,53 @@
 import React from 'react'
-import Header from '../../components/Header/Header'
-import { Card, Text, Group, Button, Divider, ActionIcon, Container} from '@mantine/core';
-import { SideNavBar } from '../../components/SideNav/SideNavBar'
-import './Dashboard.css'; 
-import NewItemCard from '../../components/NewItemCard/NewItemCard';
-import ReportItemCard from '../../components/ReportItemCard/ReportItemCard';
-function Dashboard() {
+import {useState, useEffect} from 'react'
+import { Card, Group, Container, Loader, Alert } from '@mantine/core';
 
+import './Dashboard.css'; 
+import Header from '../../components/Header/Header'
+import { SideNavBar } from '../../components/SideNav/SideNavBar'
+import NewItemCard from '../../components/NewItemCard/NewItemCard';
+
+
+type Bookmark = {
+  _id?: string;
+  cardId: number;
+  title: string;
+  description?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  category?: string;
+};
+
+function Dashboard() {
+    const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const jwtToken = localStorage.getItem('token');
+        const clientId = localStorage.getItem('clientId'); // Or decode from JWT
+        const response = await fetch(`https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks?user=${clientId}`, {
+          headers: {
+            'Authorization': `Bearer ${jwtToken}`,
+          },
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setBookmarks(data.bookmarks || []);
+        } else {
+          setError(data.error || "Failed to load bookmarks");
+        }
+      } catch (err) {
+        setError("Network error");
+      }
+      setLoading(false);
+    };
+    fetchBookmarks();
+  }, []);
 
   return (
     <>
@@ -20,14 +61,23 @@ function Dashboard() {
     <h1>Favorites/Bookmarked</h1>
     </Group>
 
-{/* Favorite Item card 1 Reusable */}
-<NewItemCard 
-    title="Invoices Upload"
-    description="Upload your invoices to the system for processing."
-    buttonText="View Portal"
-    buttonLink="https://example.com/invoices-upload"
-/>
-           
+{/* Favorite Item card */}
+
+              {loading && <Loader />}
+              {error && <Alert color="red">{error}</Alert>}
+              {/* Favorite Item cards */}
+{bookmarks.map(bookmark => (
+  <NewItemCard
+  key={bookmark._id ?? bookmark.cardId}
+                  cardId={bookmark.cardId}
+                  title={bookmark.title}
+                  description={bookmark.description ?? ''}
+                  buttonText={bookmark.buttonText ?? ''}
+                  buttonLink={bookmark.buttonLink ?? ''}
+                  category={bookmark.category ?? ''}
+                  isBookmarked={true} 
+  />
+))}
 </Card>  
 </Container>
      </div>
