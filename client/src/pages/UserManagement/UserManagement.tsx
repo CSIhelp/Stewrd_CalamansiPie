@@ -8,6 +8,7 @@ import {
   Menu,
   MenuTarget,
   MenuItem,
+  Tooltip
 } from "@mantine/core";
 import {
   IconUserPlus,
@@ -100,8 +101,10 @@ const UserManagement = () => {
   const handleCreateAccount = async (data: { clientId: string; password: string; role?: string }) => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    if (users.length >= 3) {
-      alert("You can only have a maximum of 3 accounts (including Admin).");
+    const activeUsers = users.filter(user => user.isActive === true);
+
+    if (activeUsers.length >= 3) {
+      alert("You can only have a maximum of 3 active accounts (including Admin).");
       return;
     }
 
@@ -173,16 +176,24 @@ const UserManagement = () => {
       <div className="UserManagementContainer">
         <SideNavBar />
         <Container className="UserManagementCardContainer">
-          <Button
-            className="AddUserButton"
-            variant="filled"
-            color="blue"
-            onClick={() => setAddModalOpen(true)}
-            disabled={users.length >= 3}
-            leftSection={<IconUserPlus size={16} />}
+          {/* Disabled Buttons message */}
+          <Tooltip
+            label="Maximum of 3 active accounts allowed"
+            withArrow
+            disabled={users.filter(u => u.isActive).length < 3} // Show tooltip only when disabled>
           >
-            Add User
-          </Button>
+            <Button
+              className="AddUserButton"
+              variant="filled"
+              color="blue"
+              onClick={() => setAddModalOpen(true)}
+              disabled={users.filter(user => user.isActive === true).length >= 3}
+              leftSection={<IconUserPlus size={16} />}
+            >
+
+              Add User
+            </Button>
+          </Tooltip>
           <AddAccountModal
             opened={addModalOpen}
             onClose={() => setAddModalOpen(false)}
@@ -259,6 +270,7 @@ const UserManagement = () => {
 
                         <Menu.Dropdown
                           className="AccountActionMenu">
+
                           {user.isActive ? (
                             <Menu.Item
                               className="DeactivateBtn"
@@ -269,15 +281,25 @@ const UserManagement = () => {
                               Deactivate Account?
                             </Menu.Item>
                           ) : (
-                            <Menu.Item
-                              className="ActivateBtn"
-                              color="green"
-                              leftSection={<IconUserPlus size={16} />}
-                              onClick={() => handleReactivateUser(user)}
+
+                            <Tooltip
+                              label="Maximum of 3 active accounts allowed"
+                              withArrow
+                              disabled={users.filter(u => u.isActive).length < 3} // Show tooltip only when disabled>
                             >
-                              Activate Account?
-                            </Menu.Item>
+
+                              <Menu.Item
+                                className="ActivateBtn"
+                                color="green"
+                                leftSection={<IconUserPlus size={16} />}
+                                onClick={() => handleReactivateUser(user)}
+                                disabled={users.filter(user => user.isActive === true).length >= 3}
+                              >
+                                Activate Account?
+                              </Menu.Item>
+                            </Tooltip>
                           )}
+
                           <Menu.Item
                             className="DeleteBtn"
                             color="red"
@@ -286,6 +308,7 @@ const UserManagement = () => {
                             Delete Account
                           </Menu.Item>
                         </Menu.Dropdown>
+
                       </Menu>
                     </td>
                   </Table.Tr>
