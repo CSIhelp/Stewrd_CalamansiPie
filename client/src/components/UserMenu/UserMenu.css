@@ -11,9 +11,6 @@ height: 50px;
   padding-right: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-.UserButton {
-
-}
 
 .UserMenu:hover {
   background-color:#e7f5ff;

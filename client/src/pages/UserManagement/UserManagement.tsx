@@ -26,7 +26,7 @@ import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswor
 
 import './UserManagement.css'
 
-const API_BASE = "https://johnbackend-99pzhbl2v-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE = "https://johnbackend-4zwugc7pk-csis-projects-620122e0.vercel.app/api/auth";
 
 type User = {
   ClientId: string;
@@ -170,6 +170,13 @@ const UserManagement = () => {
     setSelectedUser(user);
     setDeactivateModalOpen(true);
   };
+
+  const handleResetPassword = (user:DisplayUser) => {
+     setSelectedUser(user);
+     setResetModalOpen(true);
+  }
+
+  
   return (
     <>
       <Header title="User Management" />
@@ -241,19 +248,18 @@ const UserManagement = () => {
                         color="blue"
                         className="ResetBtn"
                         leftSection={<IconKey size={16} />}
-                        onClick={() => setResetModalOpen(true)}
+                         onClick={() => handleResetPassword (user)}
                       >
                         Reset Password
                       </Button>
+
+                      {/*  Reset user password */}
                       <ResetPasswordModal
                         opened={resetModalOpen}
-                        onClose={() => setResetModalOpen(false)}
-                        onReset={(data: { adminPassword: string; newPassword: string }) => {
-                          // Handle password reset logic here
-                          console.log('Resetting password with data:', data);
-                          alert('Password reset successfully!');
-                          setResetModalOpen(false);
-                        }}
+                        onClose={() => setResetModalOpen(false)} 
+                        clientId={selectedUser?.clientId ?? ""}
+                        onReset={fetchUsers}
+                       
                       />
                       {/* Account User Menu ( Deactivate / Delete) */}
                       <Menu>

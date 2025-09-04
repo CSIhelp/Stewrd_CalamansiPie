@@ -24,16 +24,22 @@ function getStrength(password: string) {
   );
 }
 
+
+
 interface ResetPasswordModalProps {
   opened: boolean;
   onClose: () => void;
   onReset: (data: { adminPassword: string; newPassword: string }) => void;
+  clientId: string;
+  
+  
 }
 
 export default function ResetPasswordModal({
   opened,
   onClose,
   onReset,
+  clientId
 }: ResetPasswordModalProps) {
   const [adminPassword, setAdminPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -44,32 +50,43 @@ export default function ResetPasswordModal({
     const strength = getStrength(newPassword);
     const [isFocused, setIsFocused] = useState(false);
 
-  const handleReset = () => {
-    if (!adminPassword || !newPassword || !confirmPassword) {
-      alert("All fields are required!");
-      return;
+  const handleReset = async () => {
+  if (!clientId || !adminPassword || !newPassword || !confirmPassword) {
+    alert("All fields are required!");
+    return;
+  }
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`https://johnbackend-4zwugc7pk-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ Password: newPassword, adminPassword }),
+    });
+
+    const result = await response.json();
+    if (response.ok && result.success) {
+      alert('Password reset successful!');
+      setAdminPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      if (onReset) onReset({ adminPassword, newPassword });
+      onClose();
+    } else {
+      alert(result.message || result.error || 'Failed to reset password');
     }
-
-    if (newPassword !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    //  Backend Validation 
-    // Later: Replace with API call to validate admin password and reset user password
-    // Example:
-    // const response = await fetch('/api/reset-password', { method: 'POST', body: JSON.stringify({ adminPassword, newPassword }) });
-
-    onReset({ adminPassword, newPassword });
-
-    
-    setAdminPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-
-    onClose();
-  };
-
+  } catch (err) {
+    alert('Network error. Could not reset password.');
+    console.error(err);
+  }
+};
     // Password requirement check indicators
   const checks = passwordRequirements.map((passwordRequirements, index) => (
     <Text
