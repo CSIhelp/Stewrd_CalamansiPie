@@ -5,21 +5,26 @@ import './UserMenu.css';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   image: string;
-  name: string;
-  email: string;
+  company: string;
+  clientId:string;
+
   icon?: React.ReactNode;
 }
 
+
 const UserMenu = forwardRef<HTMLButtonElement, UserButtonProps>(
-  ({ image, name, email, icon, ...props }: UserButtonProps, ref) => (
+
+  ({ image, company, clientId, icon, ...props }: UserButtonProps, ref) => (
     <UnstyledButton ref={ref} {...props} className="UserButton" >
       <Group className="UserMenu">
         <Avatar className='ProfilePhoto' src={image} />
         <div className="UserInfo">
-          <Text>
-            {name}
+          <Text className='UserId' >
+         {clientId}
           </Text>
-      
+          <Text className='UserCompany'>
+             {company} 
+          </Text>
         </div>
  {icon}
  
