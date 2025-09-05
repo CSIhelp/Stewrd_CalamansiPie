@@ -42,7 +42,7 @@ export default function DeactivateAccountModal({
         notifications.show({
           title: "Account Deactivated",
           message: `Successfully Deactivated`,
-          color: "teal",
+          color: "yellow",
           icon: <IconCheck size={20} />,
         });
         onClose();
@@ -50,7 +50,7 @@ export default function DeactivateAccountModal({
         notifications.show({
           title: result.message,
           message: result.error,
-          color: "teal",
+          color: "red",
           icon: <IconX size={20} />,
         });
       }

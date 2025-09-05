@@ -36,7 +36,7 @@ export default function DeleteUserModal({
         notifications.show({
           title: "Account Deleted",
           message: `Account Permanently Deleted`,
-          color: "teal",
+          color: "red",
           icon: <IconCheck size={20} />,
         });
         onClose();
@@ -44,7 +44,7 @@ export default function DeleteUserModal({
         notifications.show({
           title: result.message,
           message: result.error,
-          color: "teal",
+          color: "red",
           icon: <IconX size={20} />,
         });
       }
