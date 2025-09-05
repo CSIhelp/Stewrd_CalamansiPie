@@ -102,7 +102,7 @@ src/
 ├── context/        # React context providers
 ├── types/          # TypeScript definitions
 └── assets/         # Static assets
-
+```
 
 ## Available Scripts
 - `npm run dev` - Start development server
