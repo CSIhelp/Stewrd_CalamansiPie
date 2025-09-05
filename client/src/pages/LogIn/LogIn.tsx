@@ -30,7 +30,7 @@ function LogIn() {
   const handleLogIn = async () => {
     try {
       const res = await axios.post(
-        "https://johnbackend-99pzhbl2v-csis-projects-620122e0.vercel.app/api/auth/login",
+        "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth/login",
         {
           ClientId: clientId,
           Password: password,
