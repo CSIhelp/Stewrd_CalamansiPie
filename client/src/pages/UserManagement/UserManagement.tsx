@@ -8,15 +8,16 @@ import {
   Menu,
   MenuTarget,
   MenuItem,
-  Tooltip
+  Tooltip,
 } from "@mantine/core";
 import {
   IconUserPlus,
   IconKey,
   IconUserOff,
   IconUserX,
+  IconCheck,
 } from "@tabler/icons-react";
-
+import { notifications } from "@mantine/notifications";
 import Header from "../../components/Header/Header";
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import AddAccountModal from "../../components/AddAccountModal/AddAccount";
@@ -24,16 +25,16 @@ import DeleteUserModal from "../../components/AccountActionsModal/DeleteAccountM
 import DeactivateAccountModal from "../../components/AccountActionsModal/DeactivateAccountModal";
 import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswordModal";
 
-import './UserManagement.css'
+import "./UserManagement.css";
 
-const API_BASE = "https://johnbackend-4zwugc7pk-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE =
+  "https://johnbackend-4zwugc7pk-csis-projects-620122e0.vercel.app/api/auth";
 
 type User = {
   ClientId: string;
   Role: string;
   Company: string;
   Active: boolean;
-
 };
 
 type DisplayUser = {
@@ -98,17 +99,21 @@ const UserManagement = () => {
   }, [adminCompany]);
 
   // Add user
-  const handleCreateAccount = async (data: { clientId: string; password: string; role?: string }) => {
+  const handleCreateAccount = async (data: {
+    clientId: string;
+    password: string;
+    role?: string;
+  }) => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    const activeUsers = users.filter(user => user.isActive === true);
+    const activeUsers = users.filter((user) => user.isActive === true);
 
     if (activeUsers.length >= 3) {
-      alert("You can only have a maximum of 3 active accounts (including Admin).");
+      alert(
+        "You can only have a maximum of 3 active accounts (including Admin)."
+      );
       return;
     }
-
-
     try {
       const res = await fetch(`${API_BASE}/userManagement`, {
         method: "POST",
@@ -125,11 +130,23 @@ const UserManagement = () => {
       });
       const result = await res.json();
       if (result.success) {
-        alert(`User ${data.clientId} added successfully!`);
+        notifications.show({
+          title: " User Created ",
+          message: `User ${data.clientId} added successfully!`,
+          color: "teal",
+          icon: <IconCheck size={20} />,
+        });
         fetchUsers();
         setAddModalOpen(false);
       } else {
         alert(result.error || "Failed to add user");
+
+        notifications.show({
+          title: " Failed to Add User  ",
+          message: `result.error `,
+          color: "teal",
+          icon: <IconCheck size={20} />,
+        });
       }
     } catch (err) {
       alert("Network error, failed to add user");
@@ -149,10 +166,21 @@ const UserManagement = () => {
       );
       const result = await res.json();
       if (result.success) {
-        alert(result.message);
+
+          notifications.show({
+          title: " User Reactivation ",
+          message: `User ${user.clientId} reactivated successfully!`,
+          color: "teal",
+          icon: <IconCheck size={20} />,
+        });
         fetchUsers();
       } else {
-        alert(result.error || "Failed to reactivate user");
+          notifications.show({
+          title: " User Reactivation Failed ",
+          message: `User ${user.clientId} , ${result.error}`,
+          color: "teal",
+          icon: <IconCheck size={20} />,
+        });
       }
     } catch (err) {
       alert("Network error, failed to reactivate user");
@@ -171,12 +199,11 @@ const UserManagement = () => {
     setDeactivateModalOpen(true);
   };
 
-  const handleResetPassword = (user:DisplayUser) => {
-     setSelectedUser(user);
-     setResetModalOpen(true);
-  }
+  const handleResetPassword = (user: DisplayUser) => {
+    setSelectedUser(user);
+    setResetModalOpen(true);
+  };
 
-  
   return (
     <>
       <Header title="User Management" />
@@ -187,17 +214,18 @@ const UserManagement = () => {
           <Tooltip
             label="Maximum of 3 active accounts allowed"
             withArrow
-            disabled={users.filter(u => u.isActive).length < 3} // Show tooltip only when disabled>
+            disabled={users.filter((u) => u.isActive).length < 3} // Show tooltip only when disabled>
           >
             <Button
               className="AddUserButton"
               variant="filled"
               color="blue"
               onClick={() => setAddModalOpen(true)}
-              disabled={users.filter(user => user.isActive === true).length >= 3}
+              disabled={
+                users.filter((user) => user.isActive === true).length >= 3
+              }
               leftSection={<IconUserPlus size={16} />}
             >
-
               Add User
             </Button>
           </Tooltip>
@@ -209,7 +237,7 @@ const UserManagement = () => {
           />
 
           <Card withBorder radius="md" p="lg" className="UserManagementCard">
-            <Table className="UserInformation" highlightOnHover withTableBorder >
+            <Table className="UserInformation" highlightOnHover withTableBorder>
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>Client ID</Table.Th>
@@ -221,7 +249,7 @@ const UserManagement = () => {
               <Table.Tbody>
                 {users.map((user, index) => (
                   <Table.Tr key={index}>
-                    <td >{user.clientId}</td>
+                    <td>{user.clientId}</td>
                     <td>
                       {user.role === "admin" ? (
                         <Badge color="red" variant="light">
@@ -235,11 +263,14 @@ const UserManagement = () => {
                     </td>
                     <td>
                       {user.isActive ? (
-                        <Badge color="green" variant="light">Active</Badge>
+                        <Badge color="green" variant="light">
+                          Active
+                        </Badge>
                       ) : (
-                        <Badge color="gray" variant="light">Inactive</Badge>
+                        <Badge color="gray" variant="light">
+                          Inactive
+                        </Badge>
                       )}
-
                     </td>
                     <td>
                       {/* Change Password of Users */}
@@ -248,7 +279,7 @@ const UserManagement = () => {
                         color="blue"
                         className="ResetBtn"
                         leftSection={<IconKey size={16} />}
-                         onClick={() => handleResetPassword (user)}
+                        onClick={() => handleResetPassword(user)}
                       >
                         Reset Password
                       </Button>
@@ -256,10 +287,9 @@ const UserManagement = () => {
                       {/*  Reset user password */}
                       <ResetPasswordModal
                         opened={resetModalOpen}
-                        onClose={() => setResetModalOpen(false)} 
+                        onClose={() => setResetModalOpen(false)}
                         clientId={selectedUser?.clientId ?? ""}
                         onReset={fetchUsers}
-                       
                       />
                       {/* Account User Menu ( Deactivate / Delete) */}
                       <Menu>
@@ -273,10 +303,7 @@ const UserManagement = () => {
                           </Button>
                         </MenuTarget>
 
-
-                        <Menu.Dropdown
-                          className="AccountActionMenu">
-
+                        <Menu.Dropdown className="AccountActionMenu">
                           {user.isActive ? (
                             <Menu.Item
                               className="DeactivateBtn"
@@ -287,19 +314,22 @@ const UserManagement = () => {
                               Deactivate Account?
                             </Menu.Item>
                           ) : (
-
                             <Tooltip
                               label="Maximum of 3 active accounts allowed"
                               withArrow
-                              disabled={users.filter(u => u.isActive).length < 3} // Show tooltip only when disabled>
+                              disabled={
+                                users.filter((u) => u.isActive).length < 3
+                              } // Show tooltip only when disabled>
                             >
-
                               <Menu.Item
                                 className="ActivateBtn"
                                 color="green"
                                 leftSection={<IconUserPlus size={16} />}
                                 onClick={() => handleReactivateUser(user)}
-                                disabled={users.filter(user => user.isActive === true).length >= 3}
+                                disabled={
+                                  users.filter((user) => user.isActive === true)
+                                    .length >= 3
+                                }
                               >
                                 Activate Account?
                               </Menu.Item>
@@ -310,11 +340,11 @@ const UserManagement = () => {
                             className="DeleteBtn"
                             color="red"
                             leftSection={<IconUserX size={16} />}
-                            onClick={() => handleOpenDelete(user)}>
+                            onClick={() => handleOpenDelete(user)}
+                          >
                             Delete Account
                           </Menu.Item>
                         </Menu.Dropdown>
-
                       </Menu>
                     </td>
                   </Table.Tr>
