@@ -106,10 +106,21 @@ const NewItemCard: FC<NewItemCardProps> = ({
       });
       const result = await response.json();
       if (response.ok) {
-        alert("Removed from bookmarks!");
+       notifications.show({
+        title: 'Bookmark Removed',
+        message:  `${title} was removed in your favorites.` ,
+        color: 'red',
+        icon: <IconCheck  size={20} />,
+      });
         if (onToggleBookmark) onToggleBookmark();
       } else {
         alert(result.error || "Remove failed");
+       notifications.show({
+        title: 'Bookmark Removed Failed',
+        message:  `${result.error}` ,
+        color: 'red',
+        icon: <IconCheck  size={20} />,
+      });        
       }
     } catch (error) {
       alert("Network error, try again.");
