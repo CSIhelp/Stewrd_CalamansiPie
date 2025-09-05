@@ -20,7 +20,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
     const [adminCompany, setAdminCompany] = useState<string>("");
     const [clientId, setClientId] = useState<string>("");
 
-    const API_BASE = "https://johnbackend-99pzhbl2v-csis-projects-620122e0.vercel.app/api/auth";
+    const API_BASE = "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth";
 
   const handleLogout = () => {
     console.log('User logged out');
