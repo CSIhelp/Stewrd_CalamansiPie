@@ -9,7 +9,6 @@ interface ForgotModalProps {
 
 export default function ForgotUserModal({ opened, onClose }: ForgotModalProps) {
   const handleDelete = async () => {
-   
     onClose();
   };
 

@@ -6,17 +6,19 @@ import App from './App.tsx';
 import { SearchProvider } from './SearchContext.tsx';
 
 import { MantineProvider } from '@mantine/core';
-
+import { Notifications } from '@mantine/notifications';
 
 
 const Main = () => {
 
   return (
+
     <SearchProvider>
     <MantineProvider
       theme={{primaryColor: 'blue' }}
       defaultColorScheme="light"
     >
+
       <App />
     </MantineProvider>
     </SearchProvider>

@@ -1,6 +1,7 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from './service/AuthRoutes';
+import { Notifications } from '@mantine/notifications';
 // Import pages
 import LogIn from './pages/LogIn/LogIn';  
 import Dashboard from './pages/Dashboard/Dashboard'
@@ -18,6 +19,7 @@ function App() {
   return (
 
        <BrowserRouter>
+       <Notifications position="bottom-right" className='Notification' />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LogIn />} />
