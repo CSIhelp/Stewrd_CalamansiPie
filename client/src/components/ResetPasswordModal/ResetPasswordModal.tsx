@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   PasswordInput,
@@ -53,6 +53,11 @@ export default function ResetPasswordModal({
   // Password validation
   const strength = getStrength(newPassword);
   const [isFocused, setIsFocused] = useState(false);
+
+    // Close Modal
+    const [confirmClose, setConfirmClose] = useState(false); 
+    const [isDirty, setIsDirty] = useState(false);
+  
 
   const handleReset = async () => {
     if (!clientId || !adminPassword || !newPassword || !confirmPassword) {
@@ -135,10 +140,37 @@ export default function ResetPasswordModal({
     </Text>
   ));
 
+
+
+    // Clear Input 
+  const resetForm = () => {
+    setAdminPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+  };
+
+   const handleAttemptClose = () => {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      onClose();
+      resetForm();
+    }
+  };
+  // Detect unsaved changes
+  useEffect(() => {
+    if (newPassword || confirmPassword || adminPassword) {
+      setIsDirty(true);
+    } else {
+      setIsDirty(false);
+    }
+  }, [adminPassword, newPassword, confirmPassword]);
+
   return (
+    <>
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose= {handleAttemptClose} 
       title="Reset User Password"
       centered
       classNames={{ title: "ResetModalTitle" }}
@@ -198,7 +230,7 @@ export default function ResetPasswordModal({
           </Text>
         </Container>
         <div className="ResetActionsGroup">
-          <Button variant="outline" color="dark" onClick={onClose} fullWidth>
+          <Button variant="outline" color="dark" onClick={handleAttemptClose} fullWidth>
             Cancel
           </Button>
           <Button
@@ -212,5 +244,36 @@ export default function ResetPasswordModal({
         </div>
       </div>
     </Modal>
+
+{/*  Unsave modal */}
+ <Modal
+        opened={confirmClose}
+        onClose={() => setConfirmClose(false)}
+        title="Unsaved Changes"
+        centered
+      >
+        <Text>
+          You have unsaved changes. Closing this window will disregard them. Do you want
+          to continue?
+        </Text>
+        <div className="AddActionsGroup" style={{ marginTop: 20 }}>
+          <Button variant="outline" color="dark" onClick={() => setConfirmClose(false)} fullWidth>
+            No, go back
+          </Button>
+          <Button
+            color="red"
+            onClick={() => {
+              resetForm();
+              setConfirmClose(false);
+              onClose();
+            }}
+            fullWidth
+          >
+            Yes, discard changes
+          </Button>
+        </div>
+      </Modal>
+
+</>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Modal,
   TextInput,
@@ -11,7 +11,7 @@ import {
 import "./AddAccount.css";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
-import { IconX, IconCheck } from "@tabler/icons-react";
+import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
 
 // Password strength checker
 const passwordRequirements = [
@@ -59,6 +59,10 @@ export default function AddAccountModal({
   // Password validation
   const strength = getStrength(password);
   const [isFocused, setIsFocused] = useState(false);
+
+  // Close Modal
+  const [confirmClose, setConfirmClose] = useState(false); 
+  const [isDirty, setIsDirty] = useState(false);
 
   const handleCreate = () => {
     if (!clientId || !password || !confirmPassword) {
@@ -108,10 +112,37 @@ export default function AddAccountModal({
       {passwordRequirements.label}
     </Text>
   ));
+
+  // Clear Input 
+  const resetForm = () => {
+    setClientId("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+   const handleAttemptClose = () => {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      onClose();
+      resetForm();
+    }
+  };
+ 
+    // Detect unsaved changes
+  useEffect(() => {
+    if (clientId || password || confirmPassword) {
+      setIsDirty(true);
+    } else {
+      setIsDirty(false);
+    }
+  }, [clientId, password, confirmPassword]);
+
   return (
+    <>
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose= {handleAttemptClose} 
       title="Add Account"
       classNames={{ title: "AddAccountTitle" }}
       centered
@@ -162,7 +193,7 @@ export default function AddAccountModal({
         />
 
         <div className="AddActionsGroup">
-          <Button variant="outline" color="dark" onClick={onClose} fullWidth>
+          <Button variant="outline" color="dark" onClick={handleAttemptClose} fullWidth>
             Cancel
           </Button>
           <Button
@@ -176,5 +207,36 @@ export default function AddAccountModal({
         </div>
       </div>
     </Modal>
+
+
+  {/* Confirmation modal */}
+      <Modal
+        opened={confirmClose}
+        onClose={() => setConfirmClose(false)}
+        title="Unsaved Changes"
+        centered
+      >
+        <Text>
+          You have unsaved changes. Closing this window will disregard them. Do you want
+          to continue?
+        </Text>
+        <div className="AddActionsGroup" style={{ marginTop: 20 }}>
+          <Button variant="outline" color="dark" onClick={() => setConfirmClose(false)} fullWidth>
+            No, go back
+          </Button>
+          <Button
+            color="red"
+            onClick={() => {
+              resetForm();
+              setConfirmClose(false);
+              onClose();
+            }}
+            fullWidth
+          >
+            Yes, discard changes
+          </Button>
+        </div>
+      </Modal>
+      </>
   );
 }
