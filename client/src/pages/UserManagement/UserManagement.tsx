@@ -29,7 +29,7 @@ import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswor
 import "./UserManagement.css";
 
 const API_BASE =
-  "https://johnbackend-4zwugc7pk-csis-projects-620122e0.vercel.app/api/auth";
+  "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth";
 
 type User = {
   ClientId: string;
