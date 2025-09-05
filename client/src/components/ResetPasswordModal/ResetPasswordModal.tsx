@@ -73,6 +73,16 @@ export default function ResetPasswordModal({
       });
       return;
     }
+          if (strength < 90) { 
+        notifications.show({
+          title: "Weak password",
+          message: "Password does not meet the required strength.",
+          color: "red",
+          icon: <IconX size={20} />,
+        });
+        return;
+      }
+    
 
     try {
       const token = localStorage.getItem("token");
