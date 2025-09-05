@@ -47,6 +47,51 @@ cd server
 npm install && npm build
 npm start
 ```
+## Backend API
+```bash
+https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app
+```
+
+### API endpoints
+#### Authentication
+Log in 
+```bash
+POST /api/auth/userManagement
+```
+#### User Management 
+Get users
+```bash
+GET /api/auth/userManagement
+```
+Delete User 
+```bash
+DELETE /api/auth/userManagement/:clientId
+```
+Deactivate User 
+```bash
+PATCH  /api/auth/userManagement/deactivate/:clientId
+```
+Reactivate User
+```bash
+PATCH  /api/auth/userManagement/reactivate/:clientId
+```
+Resset Password (Admin Only)
+```bash
+PATCH  /api/auth/userManagement/:clientId
+```
+#### Bookmark 
+Add Bookmark
+```bash
+POST /api/bookmarks
+```
+Remove Bookmark 
+```bash
+DELETE /api/bookmarks/bookmarks/:cardId
+```
+List Bookmarks 
+```bash
+GET /api/bookmarks/bookmarks
+```
 
 ## Project Structure
 ```
