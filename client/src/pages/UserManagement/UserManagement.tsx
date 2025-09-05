@@ -143,7 +143,7 @@ const UserManagement = () => {
 
         notifications.show({
           title: " Failed to Add User  ",
-          message: `result.error `,
+          message: ` ${result.error} `,
           color: "teal",
           icon: <IconCheck size={20} />,
         });
