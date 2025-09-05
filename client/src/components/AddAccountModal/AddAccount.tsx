@@ -79,6 +79,15 @@ export default function AddAccountModal({
       });
       return;
     }
+      if (strength < 90) { 
+    notifications.show({
+      title: "Weak password",
+      message: "Password does not meet the required strength.",
+      color: "red",
+      icon: <IconX size={20} />,
+    });
+    return;
+  }
 
     // Send company as part of payload
     onCreate({ clientId, password, company: adminCompany });
