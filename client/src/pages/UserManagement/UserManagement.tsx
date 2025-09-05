@@ -16,6 +16,7 @@ import {
   IconUserOff,
   IconUserX,
   IconCheck,
+  IconX,
 } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import Header from "../../components/Header/Header";
@@ -141,10 +142,10 @@ const UserManagement = () => {
       } else {
 
         notifications.show({
-          title: " Failed to Add User  ",
-          message: ` ${result.error} `,
-          color: "teal",
-          icon: <IconCheck size={20} />,
+          title: " Duplicate ClientID ",
+          message: ` ${result.error} `  ,
+          color: "red",
+          icon: <IconX size={20} />,
         });
       }
     } catch (err) {
