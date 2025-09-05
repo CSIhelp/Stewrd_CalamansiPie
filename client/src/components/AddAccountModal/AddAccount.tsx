@@ -62,7 +62,6 @@ export default function AddAccountModal({
 
   const handleCreate = () => {
     if (!clientId || !password || !confirmPassword) {
-      
       notifications.show({
         title: "All fields are required",
         message: `Add user failed`,
@@ -72,8 +71,7 @@ export default function AddAccountModal({
       return;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
-            notifications.show({
+      notifications.show({
         title: "Passwords do not match",
         message: `Add user failed`,
         color: "red",

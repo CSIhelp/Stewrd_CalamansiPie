@@ -139,7 +139,6 @@ const UserManagement = () => {
         fetchUsers();
         setAddModalOpen(false);
       } else {
-        alert(result.error || "Failed to add user");
 
         notifications.show({
           title: " Failed to Add User  ",
