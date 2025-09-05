@@ -20,9 +20,6 @@ const ReportItemCard: FC<ReportItemCardProps> = ({
     <Card withBorder radius="md" p="lg" className="ReportItemCard">
       <Group justify="space-between" mb="xs">
         <Text fw={600}>{title}</Text>
-        <ActionIcon variant="subtle" color="gray">
-          <IconBookmark size={18} />
-        </ActionIcon>
       </Group>
 
       <Divider mb="sm" />

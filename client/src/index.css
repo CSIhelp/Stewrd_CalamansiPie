@@ -4,3 +4,10 @@
   background-color: #F9F9F9;
   min-height: 100vh;
 }
+.Notification {
+  width: 40vw; 
+  z-index:1000;
+  position: fixed;
+  bottom : 3vw;
+  right: 2vw;
+}

@@ -1,6 +1,7 @@
 import { Card, Text, Group, Button, Divider, ActionIcon } from '@mantine/core';
-import { IconArrowRight, IconBookmark, IconBookmarkFilled } from '@tabler/icons-react';
+import { IconArrowRight, IconBookmark, IconBookmarkFilled, IconX, IconCheck  } from '@tabler/icons-react';
 import type { FC } from 'react';
+import { notifications } from '@mantine/notifications';
 import './NewItemCard.css';
 
 interface NewItemCardProps {
@@ -24,39 +25,70 @@ const NewItemCard: FC<NewItemCardProps> = ({
   isBookmarked,
   onToggleBookmark
 }) => {
-  // Call API to add bookmark
+
+  // Add bookmark
   const handleBookmark = async () => {
-    const jwtToken = localStorage.getItem('token'); 
+    const jwtToken = localStorage.getItem('token');
     if (!jwtToken) {
-      alert("Please log in first.");
+      notifications.show({
+        title: 'Not logged in',
+        message: 'Please log in to use bookmarks.',
+        color: 'red',
+        icon: <IconX size={20} />,
+      });
       return;
     }
+
     try {
-      const response = await fetch('https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/bookmarks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`,
-        },
-        body: JSON.stringify({
-          cardId,
-          title,
-          description,
-          buttonText,
-          buttonLink,
-          category,
-        }),
-      });
+      const response = await fetch(
+        'https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/bookmarks',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify({
+            cardId,
+            title,
+            description,
+            buttonText,
+            buttonLink,
+            category,
+          }),
+        }
+      );
+
       const result = await response.json();
+
       if (response.ok) {
-        alert("Bookmarked!");
+        notifications.show({
+          title: 'Bookmark added',
+          message: `${title} has been added to favorites.`,
+          color: 'teal',
+          icon: <IconCheck size={20} />,
+        });
+        onToggleBookmark?.();
+      } else if (result.error?.toLowerCase().includes('already')) {
+        notifications.show({
+          title: 'Already bookmarked',
+          message: `${title} is already in your favorites.`,
+          color: 'yellow',
+          icon: <IconX size={20} />,
+        });
       } else {
-        alert(result.error || "Bookmark failed");
+        throw new Error(result.error || 'Bookmark failed');
       }
-    } catch (error) {
-      alert("Network error, try again.");
+    } catch (error: any) {
+      notifications.show({
+        title: 'Error',
+        message: error.message || 'Network error, try again.',
+        color: 'red',
+        icon: <IconX size={20} />,
+      });
     }
   };
+
 
    // Remove bookmark
   const handleRemoveBookmark = async () => {
@@ -66,7 +98,6 @@ const NewItemCard: FC<NewItemCardProps> = ({
       return;
     }
     try {
-      // Assuming your backend expects DELETE with cardId as param
       const response = await fetch(`https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks/${cardId}`, {
         method: 'DELETE',
         headers: {

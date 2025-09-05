@@ -10,6 +10,8 @@ import {
 } from "@mantine/core";
 import "./AddAccount.css";
 import { useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { IconX, IconCheck } from "@tabler/icons-react";
 
 // Password strength checker
 const passwordRequirements = [
@@ -36,7 +38,11 @@ function getStrength(password: string) {
 interface AddAccountModalProps {
   opened: boolean;
   onClose: () => void;
- onCreate: (data: { clientId: string; password: string; company: string }) => void;
+  onCreate: (data: {
+    clientId: string;
+    password: string;
+    company: string;
+  }) => void;
   adminCompany: string;
 }
 
@@ -45,23 +51,32 @@ export default function AddAccountModal({
   onClose,
   onCreate,
   adminCompany,
-  
 }: AddAccountModalProps) {
   const [clientId, setClientId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+
   // Password validation
   const strength = getStrength(password);
   const [isFocused, setIsFocused] = useState(false);
 
-   const handleCreate = () => {
+  const handleCreate = () => {
     if (!clientId || !password || !confirmPassword) {
-      alert("All fields are required");
+      notifications.show({
+        title: "All fields are required",
+        message: `Add user failed`,
+        color: "red",
+        icon: <IconX size={20} />,
+      });
       return;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      notifications.show({
+        title: "Passwords do not match",
+        message: `Add user failed`,
+        color: "red",
+        icon: <IconX size={20} />,
+      });
       return;
     }
 
@@ -73,7 +88,6 @@ export default function AddAccountModal({
     setConfirmPassword("");
     onClose();
   };
-
 
   // Password requirement check indicators
   const checks = passwordRequirements.map((passwordRequirements, index) => (
