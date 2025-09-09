@@ -1,7 +1,7 @@
 .UserMenu{
  display: flex;
  flex-direction: row;
- width: 17vw;
+ width: 18vw;
 height: 50px;
   align-items: center;
   background-color: white;
@@ -24,7 +24,7 @@ height: 50px;
   display: flex;
   flex-direction: column;
   gap: 0;
-  width: 60%;
+  width: 55%;
    line-height: 1; 
 
 }
@@ -37,4 +37,41 @@ height: 50px;
 .UserCompany {
   font-size: 14px !important;
    line-height: 1 !important; 
+}
+
+@media (min-width: 941px) and (max-width : 1200px ) {
+.UserInfo {
+  width: 40% !important;
+}
+}
+
+@media (min-width: 610px) and (max-width : 941px ) {
+.UserMenu {
+   width: 30vw !important ;
+}
+.UserInfo {
+  width: 40% !important;
+}
+}
+
+@media (min-width: 490px) and (max-width : 610px ) {
+.UserMenu {
+   width: 40vw !important ;
+}
+.UserInfo {
+  min-width: 40%;
+  max-width: 55%;
+}
+}
+
+@media (max-width : 489px) {
+.UserId{
+  display: none;
+}
+.UserInfo  {
+  display: none;
+}
+.UserMenu {
+  width: 25vw ;
+}
 }
