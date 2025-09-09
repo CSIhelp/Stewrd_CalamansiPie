@@ -16,6 +16,7 @@ import axios from "axios";
 import DeactivatedAccountModal from "../../components/DeactivatedAccount/DeactivatedAccount";
 
 import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
+import { useSession } from "../../hooks/useSession";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ function LogIn() {
   const [deactivatedAccount, setDeactivatedAccountOpened] =
     React.useState(false);
   const [token, setToken] = useState("");
+ const { refreshSession } = useSession();
+  
 
   const handleLogIn = async () => {
     try {
@@ -38,9 +41,11 @@ function LogIn() {
       );
 
       if (res.data.success) {
-        navigate("/dashboard");
+       
         localStorage.setItem("userRole", res.data.role);
         localStorage.setItem("token", res.data.token);
+         await refreshSession(); 
+       navigate("/dashboard"); 
       } else {
         // This handles 200 responses with success: false
         if (

@@ -15,13 +15,29 @@ interface DisplayUser {
 }
 
 function useUserManagement(adminCompany: string) {
-  const [users, setUsers] = useState<DisplayUser[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState<DisplayUser[]>(() => {
+    // hydrate instantly from cache (like bookmarks)
+    const cached = localStorage.getItem("Users");
+    if (cached && cached !== "undefined") {
+      try {
+        return JSON.parse(cached);
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  });
+
+
+  const [loading, setLoading] = useState(users.length === 0);
   const token = localStorage.getItem("token");
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (force = false) => {
     if (!token || !adminCompany) return;
-    setLoading(true);
+
+    if (force || users.length === 0) {
+      setLoading(true);
+    }
 
     try {
       const res = await axios.get(
@@ -49,11 +65,13 @@ function useUserManagement(adminCompany: string) {
   };
 
   useEffect(() => {
-    fetchUsers();
+    if (!token || !adminCompany) return;
+
+    // always fetch fresh in background
+    fetchUsers(false);
   }, [adminCompany, token]);
 
-  return { users, setUsers, loading, refreshUsers: fetchUsers };
+  return { users, setUsers, loading, refreshUsers: () => fetchUsers(true) };
 }
-
 
 export default useUserManagement;

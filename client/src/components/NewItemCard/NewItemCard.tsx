@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Card, Text, Group, Button, Divider, ActionIcon } from '@mantine/core';
 import { IconArrowRight, IconBookmark, IconBookmarkFilled, IconX, IconCheck  } from '@tabler/icons-react';
 import type { FC } from 'react';
@@ -22,9 +23,12 @@ const NewItemCard: FC<NewItemCardProps> = ({
   buttonText, 
   buttonLink,
   category,
-  isBookmarked,
+  isBookmarked = false,
   onToggleBookmark
 }) => {
+
+  
+    const [bookmarked, setBookmarked] = useState(isBookmarked);
 
   // Add bookmark
   const handleBookmark = async () => {
@@ -68,6 +72,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
           color: 'teal',
           icon: <IconCheck size={20} />,
         });
+        setBookmarked(true);
         onToggleBookmark?.();
       } else if (result.error?.toLowerCase().includes('already')) {
         notifications.show({
@@ -76,6 +81,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
           color: 'yellow',
           icon: <IconX size={20} />,
         });
+        setBookmarked(true);
       } else {
         throw new Error(result.error || 'Bookmark failed');
       }
@@ -86,6 +92,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
         color: 'red',
         icon: <IconX size={20} />,
       });
+       setBookmarked(false);
     }
   };
 
@@ -112,6 +119,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
         color: 'red',
         icon: <IconCheck  size={20} />,
       });
+        setBookmarked(false); 
         if (onToggleBookmark) onToggleBookmark();
       } else {
         alert(result.error || "Remove failed");
@@ -129,7 +137,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
 
   // Toggle handler
   const handleToggleBookmark = () => {
-    if (isBookmarked) {
+    if (bookmarked) {
       handleRemoveBookmark();
     } else {
       handleBookmark();
@@ -142,7 +150,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
       <Group justify="space-between" mb="xs">
         <Text fw={600}>{title}</Text>
         <ActionIcon variant="subtle" color="blue" onClick={handleToggleBookmark}>
-           {isBookmarked ? <IconBookmarkFilled size={18} /> : <IconBookmark size={18} />}
+           {bookmarked ? <IconBookmarkFilled size={18} /> : <IconBookmark size={18} />}
         </ActionIcon>
       </Group>
 
