@@ -11,6 +11,7 @@ function useBookmarks(token: string) {
     const clientId = localStorage.getItem("clientId"); 
 
     // 1. loading cached bookmarks instantly
+
  const cached = localStorage.getItem("bookmarks");
 if (cached && cached !== "undefined") {
   try {
