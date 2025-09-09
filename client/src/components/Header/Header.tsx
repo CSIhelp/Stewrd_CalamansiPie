@@ -23,9 +23,9 @@ const Header: FC<HeaderProps> = ({ title }) => {
     const API_BASE = "https://johnbackend-99pzhbl2v-csis-projects-620122e0.vercel.app/api/auth";
 
   const handleLogout = () => {
-    console.log('User logged out');
    localStorage.clear();
-    navigate ('/')
+    navigate ('/')   
+    console.log('User logged out');
   };
    const handleOpenUserManage = () => {
     

@@ -11,11 +11,16 @@ function useBookmarks(token: string) {
     const clientId = localStorage.getItem("clientId"); 
 
     // 1. loading cached bookmarks instantly
-    const cached = localStorage.getItem("bookmarks");
-    if (cached) {
-      setBookmarks(JSON.parse(cached));
-      setLoading(false); 
-    }
+ const cached = localStorage.getItem("bookmarks");
+if (cached && cached !== "undefined") {
+  try {
+    setBookmarks(JSON.parse(cached));
+  } catch (e) {
+    console.error("Invalid JSON in bookmarks cache:", cached);
+    localStorage.removeItem("bookmarks"); 
+  }
+  setLoading(false);
+}
 
     async function fetchBookmarks() {
       try {
