@@ -94,14 +94,36 @@ GET /api/bookmarks/bookmarks
 ```
 
 ## Project Structure
-```
+The repository is divided into two main parts:
+- client/ → Frontend (React + TypeScript + Vite)
+- server/ → Backend (Node.js + Express + TypeScript)
+
+Client (/client )
+```bash
 src/
-├── components/      # Reusable UI components
-├── data/      # Automation data ( title, links, etc. ) 
-├── pages/          # Route-based components
-├── context/        # React context providers
-├── types/          # TypeScript definitions
-└── assets/         # Static assets
+├── assets/         # Static assets (images, fonts, icons, etc.)
+├── components/     # Reusable UI components
+├── data/           # Static/automation data (titles, links, constants, etc.)
+├── hooks/          # Custom React hooks
+├── pages/          # Route-based components (mapped to app routes)
+├── service/        # API/service calls
+├── context/        # React Context providers (state management)
+├── types/          # TypeScript type definitions
+├── App.tsx         # Root application an routing component
+├── main.tsx        # Entry point
+```
+Server (/server) 
+```bash 
+server/
+├── authentication/ # Auth logic (JWT, sessions, middleware, etc.)
+├── dist/           # Compiled JavaScript (after build)
+├── libraries/      # Utility libraries and helpers
+├── models/         # Database models (e.g., Prisma, Mongoose, Sequelize)
+├── routes/         # API routes/endpoints
+├── types/          # TypeScript type definitions
+├── AuthPayload.ts  # Auth payload definition
+├── server.ts       # Main Express server entry point
+
 ```
 
 ## Available Scripts
