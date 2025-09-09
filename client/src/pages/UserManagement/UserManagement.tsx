@@ -26,6 +26,9 @@ import DeleteUserModal from "../../components/AccountActionsModal/DeleteAccountM
 import DeactivateAccountModal from "../../components/AccountActionsModal/DeactivateAccountModal";
 import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswordModal";
 
+// Optimize User Display 
+import useUserManagement from "../../hooks/useUserManagement";
+
 import "./UserManagement.css";
 
 const API_BASE =
@@ -45,8 +48,8 @@ type DisplayUser = {
 };
 
 const UserManagement = () => {
-  const [users, setUsers] = useState<DisplayUser[]>([]);
   const [adminCompany, setAdminCompany] = useState("");
+  const { users, setUsers, loading, refreshUsers } = useUserManagement(adminCompany);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
@@ -68,36 +71,6 @@ const UserManagement = () => {
         }
       });
   }, []);
-
-  // Fetch users for the same company from backend
-  const fetchUsers = () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    fetch(`${API_BASE}/userManagement`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("User list response:", data);
-        if (data.success && Array.isArray(data.users)) {
-          const filteredUsers: DisplayUser[] = data.users
-            .filter((u: User) => u.Company === adminCompany)
-            .map((u: User) => ({
-              clientId: u.ClientId,
-              role: u.Role,
-              isActive: u.Active,
-            }));
-          setUsers(filteredUsers);
-        }
-      });
-  };
-
-  useEffect(() => {
-    if (adminCompany) {
-      fetchUsers();
-    }
-  }, [adminCompany]);
 
   // Add user
   const handleCreateAccount = async (data: {
@@ -137,7 +110,7 @@ const UserManagement = () => {
           color: "teal",
           icon: <IconCheck size={20} />,
         });
-        fetchUsers();
+        refreshUsers();
         setAddModalOpen(false);
       } else {
 
@@ -173,7 +146,7 @@ const UserManagement = () => {
           color: "teal",
           icon: <IconCheck size={20} />,
         });
-        fetchUsers();
+        refreshUsers();
       } else {
           notifications.show({
           title: " User Reactivation Failed ",
@@ -289,7 +262,7 @@ const UserManagement = () => {
                         opened={resetModalOpen}
                         onClose={() => setResetModalOpen(false)}
                         clientId={selectedUser?.clientId ?? ""}
-                        onReset={fetchUsers}
+                        onReset={refreshUsers}
                       />
                       {/* Account User Menu ( Deactivate / Delete) */}
                       <Menu>
@@ -356,13 +329,13 @@ const UserManagement = () => {
             opened={deleteModalOpen}
             onClose={() => setDeleteModalOpen(false)}
             clientId={selectedUser?.clientId ?? ""}
-            onDeleted={fetchUsers}
+            onDeleted={refreshUsers}
           />
           <DeactivateAccountModal
             opened={deactivateModalOpen}
             onClose={() => setDeactivateModalOpen(false)}
             clientId={selectedUser?.clientId ?? ""}
-            onDeactivated={fetchUsers}
+            onDeactivated={refreshUsers}
           />
         </Container>
       </div>
