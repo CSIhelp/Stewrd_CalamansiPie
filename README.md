@@ -4,6 +4,10 @@
 ## Overview
 John is a web platform that compiles various automation scripts and tools that provides a collection of automation tools for handling invoice management, payment tracking, and financial reporting. It aims to save time for businesses and individuals by automating repetitive billing and payment processes.
 
+**- Automation Tools **(invoice, payment, reporting)
+**- User Management ** (account creation, activation, roles, password resets)
+**- Bookmarks ** (save and retrieve frequently used automation tools)
+This README is intended for developers working on John.
     
 ## Tech Stack
 
@@ -14,6 +18,7 @@ John is a web platform that compiles various automation scripts and tools that p
 - **Database:** MongoDB
 - **State Management:** React Context
 - **Styling:** CSS Modules
+- **API CALLS:** Axios
 
 ## Getting Started
 
@@ -21,6 +26,8 @@ John is a web platform that compiles various automation scripts and tools that p
 - Node.js (v16 or higher)
 - npm (v7 or higher)
 - Git
+- MongoDB( Atlas )
+- Express 
 
 
 ### Installation
@@ -47,6 +54,7 @@ cd server
 npm install && npm build
 npm start
 ```
+
 ## Backend API
 ```bash
 https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app
