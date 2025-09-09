@@ -2,6 +2,8 @@ import React from 'react'
 import {useState, useEffect, useCallback} from 'react'
 import { Card, Group, Container, Loader, Alert } from '@mantine/core';
 
+// hooks
+import useBookmarks from "../../hooks/useBookmark";
 
 import './Dashboard.css'; 
 import Header from '../../components/Header/Header'
@@ -21,36 +23,14 @@ type Bookmark = {
 };
 
 function Dashboard() {
-    const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  // Use useCallback to avoid unnecessary re-creations
-  const fetchBookmarks = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const jwtToken = localStorage.getItem('token');
-      const clientId = localStorage.getItem('clientId'); 
-      const response = await fetch(`https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks?user=${clientId}`, {
-        headers: {
-          'Authorization': `Bearer ${jwtToken}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setBookmarks(data.bookmarks || []);
-      } else {
-        setError(data.error || "Failed to load bookmarks");
-      }
-    } catch (err) {
-      setError("Network error");
-    }
-    setLoading(false);
-  }, []);
 
-  useEffect(() => {
-    fetchBookmarks();
-  }, [fetchBookmarks]);
+  const [error, setError] = useState<string | null>(null);
+  
+  const token = localStorage.getItem("token") || "";
+  const { bookmarks, setBookmarks, loading } = useBookmarks(token);
+
+
+
 
   return (
     <>
@@ -68,6 +48,7 @@ function Dashboard() {
 
           
               {error && <Alert color="red">{error}</Alert>}
+                 {loading && <p>Loading bookmarks...</p>}
               {/* Favorite Item cards */}
 {bookmarks.map(bookmark => (
   <NewItemCard
@@ -79,7 +60,7 @@ function Dashboard() {
                   buttonLink={bookmark.buttonLink ?? ''}
                   category={bookmark.category ?? ''}
                   isBookmarked={true} 
-                  onToggleBookmark={fetchBookmarks}
+                 onToggleBookmark={() => {}}
   />
 ))}
 </Card>  
