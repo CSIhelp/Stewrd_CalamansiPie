@@ -1,6 +1,7 @@
 .DashboardContainer{
     display: flex;
     flex-direction: row !important;
+    width: 100%;
    
   
 }
@@ -48,3 +49,50 @@
     margin-left: 20vw;
      justify-items: center;
 }
+
+@media (min-width : 760px) and ( max-width: 1023px ){
+.DashboardContainer {
+    flex-direction: row;
+  }
+
+  .DashboardCardContainer {
+    width: calc(100% - 250px); /* smaller sidebar */
+    margin-left: 250px !important;
+    padding: 1rem;
+  }
+
+  .DashboardCard {
+    width: 60vw !important;
+    margin-left: 0;
+  }
+
+  .DashboardTitleCard {
+    width: 50%;
+    font-size: 1.2vw;
+  }
+
+}
+@media (max-width: 759px){
+    .DashboardContainer {
+    flex-direction: column;
+  }
+
+  .DashboardCardContainer {
+    width: 100%;
+    margin-left: 0vw !important;
+    padding: 1rem;
+  }
+
+  .DashboardCard {
+    width: 80vw !important;
+    margin-left: 0;
+  }
+
+
+  .DashboardTitleCard {
+    width: 70vw !important;
+    font-size: 2.5vw;
+    margin-left: 0;
+  }
+}
+
