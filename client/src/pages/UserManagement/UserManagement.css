@@ -160,15 +160,14 @@
   }
 }
 
-@media (min-width: 540px) and (max-width : 751px) {
+@media (min-width: 540px) and (max-width : 759px) {
   .UserManagementCard {
-    width: 800%;
+    width:100%;
     margin-left: 25px;
   }
-
   .UserManagementCardContainer {
     width: 100%;
-    margin-left: 0vw;
+    margin-left: 1vw;
   }
     .UserInformation {
     display: block;
@@ -186,7 +185,7 @@
   
   }
    .UserInformation td {
-    width: 80vw;
+    width: 60vw;
    }
 }
 
@@ -194,12 +193,13 @@
 
 @media (max-width: 540px) {
   .UserManagementCard {
-    width: 105%;
+    width: 100%;
+    margin-left: 10px;
   }
 
   .UserManagementCardContainer {
     width: 100%;
-    margin-left: 5vw;
+    margin-left: 10px;
   }
   .UserInformation {
     display: block;
@@ -219,7 +219,7 @@
     padding: 10px 5px;
     text-align: left;
     position: relative;
-    width: 70vw;
+    width: 65vw;
 
     border-bottom: 0.5px #ccc solid;
   }
