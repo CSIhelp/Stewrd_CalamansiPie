@@ -9,6 +9,7 @@ import {
   MenuTarget,
   MenuItem,
   Tooltip,
+  Group
 } from "@mantine/core";
 import {
   IconUserPlus,
@@ -222,8 +223,8 @@ const UserManagement = () => {
               <Table.Tbody>
                 {users.map((user, index) => (
                   <Table.Tr key={index}>
-                    <td>{user.clientId}</td>
-                    <td>
+                    <td data-label="Client Id">{user.clientId}</td>
+                    <td data-label="Role">
                       {user.role === "admin" ? (
                         <Badge color="red" variant="light">
                           Admin
@@ -234,7 +235,7 @@ const UserManagement = () => {
                         </Badge>
                       )}
                     </td>
-                    <td>
+                    <td data-label="Status">
                       {user.isActive ? (
                         <Badge color="green" variant="light">
                           Active
@@ -245,8 +246,9 @@ const UserManagement = () => {
                         </Badge>
                       )}
                     </td>
-                    <td>
-                      {/* Change Password of Users */}
+                 
+                    <td data-label="Actions">
+                      {/* Change Password of Users */}   <Group className="UserActions">
                       <Button
                         variant="subtle"
                         color="blue"
@@ -271,8 +273,10 @@ const UserManagement = () => {
                             variant="subtle"
                             color="red"
                             className="AccountSettingsBtn"
+                            
                           >
                             {<IconUserOff size={16} />}
+                            
                           </Button>
                         </MenuTarget>
 
@@ -318,7 +322,7 @@ const UserManagement = () => {
                             Delete Account
                           </Menu.Item>
                         </Menu.Dropdown>
-                      </Menu>
+                      </Menu></Group>
                     </td>
                   </Table.Tr>
                 ))}
