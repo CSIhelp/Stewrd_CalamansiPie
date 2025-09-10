@@ -9,6 +9,9 @@ import {
   TextInput,
   Button,
   UnstyledButton,
+  LoadingOverlay,
+  Overlay,
+  Transition,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import "./LogIn.css";
@@ -25,9 +28,14 @@ function LogIn() {
   const [forgotOpened, setForgotOpened] = React.useState(false);
   const [deactivatedAccount, setDeactivatedAccountOpened] =
     React.useState(false);
+  // Loading for cold start
+  const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
+  const { refreshSession } = useSession();
 
   const handleLogIn = async () => {
+    setError("");
+    setLoading(true); // start loading
     try {
       const res = await axios.post(
         "https://johnbackend.vercel.app/api/auth/login",
@@ -38,9 +46,10 @@ function LogIn() {
       );
 
       if (res.data.success) {
-        navigate("/dashboard");
         localStorage.setItem("userRole", res.data.role);
         localStorage.setItem("token", res.data.token);
+        await refreshSession();
+        navigate("/dashboard");
       } else {
         // This handles 200 responses with success: false
         if (
@@ -69,6 +78,8 @@ function LogIn() {
       } else {
         setError("Login failed. Please check credentials.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,7 +99,20 @@ function LogIn() {
             </p>
           </Group>
         </Card>
-        <Card withBorder radius="md" p="lg" className="LogInCard">
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          className="LogInCard"
+          style={{ position: "relative" }}
+        >
+          <LoadingOverlay
+            visible={loading}
+            overlayProps={{ radius: "sm", blur: 2 }}
+            loaderProps={{ color: "blue", type: "bars",   }}
+           
+          />
+
           <h1 className="LogInTxt">Log In</h1>
           <p className="LogInDesc">Log in with Company Credentials</p>
           <Fieldset className="LogInFieldset">

@@ -1,68 +1,29 @@
-.UnauthorizedContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100vw;
+.UnauthorizedContainer{
+  padding-top: 80px;
+  padding-bottom: 120px;
+  background-color: var(--mantine-color-blue-filled);
   height: 100vh;
-  background-color: #d9d8d8;
-  max-width: 100vw !important;
 }
 
-.UnauthorizedCard {
-  min-width: 350px;
-  max-width: 400px;
-  width: 100%;
-  border-radius: 20px !important;
-  box-shadow: 0 8px 32px rgba(60, 80, 180, 0.10), 0 2px 8px rgba(0,0,0,0.09);
-  background: #fff;
-  animation: FadeInCard 0.7s cubic-bezier(.8,-0.6,.2,1.5);
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2.5em 2em;
-}
-
-@keyframes FadeInCard {
-  from { opacity: 0; transform: translateY(24px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-
-.UnauthorizedIconGroup {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 1.5em;
-}
-
-.UnauthorizedTitle {
-  font-size: 1.8rem;
- font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 700;
-  color: #e03131;
+.UnauthorizedLabel{
   text-align: center;
-  margin-bottom: 0.25em;
-  letter-spacing: 0.5px;
+  font-weight: 600;
+  font-size: 220px;
+  line-height: 1;
+  margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);
+  color: var(--mantine-color-blue-3);
 }
-
-.UnauthorizedDesc {
+.UnauthorizedTitle{
+   font-family: Outfit, var(--mantine-font-family);
   text-align: center;
-  margin-bottom: 2em;
-  color: #5c5f66;
-  font-size: 1.05rem;
+font-weight: 700 !important;
+  font-size: 38px;
+  color: var(--mantine-color-white);
 }
-
-.UnauthorizedBtn {
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  border-radius: 999px !important;
-  transition: background 0.2s;
-  box-shadow: 0 1.5px 6px rgba(34, 139, 230, 0.10);
+.UnauthorizedDescription {
+   max-width: 540px;
+  margin: auto;
+  margin-top: var(--mantine-spacing-xl);
+  margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);
+  color: var(--mantine-color-blue-1);
 }
-
-.UnauthorizedBtn:hover {
-  background: linear-gradient(90deg, #228be6, #4dabf7);
-}
-
