@@ -11,3 +11,11 @@
   bottom : 3vw;
   right: 2vw;
 }
+
+
+@media (max-width:767px) {
+  .Notification { 
+  width: 70vw;
+  
+  }
+}
