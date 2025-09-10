@@ -54,6 +54,11 @@
   width: 3vw !important;
 }
 
+.AccountSettingsBtn svg {
+  width: 16px !important;   
+  height: 16px !important;
+}
+
 .ResetBtn {
   border: #29aae1 solid 2px;
   border-radius: 15px;
