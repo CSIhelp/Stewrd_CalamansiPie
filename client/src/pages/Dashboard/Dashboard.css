@@ -30,25 +30,7 @@
     font-size: 0.8vw;
 }
 
-.FavoriteCard, .FavoriteCard1 {
-    border-left: #29AAE1 solid 5px;
-    border-radius: 10px;
-    background-color: #F0FCFF;
-    margin-bottom: 2vh;
- 
-}
 
-.FavoriteCard1 {
-  border-left: #073041 solid 5px;
-}
-
-.DashboardCardContainer {
-    display: flex;
-    flex-direction: column;
-    width: 100vw !important;
-    margin-left: 20vw;
-     justify-items: center;
-}
 
 @media (min-width : 760px) and ( max-width: 1023px ){
 .DashboardContainer {
