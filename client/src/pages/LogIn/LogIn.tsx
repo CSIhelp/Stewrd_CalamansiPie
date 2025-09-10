@@ -19,6 +19,7 @@ import axios from "axios";
 import DeactivatedAccountModal from "../../components/DeactivatedAccount/DeactivatedAccount";
 
 import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
+import { useSession } from "../../hooks/useSession";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ function LogIn() {
   // Loading for cold start
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
-  const { refreshSession } = useSession();
+
+ const { refreshSession } = useSession();
+  
 
   const handleLogIn = async () => {
     setError("");
@@ -46,10 +49,12 @@ function LogIn() {
       );
 
       if (res.data.success) {
+
         localStorage.setItem("userRole", res.data.role);
         localStorage.setItem("token", res.data.token);
         await refreshSession();
         navigate("/dashboard");
+
       } else {
         // This handles 200 responses with success: false
         if (

@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import '@mantine/core/styles.css';
 import averyLogo from "/averyLogo.jpg"
 
+import { useSession } from '../../hooks/useSession';
+
 interface HeaderProps {
   title: string; 
 }
@@ -19,10 +21,12 @@ const Header: FC<HeaderProps> = ({ title }) => {
     const userRole = localStorage.getItem("userRole");
     const [adminCompany, setAdminCompany] = useState<string>("");
     const [clientId, setClientId] = useState<string>("");
+      const { user, clearSession  } = useSession();
 
     const API_BASE = "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth";
 
   const handleLogout = () => {
+     clearSession();
    localStorage.clear();
     navigate ('/')   
     console.log('User logged out');
@@ -31,23 +35,8 @@ const Header: FC<HeaderProps> = ({ title }) => {
     
     navigate ('/userManagement')
   };
-    useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
 
-    fetch(`${API_BASE}/Dashboard`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.user) {
-          setAdminCompany(data.user.company);
-           setClientId(data.user.id);
-          
-        }
-      });
-  }, []);
-
+    
   return (
     <header className="Header">
    
@@ -60,9 +49,9 @@ const Header: FC<HeaderProps> = ({ title }) => {
         <Menu.Target>
     
           <UserMenu
-              image={averyLogo} 
-            company={adminCompany}
-             clientId={clientId} 
+            image={averyLogo}
+            company={user?.company || ""}
+            clientId={user?.id || ""}
          icon={<IconChevronDown size={16} />}
           />
         </Menu.Target>
