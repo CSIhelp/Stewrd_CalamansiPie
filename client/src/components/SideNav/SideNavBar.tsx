@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   IconHome,
   IconFileInvoice,
@@ -8,10 +8,10 @@ import {
   IconCreditCardPay,
   IconClipboard,
   IconSearch,
-  IconArrowUpRight
-
+  IconArrowUpRight,
+  IconMenu
 } from '@tabler/icons-react';
-import { Group, TextInput, Paper, Text, Container } from '@mantine/core';
+import { Group, TextInput, Paper, Text, Container, Burger  } from '@mantine/core';
 import classes from './SideNavBar.module.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSearch } from '../../SearchContext';
@@ -30,6 +30,21 @@ export function SideNavBar() {
   const { searchQuery, setSearchQuery } = useSearch();
   const navigate = useNavigate();
 
+  // Mobile responsive 
+  const [isMobile, setIsMobile] = useState(false);
+  const [opened, setOpened] = useState(false); // toggle for mobile
+
+// breakpoint
+ useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 760); 
+      if (window.innerWidth >= 760) setOpened(false);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const links = SideBarLinks.map((item) => (
     <NavLink
       to={item.link}
@@ -47,9 +62,23 @@ export function SideNavBar() {
     card.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  if (isMobile && !opened) {
+    return (
+      <Burger
+      opened = {opened}
+      onClick={() => setOpened(true)}
+        size="sm"
+        className={classes.mobileBurger}
+      />
+    );
+  }
+
   return (
-    <nav className={classes.navbar}>
+    <nav className={`${classes.navbar} ${isMobile ? classes.mobileNavbar : ''}`}>
       <div className={classes.navbarMain}>
+
+
+
         {/* Search Input */}
         <TextInput
           placeholder="Search"
@@ -90,6 +119,15 @@ export function SideNavBar() {
         )}
 
         <Group className={classes.header}>
+  {/* Mobile close button */}
+        {isMobile && (
+          <Burger
+            opened={opened}
+            onClick={() => setOpened(false)}
+            size="sm"
+            className={classes.mobileCloseBurger}
+          />
+        )}
           <NavLink
             to="/dashboard"
             className={({ isActive }) => (isActive ? classes.activeLink : classes.link)}

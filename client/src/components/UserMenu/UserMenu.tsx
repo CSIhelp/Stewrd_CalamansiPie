@@ -7,7 +7,6 @@ interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   image: string;
   company: string;
   clientId:string;
-
   icon?: React.ReactNode;
 }
 
@@ -26,7 +25,7 @@ const UserMenu = forwardRef<HTMLButtonElement, UserButtonProps>(
              {company} 
           </Text>
         </div>
- {icon}
+ <div className='UserAction'> {icon}</div>
  
       </Group>
     </UnstyledButton>

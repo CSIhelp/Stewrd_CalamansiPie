@@ -1,41 +1,25 @@
-import { Card, Text, Button, Container, Group, ThemeIcon, Image } from '@mantine/core';
-import { IconLock } from '@tabler/icons-react';
+import { Button, Container, Group, Text, Title } from "@mantine/core";
 import { useNavigate } from 'react-router-dom';
 import "./Authentication.css";
 
-const Unauthorized: React.FC = () => {
+function Unauthorized() {
   const navigate = useNavigate();
-
   return (
-    <Container className='UnauthorizedContainer'>
-      <Card className='UnauthorizedCard' withBorder>
-        <Group className="UnauthorizedIconGroup">
-              <Image
-          src=""
-          height={100}
-          alt="John Logo"
-        />
-           <Text className='UnauthorizedTitle'>
-          Access Denied
+    <div className="UnauthorizedContainer">
+      <Container>
+        <div className="UnauthorizedLabel">401</div>
+        <Title className="UnauthorizedTitle">Restricted Area</Title>
+        <Text size="lg" ta="center" className="UnauthorizedDescription">
+          Oops! It looks like you don’t have access to this page. Please log in
+          to continue.
         </Text>
+        <Group justify="center">
+          <Button variant="white" size="md"  onClick={() => navigate("/")}>
+            Log In Account
+          </Button>
         </Group>
-      
-        <Text className='UnauthorizedDesc'>
-          You must be logged in to view this page.
-        </Text>
-        <Button
-          onClick={() => navigate("/")}
-          color="blue"
-          className='UnauthorizedBtn'
-          fullWidth
-          radius="xl"
-          size="md"
-        >
-          Log In
-        </Button>
-      </Card>
-    </Container>
+      </Container>
+    </div>
   );
-};
-
+}
 export default Unauthorized;
