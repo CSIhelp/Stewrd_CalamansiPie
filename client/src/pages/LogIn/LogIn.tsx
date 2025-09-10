@@ -90,8 +90,8 @@ function LogIn() {
 
   return (
     <>
-      <header className="Header">
-        <div className="HeaderLogo">LOGO</div>
+      <header className="Header HeaderPhone">
+        <div className="HeaderLogo HeaderLogoPhone">LOGO</div>
       </header>
       <Container className="LogInContainer">
         <Card className="LogInTitleCard">
