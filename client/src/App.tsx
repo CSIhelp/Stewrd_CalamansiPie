@@ -62,7 +62,7 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/userManagement" element={
-          <ProtectedRoute>
+          <ProtectedRoute adminOnly={true} >
             <UserManagement />
           </ProtectedRoute>
         } />
