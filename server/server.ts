@@ -6,6 +6,7 @@ import router from "./routes/auth.js";
 import cors from "cors";
 import express from "express";
 import Bookmarkrouter from "./routes/BookmarkRoutes.js";
+import contactRouter from "./routes/contact.js";
 
 
 const MONGO_URI = process.env.MONGO_URI;
@@ -40,6 +41,7 @@ mongoose.connect(MONGO_URI, { dbName: "John_Users" })
 });
     app.use("/api/auth", router);
     app.use("/api/bookmarks", Bookmarkrouter); 
+    app.use("/api/contact", contactRouter);
     app.listen(PORT, () => {
       console.log(`✅ Backend server running on http://localhost:${PORT}`);
     });
