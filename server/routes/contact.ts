@@ -5,22 +5,34 @@ const ContactRouter = express.Router();
 
 interface ContactRequestBody {
   name: string;
+  company: string;
   email: string;
+  topic: string;
   message: string;
+  bugDescription?: string;
+  timeEncountered?: string;
+  dateEncountered?: string;
 }
 
 ContactRouter.post(
   "/",
   async (req: Request<{}, {}, ContactRequestBody>, res: Response) => {
-    const { name, email, message } = req.body;
+    const {
+      name,
+      company,
+      email,
+      topic,
+      message,
+      bugDescription,
+      timeEncountered,
+      dateEncountered,
+    } = req.body;
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ message: "All fields are required" });
+    if (!name || !company || !email || !topic || !message) {
+      return res.status(400).json({ message: "All required fields must be filled" });
     }
-
     try {
-
-      // Create transporter using test account
+      // Test transporter (Ethereal)
       const transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
         port: 587,
@@ -30,25 +42,37 @@ ContactRouter.post(
         },
       });
 
-      // Send email to your real inbox
+      // Build email content
+      let emailText = `
+Name: ${name}
+Company: ${company}
+Email: ${email}
+Topic: ${topic}
+Message: ${message}
+`;
+
+      if (topic === "bug") {
+        emailText += `
+Bug Description: ${bugDescription || ""}
+Time Encountered: ${timeEncountered || ""}
+Date Encountered: ${dateEncountered || ""}
+`;
+      }
+
       const info = await transporter.sendMail({
-        from: `"${name}" <nat.deckow@ethereal.email>`, 
-        to: "helpjohn@gmail.com", 
-        subject: `Contact Form Message from ${name}`,
-        text: message,
-        html: `<p>${message}</p>`,
+        from: `"Website Contact" <tajelaj394@dpwev.com>`, // use your domain email
+        to: "helpjohn@gmail.com", // your real inbox
+        subject: `Contact Form Submission: ${topic}`,
+        text: emailText,
+        html: `<pre>${emailText}</pre>`,
       });
 
-      console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
-
-      res.status(200).json({
-        message: "Email sent successfully (test sender)",
-        previewURL: nodemailer.getTestMessageUrl(info),
-      });
+      res.status(200).json({ message: "Email sent successfully (test sender)", previewURL: nodemailer.getTestMessageUrl(info), });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Failed to send email" });
     }
   }
 );
+
 export default ContactRouter;
