@@ -13,6 +13,7 @@ import Payments from './pages/Payments/Payments';
 import Documentation from './pages/Documentation/Documentation';
 import UserManagement from './pages/UserManagement/UserManagement';
 import Unauthorized from './pages/Authentication/Authentication';
+import ContactUs from './pages/ContactUs/ContactUs';
 function App() {
 
 
@@ -62,10 +63,15 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/userManagement" element={
-          <ProtectedRoute>
+          <ProtectedRoute adminOnly={true} >
             <UserManagement />
           </ProtectedRoute>
         } />
+        <Route path = "/contact" element = {
+           <ProtectedRoute adminOnly={true} >
+            <ContactUs />
+          </ProtectedRoute>
+        }/>
       </Routes>
     </BrowserRouter>
   );

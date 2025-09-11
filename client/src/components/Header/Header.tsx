@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import {useState, useEffect} from 'react';
-import { IconChevronDown, IconLogout, IconUsers
+import { IconChevronDown, IconLogout, IconUsers, IconPhone
  } from '@tabler/icons-react';
 import { Menu } from '@mantine/core';
 import UserMenu from '../UserMenu/UserMenu';
@@ -35,6 +35,9 @@ const Header: FC<HeaderProps> = ({ title }) => {
     
     navigate ('/userManagement')
   };
+  const handleContact = () => {
+    navigate ('/contact')
+  }
 
     
   return (
@@ -65,6 +68,14 @@ const Header: FC<HeaderProps> = ({ title }) => {
           >
            User Management
           </Menu.Item> )}
+                    <Menu.Item
+            color="blue"
+            leftSection={<IconPhone size={16} />}
+            onClick={handleContact}
+            className='HeaderLogout'
+          >
+           Contact Us 
+          </Menu.Item>  
           <Menu.Item
             color="red"
             leftSection={<IconLogout size={16} />}

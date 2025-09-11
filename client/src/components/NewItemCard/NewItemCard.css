@@ -4,3 +4,22 @@
     background-color: #F0FCFF;
     margin-bottom: 2vh;
 }
+.NewCardGroup {
+    display: flex;
+    flex-direction: row;
+}
+
+@media (max-width: 460px) {
+.NewCardGroup {
+    display: flex;
+    flex-direction: row;
+}
+.NewCardtTitle {
+    font-size: 14px;
+    width: 70%;
+}
+.NewCardtBtn {
+    font-size: 14px;
+}
+
+}
