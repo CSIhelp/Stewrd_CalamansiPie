@@ -147,10 +147,10 @@ const NewItemCard: FC<NewItemCardProps> = ({
 
   return (
     <Card withBorder radius="md" p="lg" className="NewItemCard">
-      <Group justify="space-between" mb="xs">
-        <Text fw={600}>{title}</Text>
+      <Group justify="space-between" mb="xs" className='NewCardGroup'>
+        <Text fw={600} className='NewCardtTitle' >{title}</Text>
         <ActionIcon variant="subtle" color="blue" onClick={handleToggleBookmark}>
-           {bookmarked ? <IconBookmarkFilled size={18} /> : <IconBookmark size={18} />}
+           {bookmarked ? <IconBookmarkFilled size={16} /> : <IconBookmark size={16} />}
         </ActionIcon>
       </Group>
 
@@ -169,6 +169,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
         color="#29AAE1"
         rightSection={<IconArrowRight size={16} />}
         radius="xl"
+        className='NewCardtBtn'
       >
         {buttonText}
       </Button>
