@@ -3,6 +3,7 @@
   padding-bottom: 120px;
   background-color: var(--mantine-color-blue-filled);
   height: 100vh;
+  overflow-y: hidden;
 }
 
 .UnauthorizedLabel{
@@ -26,4 +27,26 @@ font-weight: 700 !important;
   margin-top: var(--mantine-spacing-xl);
   margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);
   color: var(--mantine-color-blue-1);
+}
+
+@media (max-width : 720px ){
+  .UnauthorizedContainer{
+    align-items: center;
+    display: flex;
+
+  }
+  .UnauthorizedLabel {
+      font-size: 120px;
+      margin-bottom: 5px;
+  }
+  .UnauthorizedTitle { 
+     font-size: 28px;
+      
+  }
+  .UnauthorizedDescription  {
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 70vw;
+  }
 }
