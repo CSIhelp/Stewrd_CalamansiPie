@@ -6,7 +6,6 @@ import App from './App.tsx';
 import { SearchProvider } from './SearchContext.tsx';
 
 import { MantineProvider } from '@mantine/core';
-import { Notifications } from '@mantine/notifications';
 // User Menu Optimized
 import { SessionProvider } from './hooks/useSession.tsx';
 
