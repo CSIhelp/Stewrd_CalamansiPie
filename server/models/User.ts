@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document { 
+    _id: mongoose.Types.ObjectId;
     ClientId: string;
     Company: string;
     Password: string;
@@ -19,3 +20,6 @@ const UserSchema: Schema = new mongoose.Schema({
 });
 
 export default mongoose.model<IUser>("User", UserSchema);
+
+
+

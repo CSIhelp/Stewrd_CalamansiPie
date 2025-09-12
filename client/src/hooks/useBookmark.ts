@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 function useBookmarks(token: string) {
@@ -6,32 +6,42 @@ function useBookmarks(token: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!token) return;
-   
-    const clientId = localStorage.getItem("clientId"); 
+    const cached = localStorage.getItem("bookmarks");
+    if (cached && cached !== "undefined") {
+      try {
+        const parsed = JSON.parse(cached);
+        setBookmarks(parsed);
+        console.log("Loaded cached bookmarks:", parsed.length);
+      } catch (e) {
+        console.error("Invalid JSON in bookmarks cache:", cached);
+        localStorage.removeItem("bookmarks");
+      }
+    }
+  }, []);
 
-    // 1. loading cached bookmarks instantly
 
- const cached = localStorage.getItem("bookmarks");
-if (cached && cached !== "undefined") {
-  try {
-    setBookmarks(JSON.parse(cached));
-  } catch (e) {
-    console.error("Invalid JSON in bookmarks cache:", cached);
-    localStorage.removeItem("bookmarks"); 
-  }
-  setLoading(false);
-}
+  useEffect(() => {
+    if (!token) {
+      console.log("No token provided to useBookmarks");
+      setLoading(false);
+      return;
+    }
 
     async function fetchBookmarks() {
       try {
-        const res = await axios.get(`https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks?user=${clientId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        console.log("Fetching bookmarks from server...");
+        const res = await axios.get(
+          `https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-        // 2. Save new data to state + localStorage
-        setBookmarks(res.data.bookmarks);
-        localStorage.setItem("bookmarks", JSON.stringify(res.data.bookmarks));
+        const fresh = res.data.bookmarks || [];
+        console.log("Bookmarks received:", fresh.length);
+
+        setBookmarks(fresh);
+        localStorage.setItem("bookmarks", JSON.stringify(fresh));
       } catch (err) {
         console.error("Error fetching bookmarks:", err);
       } finally {
@@ -39,11 +49,27 @@ if (cached && cached !== "undefined") {
       }
     }
 
-    // 3. Fetch new data in background
     fetchBookmarks();
   }, [token]);
 
-  return { bookmarks, setBookmarks, loading };
+  
+  const addBookmark = useCallback((bookmark: any) => {
+    setBookmarks((prev) => {
+      const updated = [...prev, bookmark];
+      localStorage.setItem("bookmarks", JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  const removeBookmark = useCallback((cardId: number) => {
+    setBookmarks((prev) => {
+      const updated = prev.filter((bm) => bm.cardId !== cardId);
+      localStorage.setItem("bookmarks", JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  return { bookmarks, setBookmarks, addBookmark, removeBookmark, loading };
 }
 
 export default useBookmarks;

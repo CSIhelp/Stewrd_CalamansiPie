@@ -33,7 +33,7 @@ import useUserManagement from "../../hooks/useUserManagement";
 import "./UserManagement.css";
 
 const API_BASE =
-  "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth";
+  "https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app/api/auth";
 
 type User = {
   ClientId: string;
@@ -188,7 +188,7 @@ const UserManagement = () => {
           <Tooltip
             label="Maximum of 3 active accounts allowed"
             withArrow
-            disabled={users.filter((u) => u.isActive).length < 3} // Show tooltip only when disabled>
+            disabled={users.filter((u) => u.isActive).length < 3} // Show tooltip only when disabled
           >
             <Button
               className="AddUserButton"
