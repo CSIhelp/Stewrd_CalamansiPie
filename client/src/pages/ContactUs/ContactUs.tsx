@@ -36,11 +36,39 @@ const ContactUs = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Submitted data:', formData);
-    alert('Message sent!');
-  };
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    const response = await fetch(
+      "https://johnbackend-1k3irr50u-csis-projects-620122e0.vercel.app/api/contact",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    const data = await response.json();
+
+    // Show Ethereal preview link
+    alert(`Message sent!\nPreview URL: ${data.previewURL}`);
+    console.log("Preview URL:", data.previewURL);
+        setFormData({
+      name: '',
+      company: '',
+      email: '',
+      topic: '',
+      message: '',
+      bugDescription: '',
+      timeEncountered: '',
+      dateEncountered: '',});
+  } catch (err) {
+    alert("Failed to send email. Check server logs.");
+    console.error(err);
+  }
+};
+
+
   const handleBack  = () => {
     navigate ("/dashboard")
   }

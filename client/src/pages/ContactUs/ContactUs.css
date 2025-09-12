@@ -1,7 +1,7 @@
 .ContactUsBG{
   position: relative;
   width: 100%;
-  height: 110vh;
+  height: 130vh;
     overflow: hidden;
 }
 .ContactUsBG::before {
