@@ -20,6 +20,8 @@ import DeactivatedAccountModal from "../../components/DeactivatedAccount/Deactiv
 
 import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
 import { useSession } from "../../hooks/useSession";
+import { notifications } from "@mantine/notifications";
+import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -38,6 +40,18 @@ function LogIn() {
 
   const handleLogIn = async () => {
     setError("");
+    
+
+  if (!clientId || !password ) {
+      notifications.show({
+        title: "All fields are required",
+        message: `Add user failed`,
+        color: "red",
+        icon: <IconX size={20} />,
+      });
+      return;
+    }
+    
     setLoading(true); // start loading
     try {
       const res = await axios.post(
