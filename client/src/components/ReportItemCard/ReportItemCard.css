@@ -4,3 +4,10 @@
     background-color: #F0FCFF;
     margin-bottom: 2vh;
 }
+
+
+@media  (max-width : 425px ) {
+    .ReportBtn {
+        font-size: 10px;
+    }
+}
