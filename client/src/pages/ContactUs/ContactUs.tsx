@@ -168,7 +168,7 @@ const ContactUs = () => {
 
             <Container className=' ContactUsInfo' >
 
-             <img src={Crowdsource} alt="Crowdsource Logo" style={{ maxWidth: 200, marginBottom: 50, marginLeft: 50  }} />
+             <img className= {"CSILogo"} src={Crowdsource} alt="Crowdsource Logo" style={{ maxWidth: 200, marginBottom: 50, marginLeft: 50  }} />
             <Group className='ContactUsInfoDetails' >
             <Title order={5}>How Can We Help?</Title>
             <Text size="sm" mb="md">
