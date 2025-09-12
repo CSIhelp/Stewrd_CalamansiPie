@@ -68,7 +68,7 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path = "/contact" element = {
-           <ProtectedRoute adminOnly={true} >
+           <ProtectedRoute  >
             <ContactUs />
           </ProtectedRoute>
         }/>
