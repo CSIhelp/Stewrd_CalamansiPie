@@ -1,7 +1,7 @@
 .PaymentsContainer{
     display: flex;
     flex-direction: row !important;
-    width: 90vw;
+    width: 100%;
     
 
 }
@@ -29,4 +29,48 @@
     margin-bottom: 2vw;
     border-bottom: 1px solid #877E7E;
     font-size: 0.8vw;
+}
+
+@media (min-width: 760px) and (max-width: 1023px) {
+  .PaymentsContainer {
+    flex-direction: row;
+  }
+
+  .PaymentsCardContainer {
+    width: calc(100% - 250px); /* smaller sidebar */
+    margin-left: 250px !important;
+    padding: 1rem;
+  }
+
+  .PaymentsCard {
+    width: 60vw !important;
+    margin-left: 0;
+  }
+
+  .PaymentsTitleCard {
+    width: 50%;
+    font-size: 1vw;
+  }
+}
+@media (max-width: 759px) {
+  .PaymentsContainer {
+    flex-direction: column;
+  }
+
+  .PaymentsCardContainer {
+    width: 100%;
+    margin-left: 0vw !important;
+    padding: 1rem;
+  }
+
+  .PaymentsCard {
+    width: 80vw !important;
+    margin-left: 0;
+  }
+
+  .PaymentsTitleCard {
+    width: 70vw !important;
+    font-size: 2.5vw;
+    margin-left: 0;
+  }
 }

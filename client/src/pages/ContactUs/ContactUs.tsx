@@ -169,14 +169,15 @@ const ContactUs = () => {
             <Container className=' ContactUsInfo' >
 
              <img src={Crowdsource} alt="Crowdsource Logo" style={{ maxWidth: 200, marginBottom: 50, marginLeft: 50  }} />
+            <Group className='ContactUsInfoDetails' >
             <Title order={5}>How Can We Help?</Title>
             <Text size="sm" mb="md">
               Please fill out the form, and a member of our team will get in touch with you shortly regarding your inquiry.
             </Text>
             <Title order={6} >For immediate inquiries:</Title>
-            <Text size="13px"><IconMail size={16}/> SAMPLE@CROWDSOURCESOLUTIONS.PH</Text>
+            <Text size="13px" className='ContactUsInfoDetails' ><IconMail size={16}/> SAMPLE@CROWDSOURCESOLUTIONS.PH</Text>
             <Text size="sm" > <IconPhone size={16}/> (02) 1234 5678</Text>
-
+            </Group>
             </Container>
 
         </Container>

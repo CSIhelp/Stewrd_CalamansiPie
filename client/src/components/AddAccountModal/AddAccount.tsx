@@ -193,10 +193,11 @@ export default function AddAccountModal({
         />
 
         <div className="AddActionsGroup">
-          <Button variant="outline" color="dark" onClick={handleAttemptClose} fullWidth>
+             <Button variant="outline" color="dark" onClick={handleAttemptClose} fullWidth className="CancelBtn">
             Cancel
           </Button>
-          <Button
+
+           <Button
             color="blue"
             className="CreateBtn"
             onClick={handleCreate}
@@ -204,6 +205,8 @@ export default function AddAccountModal({
           >
             Create Account
           </Button>
+      
+         
         </div>
       </div>
     </Modal>

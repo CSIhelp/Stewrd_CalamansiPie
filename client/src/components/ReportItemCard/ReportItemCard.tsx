@@ -37,6 +37,7 @@ const ReportItemCard: FC<ReportItemCardProps> = ({
         color="#073041"
         rightSection={<IconArrowRight size={16} />}
         radius="xl"
+        className='ReportBtn'
       >
         {buttonText}
       </Button>
