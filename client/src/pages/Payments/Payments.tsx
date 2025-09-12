@@ -13,23 +13,52 @@ type Bookmark = {
 
 function Payments() {
 
+const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
-  // Fetch bookmarks 
+  
+  const BACKEND_URL = "https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app";
+
   useEffect(() => {
     const fetchBookmarks = async () => {
-      const jwtToken = localStorage.getItem('token');
-      const clientId = localStorage.getItem('clientId');
-      const response = await fetch(`https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks?user=${clientId}`, {
-        headers: {
-          'Authorization': `Bearer ${jwtToken}`,
-        },
-      });
-      const data = await response.json();
-      setBookmarks(data.bookmarks || []);
+      try {
+        const jwtToken = localStorage.getItem('token');
+        
+        if (!jwtToken) {
+          console.log(" No token found in localStorage");
+          setError("No authentication token found");
+          setLoading(false);
+          return;
+        }
+
+        console.log("Fetching bookmarks for PettyCash page...");
+        
+        const response = await fetch(`${BACKEND_URL}/api/bookmarks/bookmarks`, {
+          headers: {
+            'Authorization': `Bearer ${jwtToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Bookmarks fetched:", data.bookmarks?.length || 0);
+        
+        setBookmarks(data.bookmarks || []);
+        setError(null);
+      } catch (err) {
+        console.error(" Error fetching bookmarks:", err);
+        setError("Failed to load bookmarks");
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchBookmarks();
   }, []);
-
   const paymentsCards = NewCardsData.filter(card => card.category === 'Payments');
 
   const isBookmarked = (cardId: number): boolean =>

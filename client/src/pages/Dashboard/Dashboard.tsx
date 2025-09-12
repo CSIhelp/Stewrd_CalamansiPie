@@ -24,7 +24,7 @@ function Dashboard() {
   const [error, setError] = useState<string | null>(null);
 
   const token = localStorage.getItem("token") || "";
-  const { bookmarks, setBookmarks, loading } = useBookmarks(token);
+const { bookmarks, addBookmark, removeBookmark, loading } = useBookmarks(token);
 
   return (
     <>
@@ -53,7 +53,7 @@ function Dashboard() {
                   buttonLink={bookmark.buttonLink ?? ""}
                   category={bookmark.category ?? ""}
                   isBookmarked={true}
-                  onToggleBookmark={() => {}}
+                 onToggleBookmark={() => removeBookmark(bookmark.cardId)}
                 />
               ))}
             </Card>
