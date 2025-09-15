@@ -14,6 +14,9 @@ John is a web platform that compiles various automation scripts and tools that p
 - **Database:** MongoDB
 - **State Management:** React Context
 - **Styling:** CSS Modules
+- **Front-end Host:** Cloudflare Pages
+- **Back-End Host:** Vercel 
+- **SMTP:** Resend
 
 ## Getting Started
 
