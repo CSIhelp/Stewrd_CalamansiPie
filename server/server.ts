@@ -1,51 +1,42 @@
-import dotenv from 'dotenv';
-dotenv.config(); 
+import dotenv from "dotenv";
+dotenv.config();
 
-import mongoose from "mongoose";
-import router from "./routes/auth.js";
-import cors from "cors";
 import express from "express";
-import Bookmarkrouter from "./routes/BookmarkRoutes.js";
+import cors from "cors";
+
+// Import Firebase 
+import "./firebase.js"; 
+
+// Routes
+import userRouter from "./routes/auth.js";
+import bookmarkRouter from "./routes/BookmarkRoutes.js";
 import contactRouter from "./routes/contact.js";
 
-
-const MONGO_URI = process.env.MONGO_URI;
-const JWT_SECRET = process.env.JWT_SECRET;
 const PORT = process.env.PORT || 5000;
-
-if (!MONGO_URI) {
-  throw new Error("MONGO_URI environment variable is required");
-}
-
-if (!JWT_SECRET) {
-  throw new Error("JWT_SECRET environment variable is required");
-}
-
-process.env.JWT_SECRET = JWT_SECRET;
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: "*",
-  // credentials: true,
-}));
+app.use(cors({ origin: "*" }));
 
 console.log("✅ Backend server starting...");
 
-mongoose.connect(MONGO_URI, { dbName: "John_Users" })
-  .then(() => {
-    console.log("✅ Connected to MongoDB Atlas");
-    app.use((req, res, next) => {
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "API is running 🚀" });
+});
+
+// Request logger
+app.use((req, _res, next) => {
   console.log(`[${req.method}] ${req.url}`);
   next();
 });
-    app.use("/api/auth", router);
-    app.use("/api/bookmarks", Bookmarkrouter); 
-    app.use("/api/contact", contactRouter);
-    app.listen(PORT, () => {
-      console.log(`✅ Backend server running on http://localhost:${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error("❌ MongoDB connection error:", err);
-  });
+
+// Mount routes
+app.use("/api/auth", userRouter);
+app.use("/api/bookmarks", bookmarkRouter);
+app.use("/api/contact", contactRouter);
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`✅ Backend server running on http://localhost:${PORT}`);
+});

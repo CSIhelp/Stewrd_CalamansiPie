@@ -17,7 +17,7 @@ const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   
-  const BACKEND_URL = "https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app";
+  const BACKEND_URL = "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app";
 
   useEffect(() => {
     const fetchBookmarks = async () => {

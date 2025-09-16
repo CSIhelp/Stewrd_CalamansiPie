@@ -45,7 +45,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
 
     try {
       const response = await fetch(
-        'https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app/api/bookmarks',
+        'https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks',
         {
           method: 'POST',
           headers: {
@@ -105,7 +105,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
       return;
     }
     try {
-      const response = await fetch(`https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks/${cardId}`, {
+      const response = await fetch(`https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks/${cardId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${jwtToken}`,

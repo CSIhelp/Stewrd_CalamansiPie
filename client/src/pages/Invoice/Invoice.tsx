@@ -19,7 +19,7 @@ const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   
-  const BACKEND_URL = "https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app";
+  const BACKEND_URL = "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app";
 
   // Fetch bookmarks 
   useEffect(() => {
@@ -67,6 +67,15 @@ const [loading, setLoading] = useState(true);
  const invoiceCards = NewCardsData.filter(card => card.category === 'Invoice');
    const isBookmarked = (cardId: number): boolean =>
     bookmarks.some(bm => bm.cardId === cardId);
+
+  const handleToggleBookmark = (cardId: number, add: boolean) => {
+    setBookmarks(
+      (prev) =>
+        add
+          ? [...prev, { cardId }] // add bookmark
+          : prev.filter((bm) => bm.cardId !== cardId) // remove bookmark
+    );
+  };
     return(
         <> 
 <div>
@@ -89,7 +98,9 @@ const [loading, setLoading] = useState(true);
                 buttonText={card.buttonText}
                 buttonLink={card.buttonLink}
                 category={card.category}
-                isBookmarked={isBookmarked(card.id)} 
+                onToggleBookmark={() =>
+                  handleToggleBookmark(card.id, !isBookmarked(card.id))
+                }
               />
  ))}
 </Card>
