@@ -92,7 +92,7 @@ export default function ResetPasswordModal({
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
+        `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "PATCH",
           headers: {

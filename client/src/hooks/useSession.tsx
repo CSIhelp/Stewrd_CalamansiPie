@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-const API_BASE = "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE = "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth";
 
 type SessionUser = {
   id: string;
@@ -30,7 +30,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return;
     }
     try {
-      const res = await fetch(`${API_BASE}/Dashboard`, {
+      const res = await fetch(`${API_BASE}/userManagement`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

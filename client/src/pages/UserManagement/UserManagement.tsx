@@ -33,7 +33,7 @@ import useUserManagement from "../../hooks/useUserManagement";
 import "./UserManagement.css";
 
 const API_BASE =
-  "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth";
+  "https://johnbackend-o1j1bs06f-csis-projects-620122e0.vercel.app/api/auth";
 
 type User = {
   ClientId: string;
@@ -60,10 +60,11 @@ const UserManagement = () => {
   // Get admin company from JWT
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
     if (!token) return;
 
     fetch(`${API_BASE}/Dashboard`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${firebaseIdToken}` },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -188,7 +189,7 @@ const UserManagement = () => {
           <Tooltip
             label="Maximum of 3 active accounts allowed"
             withArrow
-            disabled={users.filter((u) => u.isActive).length < 3} // Show tooltip only when disabled>
+            disabled={users.filter((u) => u.isActive).length < 3} // Show tooltip only when disabled
           >
             <Button
               className="AddUserButton"

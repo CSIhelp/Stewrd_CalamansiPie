@@ -1,11 +1,8 @@
 
-import { JwtPayload } from "jsonwebtoken";
-import { AuthPayload } from "./types/AuthPayload";
+import { DecodedIdToken } from "firebase-admin/auth";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: AuthPayload;
-    }
+declare module "express-serve-static-core" {
+  interface Request {
+    user?: DecodedIdToken;
   }
 }

@@ -30,7 +30,9 @@ function useUserManagement(adminCompany: string) {
 
 
   const [loading, setLoading] = useState(users.length === 0);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("firebaseIdToken");
+  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+
 
   const fetchUsers = async (force = false) => {
     if (!token || !adminCompany) return;
@@ -41,8 +43,11 @@ function useUserManagement(adminCompany: string) {
 
     try {
       const res = await axios.get(
-        "https://johnbackend-h8jirnwr3-csis-projects-620122e0.vercel.app/api/auth/userManagement",
-        { headers: { Authorization: `Bearer ${token}` } }
+        "https://johnbackend-o1j1bs06f-csis-projects-620122e0.vercel.app/api/auth/userManagement",
+        { headers: { Authorization: `Bearer ${firebaseIdToken}`} ,
+         params: { company: adminCompany } 
+      
+      }
       );
 
       if (res.data.success && Array.isArray(res.data.users)) {

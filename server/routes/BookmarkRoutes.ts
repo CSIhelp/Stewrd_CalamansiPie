@@ -1,43 +1,47 @@
 import express, { Request, Response } from "express";
-import Bookmark from "../models/Bookmark.js";
-import jwt from "jsonwebtoken";
+import admin from "../firebase.js"; 
 
 const Bookmarkrouter = express.Router();
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret) throw new Error("JWT_SECRET environment variable not set!");
+const db = admin.firestore();
 
-function getUserIdFromToken(req: Request): string | null {
+// Middleware 
+const authMiddleware = async (req: any, res: Response, next: Function) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader) return null;
+  if (!authHeader) return res.status(401).json({ error: "No token provided" });
+
   const token = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, jwtSecret as string);
-    if (typeof decoded === "object" && decoded !== null && "id" in decoded) {
-      return (decoded as jwt.JwtPayload).id as string;
-    }
-    return null;
+    const decoded = await admin.auth().verifyIdToken(token);
+    req.user = decoded;
+    next();
   } catch (err) {
-    console.error("JWT verify error:", err);
-    return null;
+    console.error("Firebase verify error:", err);
+    res.status(401).json({ error: "Invalid token" });
   }
-}
+};
 
 // Add bookmark
-Bookmarkrouter.post("/", async (req: Request, res: Response) => {
+Bookmarkrouter.post("/", authMiddleware, async (req: any, res: Response) => {
   try {
-    const userId = getUserIdFromToken(req);
-    if (!userId) return res.status(401).json({ error: "Unauthorized" });
-
+    const clientId = req.user.uid; 
     const { cardId, title, description, buttonText, buttonLink, category } = req.body;
+
     if (!cardId || !title) {
       return res.status(400).json({ error: "Missing cardId or title" });
     }
 
-    const exists = await Bookmark.findOne({ user: userId, cardId });
-    if (exists) return res.status(400).json({ error: "Already bookmarked" });
+  
+    const snapshot = await db
+      .collection("bookmarks")
+      .where("user", "==", clientId)
+      .where("cardId", "==", cardId)
+      .get();
 
-    const bookmark = new Bookmark({
-      user: userId,
+    if (!snapshot.empty) return res.status(400).json({ error: "Already bookmarked" });
+
+
+    const docRef = await db.collection("bookmarks").add({
+      user: clientId,
       cardId,
       title,
       description,
@@ -46,39 +50,53 @@ Bookmarkrouter.post("/", async (req: Request, res: Response) => {
       category,
     });
 
-    await bookmark.save();
-    res.json({ success: true, bookmark });
+    res.json({ success: true, id: docRef.id });
   } catch (err) {
     console.error("Add bookmark error:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Remove bookmark
-Bookmarkrouter.delete("/bookmarks/:cardId", async (req: Request, res: Response) => {
+// Get all bookmarks for a user
+Bookmarkrouter.get("/", authMiddleware, async (req: any, res: Response) => {
   try {
-    const userId = getUserIdFromToken(req);
-    if (!userId) return res.status(401).json({ error: "Unauthorized" });
+    const clientId = req.user.uid;
 
-    const cardId = Number(req.params.cardId);
-    await Bookmark.findOneAndDelete({ user: userId, cardId });
-    res.json({ success: true });
+    const snapshot = await db
+      .collection("bookmarks")
+      .where("user", "==", clientId)
+      .get();
+
+    const bookmarks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json({ success: true, bookmarks });
   } catch (err) {
-    console.error("Remove bookmark error:", err);
+    console.error("Get bookmarks error:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Get user bookmarks
-Bookmarkrouter.get("/bookmarks", async (req: Request, res: Response) => {
+// Delete bookmark
+Bookmarkrouter.delete("/:cardId", authMiddleware, async (req: any, res: Response) => {
   try {
-    const userId = getUserIdFromToken(req);
-    if (!userId) return res.status(401).json({ error: "Unauthorized" });
+    const clientId = req.user.uid;
+    const cardId = Number(req.params.cardId);
 
-    const bookmarks = await Bookmark.find({ user: userId });
-    res.json({ success: true, bookmarks });
+    const snapshot = await db
+      .collection("bookmarks")
+      .where("user", "==", clientId)
+      .where("cardId", "==", cardId)
+      .get();
+
+    if (snapshot.empty) return res.status(404).json({ error: "Bookmark not found" });
+
+    // Delete all matching bookmarks 
+    for (const doc of snapshot.docs) {
+      await db.collection("bookmarks").doc(doc.id).delete();
+    }
+
+    res.json({ success: true });
   } catch (err) {
-    console.error("Get bookmarks error:", err);
+    console.error("Delete bookmark error:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

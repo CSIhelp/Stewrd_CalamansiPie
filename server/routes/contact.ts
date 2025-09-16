@@ -61,15 +61,15 @@ ContactRouter.post(
           }
         </div>
         <div style="background-color: #f9f9f9; text-align: center; padding: 12px; font-size: 12px; color: #666;">
-          This email was generated from your website contact form.
+          This email was generated from john website contact form.
         </div>
       </div>
       `;
 
       const data = await resend.emails.send({
-        from: "Website Contact <onboarding@resend.dev>", // replace with your verified domain
-        to: "harrypottermiko@gmail.com",
-        subject: `Contact Form Submission: ${topic}`,
+        from: "John Inquries <onboarding@resend.dev>", 
+        to: "help@crowdsourcesolutions.ph",
+        subject: `John Contact Form : ${topic}`,
         html: emailHtml,
       });
 
