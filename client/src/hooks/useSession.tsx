@@ -30,7 +30,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return;
     }
     try {
-      const res = await fetch(`${API_BASE}/Dashboard`, {
+      const res = await fetch(`${API_BASE}/userManagement`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
