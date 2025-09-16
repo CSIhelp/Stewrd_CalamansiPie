@@ -62,13 +62,13 @@ function LogIn() {
     );
 
     if (res.data.success) {
-      const customToken = res.data.token;
+      const customToken = res.data.customToken;
 
       const userCredential = await signInWithCustomToken(auth, customToken);
       const idToken = await userCredential.user.getIdToken();
 
       // Save tokens in localStorage 
-        localStorage.setItem("token", customToken); 
+      localStorage.setItem("token", customToken); 
       localStorage.setItem("firebaseIdToken", idToken);
       localStorage.setItem("userRole", res.data.role);
     // optional, keep backend token too
