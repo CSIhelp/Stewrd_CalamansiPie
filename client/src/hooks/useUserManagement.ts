@@ -48,6 +48,7 @@ function useUserManagement(adminCompany: string) {
          params: { company: adminCompany } 
       
       }
+
       );
 
       if (res.data.success && Array.isArray(res.data.users)) {

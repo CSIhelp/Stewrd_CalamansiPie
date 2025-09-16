@@ -32,8 +32,8 @@ import useUserManagement from "../../hooks/useUserManagement";
 
 import "./UserManagement.css";
 
-const API_BASE =
-  "https://johnbackend-o1j1bs06f-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE = "https://johnbackend-o1j1bs06f-csis-projects-620122e0.vercel.app/api/auth";
+
 
 type User = {
   ClientId: string;

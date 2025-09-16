@@ -23,8 +23,10 @@ import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal
 import { useSession } from "../../hooks/useSession";
 import { notifications } from "@mantine/notifications";
 import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
+
 import { auth } from "../../firebase.js";
 import { signInWithCustomToken } from "firebase/auth";
+
 
 function LogIn() {
   const navigate = useNavigate();
@@ -39,10 +41,10 @@ function LogIn() {
 
 
  const { refreshSession } = useSession();
-  
-
+ 
  const handleLogIn = async () => {
   setError("");
+
 
   if (!clientId || !password) {
     notifications.show({
@@ -71,7 +73,7 @@ function LogIn() {
         localStorage.setItem("token", customToken); 
       localStorage.setItem("firebaseIdToken", idToken);
       localStorage.setItem("userRole", res.data.role);
-    // optional, keep backend token too
+    
 
       await refreshSession();
       navigate("/dashboard");
