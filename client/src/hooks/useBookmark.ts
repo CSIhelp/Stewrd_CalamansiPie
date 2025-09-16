@@ -27,13 +27,15 @@ function useBookmarks(token: string) {
       return;
     }
 
+      const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+
     async function fetchBookmarks() {
       try {
         console.log("Fetching bookmarks from server...");
         const res = await axios.get(
-          `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks`,
+          `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${firebaseIdToken}` },
           }
         );
 
