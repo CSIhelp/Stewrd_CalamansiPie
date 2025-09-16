@@ -31,7 +31,7 @@ function useBookmarks(token: string) {
       try {
         console.log("Fetching bookmarks from server...");
         const res = await axios.get(
-          `https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks`,
+          `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks/bookmarks`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

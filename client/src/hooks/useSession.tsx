@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-const API_BASE = "https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE = "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth";
 
 type SessionUser = {
   id: string;

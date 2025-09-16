@@ -41,7 +41,7 @@ function useUserManagement(adminCompany: string) {
 
     try {
       const res = await axios.get(
-        "https://johnbackend-ppm2l7jvf-csis-projects-620122e0.vercel.app/api/auth/userManagement",
+        "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth/userManagement",
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
