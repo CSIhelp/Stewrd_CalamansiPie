@@ -71,7 +71,6 @@ router.get("/userManagement", async (req, res) => {
   }
 });
 
-/// Login
 router.post("/login", async (req, res) => {
   try {
     const { ClientId, Password } = req.body;
@@ -91,24 +90,26 @@ router.post("/login", async (req, res) => {
     const valid = await bcrypt.compare(Password, user.Password);
     if (!valid) return res.status(401).json({ error: "Invalid password" });
 
-    // Generate custom token without requiring email
+    // Create custom token
     const customToken = await admin.auth().createCustomToken(uid, {
-      ClientId:user.ClientId,
+      ClientId: user.ClientId,
       role: user.Role,
       company: user.Company,
     });
 
     res.json({
       success: true,
-      token: customToken,
+      customToken, 
       role: user.Role,
       firstLogin: user.isFirstLogin,
+      company: user.Company
     });
   } catch (err: any) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed", details: err.message });
   }
 });
+
 
 
 // Deactivate user
@@ -143,7 +144,7 @@ router.delete("/userManagement/:clientId", async (req, res) => {
 
     res.json({ success: true, message: `User ${req.params.clientId} deleted` });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: "Failed to delete user", details: err.message });
+    res.status(500).json({ success: false, error: "Failed to delete  user", details: err.message });
   }
 });
 
@@ -167,7 +168,7 @@ router.patch("/userManagement/reactivate/:clientId", async (req, res) => {
 
 // Get user dashboard info
 router.get("/Dashboard", authMiddleware, async (req, res) => {
-  try {https://johnbackend.vercel.app/api/auth/login
+  try {
     res.json({ success: true, user: req.user });
   } catch {
     res.status(401).json({ error: "Invalid token" });

@@ -18,10 +18,15 @@ import "./LogIn.css";
 import axios from "axios";
 import DeactivatedAccountModal from "../../components/DeactivatedAccount/DeactivatedAccount";
 
+
 import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
 import { useSession } from "../../hooks/useSession";
 import { notifications } from "@mantine/notifications";
 import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
+
+import { auth } from "../../firebase.js";
+import { signInWithCustomToken } from "firebase/auth";
+
 
 function LogIn() {
   const navigate = useNavigate();
@@ -33,74 +38,75 @@ function LogIn() {
     React.useState(false);
   // Loading for cold start
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState("");
+
 
  const { refreshSession } = useSession();
-  
+ 
+ const handleLogIn = async () => {
+  setError("");
 
-  const handleLogIn = async () => {
-    setError("");
+
+  if (!clientId || !password) {
+    notifications.show({
+      title: "All fields are required",
+      message: `Add user failed`,
+      color: "red",
+      icon: <IconX size={20} />,
+    });
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      "https://johnbackend.vercel.app/api/auth/login",
+      { ClientId: clientId, Password: password }
+    );
+
+    if (res.data.success) {
+      const customToken = res.data.token;
+
+      const userCredential = await signInWithCustomToken(auth, customToken);
+      const idToken = await userCredential.user.getIdToken();
+
+      // Save tokens in localStorage 
+        localStorage.setItem("token", customToken); 
+      localStorage.setItem("firebaseIdToken", idToken);
+      localStorage.setItem("userRole", res.data.role);
     
 
-  if (!clientId || !password ) {
-      notifications.show({
-        title: "All fields are required",
-        message: `Add user failed`,
-        color: "red",
-        icon: <IconX size={20} />,
-      });
-      return;
-    }
-    
-    setLoading(true); // start loading
-    try {
-      const res = await axios.post(
-        "https://johnbackend.vercel.app/api/auth/login",
-        {
-          ClientId: clientId,
-          Password: password,
-        }
-      );
-
-      if (res.data.success) {
-
-        localStorage.setItem("userRole", res.data.role);
-        localStorage.setItem("token", res.data.token);
-        await refreshSession();
-        navigate("/dashboard");
-
-      } else {
-        // This handles 200 responses with success: false
-        if (
-          res.data.error &&
-          res.data.error.toLowerCase().includes("deactivated")
-        ) {
-          setError(
-            "Your account is deactivated. Please contact your administrator."
-          );
-          alert(
-            "Your account is deactivated. Please contact your administrator."
-          );
-        } else {
-          setError("Invalid login");
-        }
-      }
-    } catch (err: any) {
-      // If the backend returns a non-200 code, Axios throws and response is in err.response
+      await refreshSession();
+      navigate("/dashboard");
+    } else {
       if (
-        err.response &&
-        err.response.data &&
-        err.response.data.error &&
-        err.response.data.error.toLowerCase().includes("deactivated")
+        res.data.error &&
+        res.data.error.toLowerCase().includes("deactivated")
       ) {
-        setDeactivatedAccountOpened(true);
+        setError(
+          "Your account is deactivated. Please contact your administrator."
+        );
+        alert(
+          "Your account is deactivated. Please contact your administrator."
+        );
       } else {
-        setError("Login failed. Please check credentials.");
+        setError("Invalid login");
       }
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (err: any) {
+    if (
+      err.response &&
+      err.response.data &&
+      err.response.data.error &&
+      err.response.data.error.toLowerCase().includes("deactivated")
+    ) {
+      setDeactivatedAccountOpened(true);
+    } else {
+      setError("Login failed. Please check credentials.");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
