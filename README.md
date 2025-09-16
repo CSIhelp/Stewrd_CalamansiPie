@@ -11,7 +11,7 @@ John is a web platform that compiles various automation scripts and tools that p
 - **UI Framework:** Mantine UI
 - **Build Tool:** Vite
 - **Routing:** React Router v6
-- **Database:** MongoDB
+- **Database:** Firestore Database
 - **State Management:** React Context
 - **Styling:** CSS Modules
 - **Front-end Host:** Cloudflare Pages
@@ -89,11 +89,11 @@ POST /api/bookmarks
 ```
 Remove Bookmark 
 ```bash
-DELETE /api/bookmarks/bookmarks/:cardId
+DELETE /api/bookmarks/:cardId
 ```
 List Bookmarks 
 ```bash
-GET /api/bookmarks/bookmarks
+GET /api/bookmarks
 ```
 
 ## Project Structure
