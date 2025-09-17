@@ -23,7 +23,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
     const [clientId, setClientId] = useState<string>("");
       const { user, clearSession  } = useSession();
 
-    const API_BASE = "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth";
+    const API_BASE = "https://johnbackend-evuvfmcnj-csis-projects-620122e0.vercel.app/api/auth";
 
   const handleLogout = () => {
      clearSession();

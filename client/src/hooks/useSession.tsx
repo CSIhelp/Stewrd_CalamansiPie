@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-const API_BASE = "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE = "https://johnbackend-evuvfmcnj-csis-projects-620122e0.vercel.app/api/auth";
 
 type SessionUser = {
   id: string;
@@ -22,29 +22,31 @@ const SessionContext = createContext<SessionContextValue>({
 
 export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<SessionUser>(null);
+   const firebaseIdToken = localStorage.getItem("firebaseIdToken");
 
   const refreshSession = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setUser(null);
-      return;
-    }
-    try {
-      const res = await fetch(`${API_BASE}/userManagement`, {
-        headers: { Authorization: `Bearer ${token}` },
+  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+  if (!firebaseIdToken) {
+    setUser(null);
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/Dashboard`, {
+      headers: { Authorization: `Bearer ${firebaseIdToken}` },
+    });
+    const data = await res.json();
+
+    if (data.success && data.user) {
+      setUser({
+        id: data.user.ClientId,    
+        company: data.user.company,
+        role: data.user.role,
       });
-      const data = await res.json();
-      if (data.success && data.user) {
-        setUser({
-          id: data.user.id,
-          company: data.user.company,
-          role: data.user.role,
-        });
-      }
-    } catch (err) {
-      console.error("Failed to refresh session", err);
     }
-  };
+  } catch (err) {
+    console.error("Failed to refresh session", err);
+  }
+};
 
   // log out 
   const clearSession = () => {
