@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, adminOnly = false}) => {
 
-  const userRole = localStorage.getItem('userRole'); // Example: "admin" or "user"
+  const userRole = localStorage.getItem('userRole'); // "admin" or "user"
   const isAuthenticated = !!userRole;
 
   if (!isAuthenticated) {

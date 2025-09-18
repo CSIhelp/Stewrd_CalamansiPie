@@ -18,6 +18,8 @@ import './ContactUs.css'
 import Crowdsource from '../../../public/Crowdsource.png'
 import { useNavigate } from 'react-router-dom';
 import Dashboard from '../Dashboard/Dashboard';
+import { notifications } from "@mantine/notifications";
+import { IconX, IconCheck } from "@tabler/icons-react";
 
 const ContactUs = () => {
     const navigate = useNavigate(); 
@@ -51,18 +53,20 @@ const ContactUs = () => {
     const data = await response.json();
 
     // Show Ethereal preview link
-    alert(`Message sent!\nPreview URL: ${data.previewURL}`);
-    console.log("Preview URL:", data.previewURL);
-        setFormData({
-      name: '',
-      company: '',
-      email: '',
-      topic: '',
-      message: '',
-      bugDescription: '',
-      timeEncountered: '',
-      dateEncountered: '',});
+    notifications.show({
+        title: "Inquiry Sent",
+        message: "Member of our team will get in touch with you shortly ",
+        color: "green",
+        icon: <IconCheck size={20} />,
+      });
   } catch (err) {
+
+     notifications.show({
+        title: "Trouble sending Inquiry",
+        message: "Please try again ",
+        color: "rec",
+        icon: <IconX size={20} />,
+      });
     alert("Failed to send email. Check server logs.");
     console.error(err);
   }
