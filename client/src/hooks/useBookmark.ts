@@ -1,10 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-function useBookmarks(token: string) {
+const BACKEND_URL = "https://johnbackend-evuvfmcnj-csis-projects-620122e0.vercel.app";
+
+function useBookmarks() {
   const [bookmarks, setBookmarks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Load from cache immediately
   useEffect(() => {
     const cached = localStorage.getItem("bookmarks");
     if (cached && cached !== "undefined") {
@@ -12,66 +15,100 @@ function useBookmarks(token: string) {
         const parsed = JSON.parse(cached);
         setBookmarks(parsed);
         console.log("Loaded cached bookmarks:", parsed.length);
-      } catch (e) {
-        console.error("Invalid JSON in bookmarks cache:", cached);
+      } catch {
         localStorage.removeItem("bookmarks");
       }
     }
   }, []);
 
+  // Function to fetch fresh data from server
+  const fetchBookmarks = useCallback(async () => {
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    if (!firebaseIdToken) return;
 
-  useEffect(() => {
-    if (!token) {
-      console.log("No token provided to useBookmarks");
+    try {
+      console.log("Fetching bookmarks from server...");
+      const res = await axios.get(`${BACKEND_URL}/api/bookmarks`, {
+        headers: { Authorization: `Bearer ${firebaseIdToken}` },
+      });
+
+      const fresh = res.data.bookmarks || [];
+      console.log("Bookmarks received:", fresh.length);
+
+      setBookmarks(fresh);
+      localStorage.setItem("bookmarks", JSON.stringify(fresh));
+    } catch (err) {
+      console.error("Error fetching bookmarks:", err);
+    } finally {
       setLoading(false);
-      return;
     }
+  }, []);
 
-      const firebaseIdToken = localStorage.getItem("firebaseIdToken");
-
-    async function fetchBookmarks() {
-      try {
-        console.log("Fetching bookmarks from server...");
-        const res = await axios.get(
-          `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks`,
-          {
-            headers: { Authorization: `Bearer ${firebaseIdToken}` },
-          }
-        );
-
-        const fresh = res.data.bookmarks || [];
-        console.log("Bookmarks received:", fresh.length);
-
-        setBookmarks(fresh);
-        localStorage.setItem("bookmarks", JSON.stringify(fresh));
-      } catch (err) {
-        console.error("Error fetching bookmarks:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
+  // Initial + background sync
+  useEffect(() => {
     fetchBookmarks();
-  }, [token]);
+    const interval = setInterval(fetchBookmarks, 300000); 
+    return () => clearInterval(interval);
+  }, [fetchBookmarks]);
 
-  
-  const addBookmark = useCallback((bookmark: any) => {
+  // Sync across browser tabs
+  useEffect(() => {
+    const handler = (e: StorageEvent) => {
+      if (e.key === "bookmarks" && e.newValue) {
+        try {
+          setBookmarks(JSON.parse(e.newValue));
+        } catch {}
+      }
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, []);
+
+  // Add bookmark (optimistic)
+  const addBookmark = useCallback(async (bookmark: any) => {
     setBookmarks((prev) => {
       const updated = [...prev, bookmark];
       localStorage.setItem("bookmarks", JSON.stringify(updated));
       return updated;
     });
-  }, []);
 
-  const removeBookmark = useCallback((cardId: number) => {
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    if (!firebaseIdToken) return;
+
+    try {
+      await axios.post(`${BACKEND_URL}/api/bookmarks`, bookmark, {
+        headers: { Authorization: `Bearer ${firebaseIdToken}` },
+      });
+      fetchBookmarks(); 
+    } catch (err) {
+      console.error("Error adding bookmark:", err);
+      fetchBookmarks(); 
+    }
+  }, [fetchBookmarks]);
+
+  // Remove bookmark (optimistic)
+  const removeBookmark = useCallback(async (cardId: number) => {
     setBookmarks((prev) => {
       const updated = prev.filter((bm) => bm.cardId !== cardId);
       localStorage.setItem("bookmarks", JSON.stringify(updated));
       return updated;
     });
-  }, []);
 
-  return { bookmarks, setBookmarks, addBookmark, removeBookmark, loading };
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    if (!firebaseIdToken) return;
+
+    try {
+      await axios.delete(`${BACKEND_URL}/api/bookmarks/${cardId}`, {
+        headers: { Authorization: `Bearer ${firebaseIdToken}` },
+      });
+    
+    } catch (err) {
+      console.error("Error removing bookmark:", err);
+      fetchBookmarks();
+    }
+  }, [fetchBookmarks]);
+
+  return { bookmarks, addBookmark, removeBookmark, loading,  fetchBookmarks };
 }
 
 export default useBookmarks;
