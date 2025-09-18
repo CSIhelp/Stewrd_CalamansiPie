@@ -21,10 +21,18 @@ const Header: FC<HeaderProps> = ({ title }) => {
     const userRole = localStorage.getItem("userRole");
     const [adminCompany, setAdminCompany] = useState<string>("");
     const [clientId, setClientId] = useState<string>("");
-      const { user, clearSession  } = useSession();
+      const { user, clearSession, refreshSession } = useSession();
 
     const API_BASE = "https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth";
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      await refreshSession();  
+      
+    };
+    fetchUser();
+  }, []);
+  
   const handleLogout = () => {
      clearSession();
    localStorage.clear();
