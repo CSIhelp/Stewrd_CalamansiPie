@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-const BACKEND_URL = "https://johnbackend-evuvfmcnj-csis-projects-620122e0.vercel.app";
+const BACKEND_URL = "https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app";
 
 function useBookmarks() {
   const [bookmarks, setBookmarks] = useState<any[]>([]);

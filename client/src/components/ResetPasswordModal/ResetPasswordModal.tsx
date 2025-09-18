@@ -93,7 +93,7 @@ export default function ResetPasswordModal({
       const idToken = localStorage.getItem("firebaseIdToken");
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://johnbackend-evuvfmcnj-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
+        `https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "PATCH",
           headers: {

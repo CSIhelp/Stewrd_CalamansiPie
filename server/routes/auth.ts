@@ -258,4 +258,41 @@ router.get("/Dashboard", authMiddleware, async (req, res) => {
   }
 });
 
+// Change password on first login
+router.patch("/firstLogin", authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    // Get clientId from decoded token
+    const decodedUser = req.user as any;
+    const clientId = decodedUser.ClientId;
+    const uid = `client_${clientId}`;
+
+    // Get user document
+    const userRef = db.collection("users").doc(uid);
+    const userDoc = await userRef.get();
+    if (!userDoc.exists) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    const userData = userDoc.data() as any;
+
+    // Check old password
+    const valid = await bcrypt.compare(oldPassword, userData.Password);
+    if (!valid) {
+      return res.status(401).json({ success: false, error: "Invalid current password" });
+    }
+
+    // Hash new password and update
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await userRef.update({ Password: hashedPassword, isFirstLogin: false });
+
+    res.json({ success: true, message: "Password updated successfully" });
+  } catch (err: any) {
+    console.error(err);
+    res.status(500).json({ success: false, error: "Server error", details: err.message });
+  }
+});
+
+
 export default router;

@@ -43,7 +43,7 @@ function useUserManagement(adminCompany: string) {
 
     try {
       const res = await axios.get(
-        "https://johnbackend-o1j1bs06f-csis-projects-620122e0.vercel.app/api/auth/userManagement",
+        "https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth/userManagement",
         { headers: { Authorization: `Bearer ${firebaseIdToken}`} ,
          params: { company: adminCompany } 
       

@@ -20,7 +20,7 @@ export default function DeleteUserModal({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
+        `https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "DELETE",
           headers: {

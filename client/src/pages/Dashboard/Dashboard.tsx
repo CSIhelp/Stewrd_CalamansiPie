@@ -9,6 +9,7 @@ import "./Dashboard.css";
 import Header from "../../components/Header/Header";
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
+import AdminPassword from "../../components/AdminPassword/AdminPassword";
 
 type Bookmark = {
   _id?: string;
@@ -23,10 +24,16 @@ type Bookmark = {
 
 function Dashboard() {
   const [error, setError] = useState<string | null>(null);
+  const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
 
+  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
   const token = localStorage.getItem("token") || "";
   const { bookmarks, removeBookmark, loading, fetchBookmarks } = useBookmarks();
 
+  useEffect(() => {
+    const firstLogin = localStorage.getItem("firstLogin") === "true";
+    if (firstLogin) setShowFirstLoginModal(true);
+  }, []);
 
   const handleRemove = async (id: number) => {
     await removeBookmark(id);
@@ -37,6 +44,16 @@ function Dashboard() {
   return (
     <>
       <div>
+
+        <AdminPassword
+        opened={showFirstLoginModal}
+        onClose={() => {
+          setShowFirstLoginModal(false);
+          localStorage.removeItem("firstLogin"); 
+        }}
+        clientId={localStorage.getItem("clientId") || ""}
+        firebaseIdToken={localStorage.getItem("firebaseIdToken") || ""}
+      />
         <Header title="Dashboard" />
         <div className="DashboardContainer">
           <SideNavBar />

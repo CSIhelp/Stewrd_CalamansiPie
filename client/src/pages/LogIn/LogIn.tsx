@@ -18,7 +18,6 @@ import "./LogIn.css";
 import axios from "axios";
 import DeactivatedAccountModal from "../../components/DeactivatedAccount/DeactivatedAccount";
 
-
 import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
 import { useSession } from "../../hooks/useSession";
 import { notifications } from "@mantine/notifications";
@@ -26,7 +25,6 @@ import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
 
 import { auth } from "../../firebase.js";
 import { signInWithCustomToken } from "firebase/auth";
-
 
 function LogIn() {
   const navigate = useNavigate();
@@ -36,77 +34,80 @@ function LogIn() {
   const [forgotOpened, setForgotOpened] = React.useState(false);
   const [deactivatedAccount, setDeactivatedAccountOpened] =
     React.useState(false);
+
   // Loading for cold start
   const [loading, setLoading] = useState(false);
 
+  const { refreshSession } = useSession();
 
- const { refreshSession } = useSession();
- 
- const handleLogIn = async () => {
-  setError("");
+  const handleLogIn = async () => {
+    setError("");
 
+    if (!clientId || !password) {
+      notifications.show({
+        title: "All fields are required",
+        message: `Add user failed`,
+        color: "red",
+        icon: <IconX size={20} />,
+      });
+      return;
+    }
 
-  if (!clientId || !password) {
-    notifications.show({
-      title: "All fields are required",
-      message: `Add user failed`,
-      color: "red",
-      icon: <IconX size={20} />,
-    });
-    return;
-  }
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        "https://johnbackend.vercel.app/api/auth/login",
+        { ClientId: clientId, Password: password }
+      );
 
-  setLoading(true);
-  try {
-    const res = await axios.post(
-      "https://johnbackend.vercel.app/api/auth/login",
-      { ClientId: clientId, Password: password }
-    );
+      if (res.data.success) {
+        const customToken = res.data.customToken;
+        const userCredential = await signInWithCustomToken(auth, customToken);
+        const idToken = await userCredential.user.getIdToken();
 
-    if (res.data.success) {
-      const customToken = res.data.customToken;
+        // Save tokens in localStorage
+        localStorage.setItem("token", customToken);
+        localStorage.setItem("firebaseIdToken", idToken);
+        localStorage.setItem("userRole", res.data.role);
 
-      const userCredential = await signInWithCustomToken(auth, customToken);
-      const idToken = await userCredential.user.getIdToken();
+        await refreshSession();
 
-      // Save tokens in localStorage 
-      localStorage.setItem("token", customToken); 
-      localStorage.setItem("firebaseIdToken", idToken);
-      localStorage.setItem("userRole", res.data.role);
-    
-
-      await refreshSession();
-      navigate("/dashboard");
-    } else {
-      if (
-        res.data.error &&
-        res.data.error.toLowerCase().includes("deactivated")
-      ) {
-        setError(
-          "Your account is deactivated. Please contact your administrator."
-        );
-        alert(
-          "Your account is deactivated. Please contact your administrator."
-        );
-      } else {
-        setError("Invalid login");
+        if (res.data.firstLogin && res.data.role == 'admin') {
+         
+          navigate("/dashboard");
+           localStorage.setItem("firstLogin", "true");
+        }
+         navigate("/dashboard");
+     
+        if (
+          res.data.error &&
+          res.data.error.toLowerCase().includes("deactivated")
+        ) {
+          setError(
+            "Your account is deactivated. Please contact your administrator."
+          );
+          alert(
+            "Your account is deactivated. Please contact your administrator."
+          );
+        } else {
+          setError("Invalid login");
+        }
       }
+    } catch (err: any) {
+      if (
+        err.response &&
+        err.response.data &&
+        err.response.data.error &&
+        err.response.data.error.toLowerCase().includes("deactivated")
+      ) {
+        setDeactivatedAccountOpened(true);
+      } else {
+        setError("Login failed. Please check credentials.");
+      }
+    } finally {
+      setLoading(false);
     }
-  } catch (err: any) {
-    if (
-      err.response &&
-      err.response.data &&
-      err.response.data.error &&
-      err.response.data.error.toLowerCase().includes("deactivated")
-    ) {
-      setDeactivatedAccountOpened(true);
-    } else {
-      setError("Login failed. Please check credentials.");
-    }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <>
@@ -134,8 +135,7 @@ function LogIn() {
           <LoadingOverlay
             visible={loading}
             overlayProps={{ radius: "sm", blur: 2 }}
-            loaderProps={{ color: "blue", type: "bars",   }}
-           
+            loaderProps={{ color: "blue", type: "bars" }}
           />
 
           <h1 className="LogInTxt">Log In</h1>
