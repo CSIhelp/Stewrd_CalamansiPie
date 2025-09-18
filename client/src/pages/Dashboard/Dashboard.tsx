@@ -18,13 +18,21 @@ type Bookmark = {
   buttonText?: string;
   buttonLink?: string;
   category?: string;
+  
 };
 
 function Dashboard() {
   const [error, setError] = useState<string | null>(null);
 
   const token = localStorage.getItem("token") || "";
-const { bookmarks, addBookmark, removeBookmark, loading } = useBookmarks(token);
+  const { bookmarks, removeBookmark, loading, fetchBookmarks } = useBookmarks();
+
+
+  const handleRemove = async (id: number) => {
+    await removeBookmark(id);
+    fetchBookmarks();
+  };
+
 
   return (
     <>
@@ -37,11 +45,12 @@ const { bookmarks, addBookmark, removeBookmark, loading } = useBookmarks(token);
               <Group className="DashboardTitleCard">
                 <h1>Favorites/Bookmarked</h1>
               </Group>
+ {loading && <p>Loading bookmarks...</p>}
 
               {/* Favorite Item card */}
 
               {error && <Alert color="red">{error}</Alert>}
-              {loading && <p>Loading bookmarks...</p>}
+          
               {/* Favorite Item cards */}
               {bookmarks.map((bookmark) => (
                 <NewItemCard
@@ -52,10 +61,11 @@ const { bookmarks, addBookmark, removeBookmark, loading } = useBookmarks(token);
                   buttonText={bookmark.buttonText ?? ""}
                   buttonLink={bookmark.buttonLink ?? ""}
                   category={bookmark.category ?? ""}
-                  isBookmarked={true}
-                 onToggleBookmark={() => removeBookmark(bookmark.cardId)}
+                  isBookmarked
+                  onRemove={() => handleRemove(bookmark.cardId)}
                 />
               ))}
+             
             </Card>
           </Container>
         </div>

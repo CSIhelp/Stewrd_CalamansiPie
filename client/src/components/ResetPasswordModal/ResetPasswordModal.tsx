@@ -90,16 +90,19 @@ export default function ResetPasswordModal({
     
 
     try {
+      const idToken = localStorage.getItem("firebaseIdToken");
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
+        `https://johnbackend-evuvfmcnj-csis-projects-620122e0.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            Authorization: `Bearer ${idToken}`
+            
           },
-          body: JSON.stringify({ Password: newPassword, adminPassword }),
+         body: JSON.stringify({ Password: newPassword, adminPassword }),
+
         }
       );
 

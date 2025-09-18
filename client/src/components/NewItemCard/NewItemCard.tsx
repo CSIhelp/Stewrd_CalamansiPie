@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Card, Text, Group, Button, Divider, ActionIcon } from "@mantine/core";
 import {
   IconArrowRight,
@@ -7,19 +6,22 @@ import {
   IconX,
   IconCheck,
 } from "@tabler/icons-react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { notifications } from "@mantine/notifications";
+import useBookmarks  from "../../hooks/useBookmark"; 
 import "./NewItemCard.css";
 
+
 interface NewItemCardProps {
-  cardId: string;
+  cardId: number;
   title: string;
   description: string;
   buttonText: string;
   buttonLink: string;
   category: string;
   isBookmarked?: boolean;
-  onToggleBookmark?: () => void;
+  onRemove?: () => void; 
+  
 }
 
 const NewItemCard: FC<NewItemCardProps> = ({
@@ -29,130 +31,74 @@ const NewItemCard: FC<NewItemCardProps> = ({
   buttonText,
   buttonLink,
   category,
-  isBookmarked = false,
-  onToggleBookmark,
+
 }) => {
-  const [bookmarked, setBookmarked] = useState(isBookmarked);
+  const { bookmarks, addBookmark, removeBookmark,fetchBookmarks,loading } = useBookmarks();
 
-  useEffect(() => {
-    setBookmarked(isBookmarked);
-  }, [isBookmarked]);
+  const isBookmarked = bookmarks.some((bm) => bm.cardId === cardId);
 
-  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
-  // Add bookmark
   const handleBookmark = async () => {
-    const jwtToken = localStorage.getItem("token");
-
-    if (!jwtToken) {
-      notifications.show({
-        title: "Not logged in",
-        message: "Please log in to use bookmarks.",
-        color: "red",
-        icon: <IconX size={20} />,
-      });
-      return;
-    }
-
     try {
-      const response = await fetch(
-        "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${firebaseIdToken}`,
-          },
-          body: JSON.stringify({
-            cardId,
-            title,
-            description,
-            buttonText,
-            buttonLink,
-            category,
-          }),
-        }
-      );
+      await addBookmark({
+        cardId,
+        title,
+        description,
+        buttonText,
+        buttonLink,
+        category,
+      });
+       fetchBookmarks();
 
-      const result = await response.json();
-
-      if (response.ok) {
-        notifications.show({
-          title: "Bookmark added",
-          message: `${title} has been added to favorites.`,
-          color: "teal",
-          icon: <IconCheck size={20} />,
-        });
-        setBookmarked(true);
-        onToggleBookmark?.();
-      } else if (result.error?.toLowerCase().includes("already")) {
-        notifications.show({
-          title: "Already bookmarked",
-          message: `${title} is already in your favorites.`,
-          color: "yellow",
-          icon: <IconX size={20} />,
-        });
-        setBookmarked(true);
-      } else {
-        throw new Error(result.error || "Bookmark failed");
-      }
+      notifications.show({
+        title: "Bookmark added",
+        message: `${title} has been added to favorites.`,
+        color: "teal",
+        icon: <IconCheck size={20} />,
+      });
     } catch (error: any) {
       notifications.show({
         title: "Error",
-        message: error.message || "Network error, try again.",
+        message: error.message || "Failed to bookmark.",
         color: "red",
         icon: <IconX size={20} />,
       });
-      setBookmarked(false);
     }
   };
 
-  // Remove bookmark
   const handleRemoveBookmark = async () => {
-    const jwtToken = localStorage.getItem("token");
-    if (!jwtToken) {
-      alert("Please log in first.");
-      return;
-    }
+
+ 
     try {
-      const response = await fetch(
-        `https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app/api/bookmarks/${cardId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${firebaseIdToken}`,
-          },
-        }
-      );
-      const result = await response.json();
-      if (response.ok) {
-        notifications.show({
-          title: "Bookmark Removed",
-          message: `${title} was removed in your favorites.`,
-          color: "red",
-          icon: <IconCheck size={20} />,
-        });
-        setBookmarked(false);
-        if (onToggleBookmark) onToggleBookmark();
-      } else {
-        alert(result.error || "Remove failed");
-        notifications.show({
-          title: "Bookmark Removed Failed",
-          message: `${result.error}`,
-          color: "red",
-          icon: <IconCheck size={20} />,
-        });
-      }
-    } catch (error) {
-      alert("Network error, try again.");
+      await removeBookmark(cardId);
+    fetchBookmarks();
+      notifications.show({
+        title: "Bookmark removed",
+        message: `${title} was removed from favorites.`,
+        color: "red",
+        icon: <IconCheck size={20} />,
+      });
+    } catch (error: any) {
+      notifications.show({
+        title: "Error",
+        message: error.message || "Failed to remove bookmark.",
+        color: "red",
+        icon: <IconX size={20} />,
+      });
     }
   };
 
-  // Toggle handler
+
+
+
   const handleToggleBookmark = () => {
-    if (bookmarked) {
+    if (isBookmarked) {
       handleRemoveBookmark();
+         fetchBookmarks();
+
     } else {
       handleBookmark();
+         fetchBookmarks();
+
     }
   };
 
@@ -167,7 +113,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
           color="blue"
           onClick={handleToggleBookmark}
         >
-          {bookmarked ? (
+          {isBookmarked ? (
             <IconBookmarkFilled size={16} />
           ) : (
             <IconBookmark size={16} />

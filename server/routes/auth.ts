@@ -3,9 +3,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import admin from "../firebase.js"; 
+import admin from "../firebase.js";
 import { readFileSync } from "fs";
 
+import { QuerySnapshot, DocumentData } from "firebase-admin/firestore";
 
 dotenv.config();
 
@@ -13,7 +14,11 @@ const db = admin.firestore();
 const router = express.Router();
 
 // Middleware
-const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: "No token provided" });
 
@@ -37,26 +42,33 @@ router.post("/userManagement", async (req, res) => {
     // Check if user already exists
     const userDoc = await db.collection("users").doc(uid).get();
     if (userDoc.exists) {
-      return res.status(400).json({ success: false, message: "User already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists" });
     }
 
     // Password hashing
     const hashedPassword = await bcrypt.hash(Password, 10);
 
     // Store user details in Firestore
-    await db.collection("users").doc(uid).set({
-      ClientId,
-      Company,
-      Password: hashedPassword,
-      Role: Role || "user",
-      Active: true,
-      isFirstLogin: true,
-    });
+    await db
+      .collection("users")
+      .doc(uid)
+      .set({
+        ClientId,
+        Company,
+        Password: hashedPassword,
+        Role: Role || "user",
+        Active: true,
+        isFirstLogin: true,
+      });
 
     res.json({ success: true, message: "User registered" });
   } catch (err: any) {
     console.error("User registration error:", err);
-    res.status(500).json({ error: "User registration failed", details: err.message });
+    res
+      .status(500)
+      .json({ error: "User registration failed", details: err.message });
   }
 });
 
@@ -64,7 +76,7 @@ router.post("/userManagement", async (req, res) => {
 router.get("/userManagement", async (req, res) => {
   try {
     const snapshot = await db.collection("users").get();
-    const users = snapshot.docs.map(doc => doc.data());
+    const users = snapshot.docs.map((doc) => doc.data());
     res.json({ success: true, users });
   } catch (err) {
     res.status(500).json({ success: false, error: "Server error" });
@@ -84,7 +96,9 @@ router.post("/login", async (req, res) => {
     const user = userDoc.data() as any;
 
     if (!user.Active) {
-      return res.status(403).json({ success: false, error: "Account is deactivated" });
+      return res
+        .status(403)
+        .json({ success: false, error: "Account is deactivated" });
     }
 
     const valid = await bcrypt.compare(Password, user.Password);
@@ -99,18 +113,16 @@ router.post("/login", async (req, res) => {
 
     res.json({
       success: true,
-      customToken, 
+      customToken,
       role: user.Role,
       firstLogin: user.isFirstLogin,
-      company: user.Company
+      company: user.Company,
     });
   } catch (err: any) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed", details: err.message });
   }
 });
-
-
 
 // Deactivate user
 router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
@@ -120,13 +132,22 @@ router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
     const userDoc = await userRef.get();
 
     if (!userDoc.exists)
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
 
     await userRef.update({ Active: false });
 
-    res.json({ success: true, message: `User ${req.params.clientId} deactivated` });
+    res.json({
+      success: true,
+      message: `User ${req.params.clientId} deactivated`,
+    });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: "Failed to deactivate user", details: err.message });
+    res.status(500).json({
+      success: false,
+      error: "Failed to deactivate user",
+      details: err.message,
+    });
   }
 });
 
@@ -138,13 +159,19 @@ router.delete("/userManagement/:clientId", async (req, res) => {
     const userDoc = await userRef.get();
 
     if (!userDoc.exists)
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
 
     await userRef.delete();
 
     res.json({ success: true, message: `User ${req.params.clientId} deleted` });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: "Failed to delete  user", details: err.message });
+    res.status(500).json({
+      success: false,
+      error: "Failed to delete  user",
+      details: err.message,
+    });
   }
 });
 
@@ -156,15 +183,71 @@ router.patch("/userManagement/reactivate/:clientId", async (req, res) => {
     const userDoc = await userRef.get();
 
     if (!userDoc.exists)
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
 
     await userRef.update({ Active: true });
 
-    res.json({ success: true, message: `User ${req.params.clientId} reactivated` });
+    res.json({
+      success: true,
+      message: `User ${req.params.clientId} reactivated`,
+    });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: "Failed to reactivate user", details: err.message });
+    res.status(500).json({
+      success: false,
+      error: "Failed to reactivate user",
+      details: err.message,
+    });
   }
 });
+
+router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
+  try {
+    const { clientId } = req.params;
+    const { Password, adminPassword } = req.body;
+    const uid = `client_${clientId}`;
+
+    // Logged-in user (from token)
+    const decodedUser = req.user as any;
+    const loggedInUid = `client_${decodedUser.ClientId}`;
+    const adminRef = db.collection("users").doc(loggedInUid);
+
+    const adminDoc = await adminRef.get();
+    if (!adminDoc.exists) {
+      return res.status(403).json({ success: false, error: "Admin not found" });
+    }
+
+    const adminData = adminDoc.data() as any;
+    if (adminData.Role !== "admin") {
+      return res.status(403).json({ success: false, error: "Not authorized" });
+    }
+
+    // Verify admin password
+    const validAdmin = await bcrypt.compare(adminPassword, adminData.Password);
+    if (!validAdmin) {
+      return res.status(403).json({ success: false, error: "Invalid admin password" });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(Password, 10);
+
+    const userRef = db.collection("users").doc(uid);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ success: false, error: "Target user not found" });
+    }
+
+    // Update password
+    await userRef.update({ Password: hashedPassword, isFirstLogin: true });
+
+    res.json({ success: true, message: `Password for ${clientId} updated` });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: "Server error", details: err.message });
+  }
+});
+
 
 // Get user dashboard info
 router.get("/Dashboard", authMiddleware, async (req, res) => {

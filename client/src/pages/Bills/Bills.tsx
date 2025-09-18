@@ -1,74 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "../../components/Header/Header";
-import { Card, Group, Container } from "@mantine/core";
+import { Card, Group, Container, Loader, Alert } from "@mantine/core";
 import "./Bills.css";
 
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
 import NewItemCard from "../../components/NewItemCard/NewItemCard";
-import { NewCardsData }  from "../../data/AutomationCardData";
+import { NewCardsData } from "../../data/AutomationCardData";
 
 
-type Bookmark = {
-  cardId: number;
-};
+import useBookmarks from "../../hooks/useBookmark";
 
 function Bills() {
-const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
-  
-  const BACKEND_URL = "https://johnbackend-odmuotqj7-csis-projects-620122e0.vercel.app";
+  const { bookmarks, addBookmark, removeBookmark, loading } = useBookmarks();
+  const [error, setError] = React.useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchBookmarks = async () => {
-      try {
-        const jwtToken = localStorage.getItem('token');
-        
-        if (!jwtToken) {
-          console.log(" No token found in localStorage");
-          setError("No authentication token found");
-          setLoading(false);
-          return;
-        }
 
-        console.log("Fetching bookmarks for PettyCash page...");
-        
-        const response = await fetch(`${BACKEND_URL}/api/bookmarks/bookmarks`, {
-          headers: {
-            'Authorization': `Bearer ${jwtToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log("Bookmarks fetched:", data.bookmarks?.length || 0);
-        
-        setBookmarks(data.bookmarks || []);
-        setError(null);
-      } catch (err) {
-        console.error(" Error fetching bookmarks:", err);
-        setError("Failed to load bookmarks");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBookmarks();
-  }, []);
-
-  // Filter cards for Bills category
-  const billsCards = NewCardsData.filter(card => card.category === 'Bills');
+  const billsCards = NewCardsData.filter((card) => card.category === "Bills");
 
   const isBookmarked = (cardId: number): boolean =>
-    bookmarks.some(bm => bm.cardId === cardId);
+    bookmarks.some((bm) => bm.cardId === cardId);
 
-  return(
+  return (
     <>
-      <Header title="Bills"/>
+      <Header title="Bills" />
       <div className="BillsContainer">
         <SideNavBar />
         <Container className="BillsCardContainer">
@@ -76,7 +30,10 @@ const [loading, setLoading] = useState(true);
             <Group className="BillsTitleCard">
               <h1>New</h1>
             </Group>
-            {billsCards.map(card => (
+
+            {error && <Alert color="red">{error}</Alert>}
+
+            {billsCards.map((card) => (
               <NewItemCard
                 key={card.id}
                 cardId={card.id}
@@ -85,13 +42,14 @@ const [loading, setLoading] = useState(true);
                 buttonText={card.buttonText}
                 buttonLink={card.buttonLink}
                 category={card.category}
-                isBookmarked={isBookmarked(card.id)} 
+     
               />
             ))}
           </Card>
-        </Container> 
-      </div>  
+        </Container>
+      </div>
     </>
   );
 }
+
 export default Bills;
