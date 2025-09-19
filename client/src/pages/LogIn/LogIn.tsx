@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Fieldset,
   PasswordInput,
@@ -34,6 +34,22 @@ function LogIn() {
   const [forgotOpened, setForgotOpened] = React.useState(false);
   const [deactivatedAccount, setDeactivatedAccountOpened] =
     React.useState(false);
+
+
+
+  useEffect(() => {
+    // Sign out and delete all local sotrage data when in log in 
+    localStorage.removeItem("token");
+    localStorage.removeItem("firebaseIdToken");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("sessionId");
+    localStorage.removeItem("firstLogin");
+
+
+     auth.signOut();
+
+  }, []);
+
 
   // Loading for cold start
   const [loading, setLoading] = useState(false);
