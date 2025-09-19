@@ -33,6 +33,7 @@ function Dashboard() {
   useEffect(() => {
     const firstLogin = localStorage.getItem("firstLogin") === "true";
     if (firstLogin) setShowFirstLoginModal(true);
+ 
   }, []);
 
   const handleRemove = async (id: number) => {

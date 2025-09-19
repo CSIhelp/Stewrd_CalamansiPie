@@ -56,7 +56,7 @@ function LogIn() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://johnbackend.vercel.app/api/auth/login",
+        "https://johnbackend-b2mm634az-csis-projects-620122e0.vercel.app/api/auth/login",
         { ClientId: clientId, Password: password }
       );
 
@@ -64,21 +64,24 @@ function LogIn() {
         const customToken = res.data.customToken;
         const userCredential = await signInWithCustomToken(auth, customToken);
         const idToken = await userCredential.user.getIdToken();
+        const sessionId = res.data.sessionId;
 
         // Save tokens in localStorage
         localStorage.setItem("token", customToken);
         localStorage.setItem("firebaseIdToken", idToken);
         localStorage.setItem("userRole", res.data.role);
+        localStorage.setItem("sessionId", sessionId);
 
         await refreshSession();
 
-        if (res.data.firstLogin && res.data.role == 'admin') {
-         
+        if (res.data.firstLogin && res.data.role == "admin") {
+          refreshSession();
           navigate("/dashboard");
-           localStorage.setItem("firstLogin", "true");
+          localStorage.setItem("firstLogin", "true");
         }
-         navigate("/dashboard");
-     
+        refreshSession();
+        navigate("/dashboard");
+
         if (
           res.data.error &&
           res.data.error.toLowerCase().includes("deactivated")
@@ -86,29 +89,52 @@ function LogIn() {
           setError(
             "Your account is deactivated. Please contact your administrator."
           );
-          alert(
-            "Your account is deactivated. Please contact your administrator."
-          );
+          notifications.show({
+            title: "Deactivated",
+            message: "Please Contact your administrator ",
+            color: "red",
+            icon: <IconX size={20} />,
+          });
         } else {
           setError("Invalid login");
         }
       }
     } catch (err: any) {
-      if (
-        err.response &&
-        err.response.data &&
-        err.response.data.error &&
-        err.response.data.error.toLowerCase().includes("deactivated")
-      ) {
-        setDeactivatedAccountOpened(true);
+      if (err.response && err.response.data && err.response.data.error) {
+        const errorMsg = err.response.data.error.toLowerCase();
+
+        if (errorMsg.includes("deactivated")) {
+          setDeactivatedAccountOpened(true);
+        } else if (errorMsg.includes("already logged in")) {
+          notifications.show({
+            title: "Already Logged In",
+            message:
+              "Your account is active on another device. Please log out there first.",
+            color: "red",
+            icon: <IconX size={20} />,
+          });
+        } else {
+          notifications.show({
+            title: "Log In Failed",
+            message: "Please enter correct Client ID and Password",
+            color: "red",
+            icon: <IconX size={20} />,
+          });
+        }
       } else {
-        setError("Login failed. Please check credentials.");
+        notifications.show({
+          title: "Log In Failed",
+          message: "Something went wrong. Please try again.",
+          color: "red",
+          icon: <IconX size={20} />,
+        });
       }
     } finally {
+      setClientId('')
+      setPassword('')
       setLoading(false);
     }
   };
-
   return (
     <>
       <header className="Header HeaderPhone">

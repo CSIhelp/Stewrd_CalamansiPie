@@ -21,24 +21,44 @@ const Header: FC<HeaderProps> = ({ title }) => {
     const userRole = localStorage.getItem("userRole");
     const [adminCompany, setAdminCompany] = useState<string>("");
     const [clientId, setClientId] = useState<string>("");
-      const { user, clearSession, refreshSession } = useSession();
-
-    const API_BASE = "https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth";
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      await refreshSession();  
+    const { user, clearSession, refreshSession } = useSession();
       
-    };
-    fetchUser();
-  }, []);
-  
-  const handleLogout = () => {
-     clearSession();
-   localStorage.clear();
-    navigate ('/')   
-    console.log('User logged out');
+
+
+    const API_BASE = "https://johnbackend-b2mm634az-csis-projects-620122e0.vercel.app/api/auth";
+
+const [loadingUser, setLoadingUser] = useState(true);
+
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      await refreshSession();
+    } finally {
+      setLoadingUser(false);
+    }
   };
+  fetchUser();
+}, [refreshSession]);
+
+
+  
+const handleLogout = async () => {
+  try {
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    if (firebaseIdToken) {
+      await fetch(`${API_BASE}/logout`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${firebaseIdToken}` },
+      });
+    }
+  } catch (err) {
+    console.error("Logout failed", err);
+  } finally {
+    clearSession();       
+    localStorage.clear();    
+    navigate("/");           
+  }
+};
    const handleOpenUserManage = () => {
     
     navigate ('/userManagement')
@@ -61,8 +81,8 @@ const Header: FC<HeaderProps> = ({ title }) => {
     
           <UserMenu
             image={averyLogo}
-            company={user?.company || ""}
-            clientId={user?.id || ""}
+            company={user?.company || "loading.."}
+            clientId={user?.id || "loading.."}
          icon={<IconChevronDown size={16} />}
           />
         </Menu.Target>

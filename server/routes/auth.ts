@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import admin from "../firebase.js";
 import { readFileSync } from "fs";
+import { v4 as uuidv4 } from "uuid";
 
 import { QuerySnapshot, DocumentData } from "firebase-admin/firestore";
 
@@ -83,11 +84,14 @@ router.get("/userManagement", async (req, res) => {
   }
 });
 
+// Log in 
 router.post("/login", async (req, res) => {
   try {
     const { ClientId, Password } = req.body;
     const uid = `client_${ClientId}`;
-    const userDoc = await db.collection("users").doc(uid).get();
+    const userRef = db.collection("users").doc(uid);
+    const userDoc = await userRef.get();
+    
 
     if (!userDoc.exists) {
       return res.status(401).json({ error: "Invalid ClientId" });
@@ -104,11 +108,25 @@ router.post("/login", async (req, res) => {
     const valid = await bcrypt.compare(Password, user.Password);
     if (!valid) return res.status(401).json({ error: "Invalid password" });
 
+    if (user.isOnline) {
+      return res
+      .status(403)
+      .json({success:false, error: " User already logged in on another device"})
+    }
+
+    const sessionId = uuidv4();
+
+    await userRef.update({
+      isOnline: true,
+      currentSessionId: sessionId
+    })
+
     // Create custom token
     const customToken = await admin.auth().createCustomToken(uid, {
       ClientId: user.ClientId,
       role: user.Role,
       company: user.Company,
+      sessionId
     });
 
     res.json({
@@ -117,12 +135,35 @@ router.post("/login", async (req, res) => {
       role: user.Role,
       firstLogin: user.isFirstLogin,
       company: user.Company,
+      sessionId
     });
   } catch (err: any) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed", details: err.message });
   }
+
 });
+
+// Log Out 
+router.post("/logout", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: "No token" });
+
+    const token = authHeader.split(" ")[1];
+    const decoded = await admin.auth().verifyIdToken(token);
+    const uid = `client_${decoded.ClientId}`;
+
+
+    await db.collection("users").doc(uid).update({ isOnline: false });
+
+    res.json({ success: true, message: "Logged out successfully" });
+  } catch (err) {
+    console.error("Logout error:", err);
+    res.status(500).json({ success: false, error: err });
+  }
+});
+
 
 // Deactivate user
 router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
@@ -202,6 +243,7 @@ router.patch("/userManagement/reactivate/:clientId", async (req, res) => {
   }
 });
 
+//Reset password
 router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
   try {
     const { clientId } = req.params;
