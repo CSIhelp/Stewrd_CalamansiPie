@@ -6,12 +6,14 @@ interface User {
   Role: "user" | "admin";
   Active: boolean;
   Company: string;
+   isOnline:boolean;
 }
 
 interface DisplayUser {
   clientId: string;
   role: "user" | "admin";
   isActive: boolean;
+  isOnline:boolean;
 }
 
 function useUserManagement(adminCompany: string) {
@@ -43,7 +45,7 @@ function useUserManagement(adminCompany: string) {
 
     try {
       const res = await axios.get(
-        "https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth/userManagement",
+        "https://johnbackend-b2mm634az-csis-projects-620122e0.vercel.app/api/auth/userManagement",
         { headers: { Authorization: `Bearer ${firebaseIdToken}`} ,
          params: { company: adminCompany } 
       
@@ -58,6 +60,7 @@ function useUserManagement(adminCompany: string) {
             clientId: u.ClientId,
             role: u.Role,
             isActive: u.Active,
+            isOnline:u.isOnline
           }));
 
         setUsers(filtered);

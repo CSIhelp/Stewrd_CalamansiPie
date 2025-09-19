@@ -40,12 +40,14 @@ type User = {
   Role: string;
   Company: string;
   Active: boolean;
+  isOnline: boolean;
 };
 
 type DisplayUser = {
   clientId: string;
   role: string;
   isActive: boolean;
+  isOnline: boolean;
 };
 
 const UserManagement = () => {
@@ -239,13 +241,23 @@ const UserManagement = () => {
                     <td data-label="Status">
                       {user.isActive ? (
                         <Badge color="green" variant="light">
-                          Active
+                          Activated
                         </Badge>
                       ) : (
                         <Badge color="gray" variant="light">
-                          Inactive
+                         Deactivated
                         </Badge>
                       )}
+                        {user.isOnline? (
+                        <Badge color="green" variant="light">
+                          Online
+                        </Badge>
+                      ) : (
+                        <Badge color="gray" variant="light">
+                          Offline
+                        </Badge>
+                      )}
+
                     </td>
                  
                     <td data-label="Actions">
