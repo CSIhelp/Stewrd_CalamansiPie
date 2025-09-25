@@ -27,7 +27,7 @@ app.get("/api/health", (req, res) => {
 
 // Request logger
 app.use((req, _res, next) => {
-  //console.log(`[${req.method}] ${req.url}`);
+  console.log(`[${req.method}] ${req.url}`);
   next();
 });
 
@@ -38,5 +38,5 @@ app.use("/api/contact", contactRouter);
 
 // Start server
 app.listen(PORT, () => {
-  //console.log(`✅ Backend server running on http://localhost:${PORT}`);
+  console.log(`✅ Backend server running on http://localhost:${PORT}`);
 });

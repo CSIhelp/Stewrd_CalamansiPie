@@ -102,8 +102,9 @@ function LogIn() {
           navigate("/dashboard");
           localStorage.setItem("firstLogin", "true");
         }
+        else {
         refreshSession();
-        navigate("/dashboard");
+        navigate("/dashboard"); }
 
         if (
           res.data.error &&

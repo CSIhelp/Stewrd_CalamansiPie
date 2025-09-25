@@ -148,20 +148,23 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [user]);
 
-    useEffect(() => {
-    const handleBackBtn = (event: PopStateEvent) => {
-      if (user) {
-        event.preventDefault();
-        window.history.pushState(null, document.title, window.location.href);
-          setShowBackWarning(true)
-      }
-    };
-    window.history.pushState(null, "", window.location.href);
-    window.addEventListener("popstate", handleBackBtn)
+useEffect(() => {
+  if (!user) return;
+
+  window.history.pushState(null, "", window.location.href);
+
+  const handleBackBtn = (event: PopStateEvent) => {
+    event.preventDefault();
+    setShowBackWarning(true);
+  };
+
+  window.addEventListener("popstate", handleBackBtn);
+
   return () => {
     window.removeEventListener("popstate", handleBackBtn);
   };
 }, [user]);
+
 
   return (
     <SessionContext.Provider
