@@ -25,6 +25,8 @@ import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
 
 import { auth } from "../../firebase.js";
 import { signInWithCustomToken } from "firebase/auth";
+// image 
+import CrowdSourceLogo from "/CrowdsourceLogo.png"
 
 function LogIn() {
   const navigate = useNavigate();
@@ -159,7 +161,7 @@ function LogIn() {
   return (
     <>
       <header className="Header HeaderPhone">
-        <div className="HeaderLogo HeaderLogoPhone">LOGO</div>
+        <div className="HeaderLogo HeaderLogoPhone">  <img src={CrowdSourceLogo} alt="Logo" className="LogoImage" /></div>
       </header>
       <Container className="LogInContainer">
         <Card className="LogInTitleCard">
