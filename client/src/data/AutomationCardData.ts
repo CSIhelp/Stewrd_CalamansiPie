@@ -15,7 +15,7 @@ export const NewCardsData = [
     title: "Bills Upload",
     description: "Upload your Bills to the system for processing.",
     buttonText: "View Portal",
-    buttonLink: "https://example.com/bills-upload",
+    buttonLink: "https://primary-production-a810.up.railway.app/form/a9cef0bd-ac2a-419a-820b-f4a444d43d70",
   },
 {
         id: 3,
@@ -39,7 +39,7 @@ export const NewCardsData = [
         title: "Petty Cash Upload",
         description: "Upload your payments to the system for processing.",
         buttonText: "View Portal",
-        buttonLink: "https://example.com/petty-cash-upload",
+        buttonLink: "https://primary-production-a810.up.railway.app/form/a9cef0bd-ac2a-419a-820b-f4a444d43d70",
 
     },
 
@@ -60,7 +60,7 @@ export const NewCardsData = [
         title: "Bills Documentation",
         description: "Access Documentation for Bills.",
         buttonText: "View Documentation",
-        buttonLink: "https://example.com/bills-documentation",
+        buttonLink: "https://docs.google.com/document/d/1BXYom2ENDFUlS_ArPBJavtC09Mmr0bd7SD8Mr6_13JU/edit?tab=t.0#heading=h.j11w99qd33lk",
     },
         { 
           id: 8,
@@ -84,7 +84,7 @@ export const NewCardsData = [
         title: "Petty Cash Documentation",
         description: "Access Documentation for Petty Cash.",
         buttonText: "View Documentation",
-        buttonLink: "https://example.com/petty-cash-documentation",
+        buttonLink: "https://docs.google.com/document/d/1BXYom2ENDFUlS_ArPBJavtC09Mmr0bd7SD8Mr6_13JU/edit?tab=t.0#heading=h.j11w99qd33lk",
           
 
     },
