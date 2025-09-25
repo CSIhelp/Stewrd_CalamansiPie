@@ -107,9 +107,11 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
     if (timeoutId) clearTimeout(timeoutId);
     if (warningId) clearTimeout(warningId);
      if (!user) return;
+
+
     // 1 hr idle duration
-    const warningTime =  1 * 59 * 1000; 
-    const logoutTime = 1 * 60 * 1000; 
+    const warningTime =  59 * 59 * 1000; 
+    const logoutTime = 60 * 60 * 1000; 
 
     const warnId = setTimeout(() => {
       setShowWarning(true);
@@ -117,7 +119,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
     setWarningId(warnId);
 
     const outId = setTimeout(() => {
-      console.log("User logged out due to inactivity");
+      //console.log("User logged out due to inactivity");
       clearSession();
     }, logoutTime);
     setTimeoutId(outId);
@@ -146,20 +148,23 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [user]);
 
-    useEffect(() => {
-    const handleBackBtn = (event: PopStateEvent) => {
-      if (user) {
-        event.preventDefault();
-        window.history.pushState(null, document.title, window.location.href);
-          setShowBackWarning(true)
-      }
-    };
-    window.history.pushState(null, "", window.location.href);
-    window.addEventListener("popstate", handleBackBtn)
+useEffect(() => {
+  if (!user) return;
+
+  window.history.pushState(null, "", window.location.href);
+
+  const handleBackBtn = (event: PopStateEvent) => {
+    event.preventDefault();
+    setShowBackWarning(true);
+  };
+
+  window.addEventListener("popstate", handleBackBtn);
+
   return () => {
     window.removeEventListener("popstate", handleBackBtn);
   };
 }, [user]);
+
 
   return (
     <SessionContext.Provider
