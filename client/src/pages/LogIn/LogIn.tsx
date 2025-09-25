@@ -38,14 +38,19 @@ function LogIn() {
 
 
   useEffect(() => {
-    // Sign out and delete all local sotrage data when in log in 
+  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+  if (firebaseIdToken) {
+    fetch("https://johnbackend-b2mm634az-csis-projects-620122e0.vercel.app/api/auth/logout", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${firebaseIdToken}` },
+    }).catch((err) => console.error("Logout API failed", err));
+  }
+   
     localStorage.removeItem("token");
     localStorage.removeItem("firebaseIdToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("sessionId");
     localStorage.removeItem("firstLogin");
-
-
      auth.signOut();
 
   }, []);

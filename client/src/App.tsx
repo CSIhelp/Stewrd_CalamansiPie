@@ -14,13 +14,24 @@ import Documentation from './pages/Documentation/Documentation';
 import UserManagement from './pages/UserManagement/UserManagement';
 import Unauthorized from './pages/Authentication/Authentication';
 import ContactUs from './pages/ContactUs/ContactUs';
+
+import BackLogoutModal from './components/LogoutModal/LogOut';
+import { useSession } from './hooks/useSession';
 function App() {
+    const { showBackWarning, cancelBackLogout, clearSession } = useSession();
 
 
   return (
 
        <BrowserRouter>
+       
        <Notifications position="bottom-right" className='Notification' />
+             
+                <BackLogoutModal
+               opened={showBackWarning}
+               onStay={cancelBackLogout}
+               onLogout={clearSession}
+             />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LogIn />} />

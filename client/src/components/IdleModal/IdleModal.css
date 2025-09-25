@@ -1,0 +1,10 @@
+.IdleActionGroup {
+    width: 100% !important;
+    display: flex;
+}
+.StayBtn{
+    width: 45% !important;
+}
+.OutBtn{
+width: 45% !important;
+}
