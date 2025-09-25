@@ -23,7 +23,7 @@
   font-weight: 600;
   text-align: center;
   align-self: center;
-  margin-left: 15vw;
+
 
 }
 .mantine-Menu-dropdown {
@@ -32,6 +32,11 @@
 }
 .HeaderLogout {
   width: 15vw !important;
+}
+.LogoImage {
+  height: 40px;
+  object-fit: contain;
+  width: 15vw;
 }
 
 
@@ -42,5 +47,7 @@
   .HeaderLogout {
     width: 40vw !important;
   }
-
+ .HeaderTitle {
+  margin-left:  15vw;
+ }
 }

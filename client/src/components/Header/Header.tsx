@@ -7,9 +7,13 @@ import UserMenu from '../UserMenu/UserMenu';
 import './Header.modules.css';
 import { useNavigate } from 'react-router-dom';
 import '@mantine/core/styles.css';
-import averyLogo from "/averyLogo.jpg"
-
 import { useSession } from '../../hooks/useSession';
+
+//images
+import CrowdSourceLogo from "/CrowdsourceLogo.png"
+import CrowdSourceIcon from "/CrowdsourceIcon.png"
+
+
 
 interface HeaderProps {
   title: string; 
@@ -71,7 +75,9 @@ const handleLogout = async () => {
   return (
     <header className="Header">
    
-      <div className="HeaderLogo">LOGO</div>
+      <div className="HeaderLogo">
+        <img src={CrowdSourceLogo} alt="Logo" className="LogoImage" />
+      </div>
 
  
       <h1 className="HeaderTitle">{title}</h1>
@@ -80,7 +86,7 @@ const handleLogout = async () => {
         <Menu.Target>
     
           <UserMenu
-            image={averyLogo}
+            image={ CrowdSourceIcon  }
             company={user?.company || "loading.."}
             clientId={user?.id || "loading.."}
          icon={<IconChevronDown size={16} />}

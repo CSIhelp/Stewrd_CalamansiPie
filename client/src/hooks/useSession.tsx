@@ -107,9 +107,11 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
     if (timeoutId) clearTimeout(timeoutId);
     if (warningId) clearTimeout(warningId);
      if (!user) return;
+
+
     // 1 hr idle duration
-    const warningTime =  1 * 59 * 1000; 
-    const logoutTime = 1 * 60 * 1000; 
+    const warningTime =  59 * 59 * 1000; 
+    const logoutTime = 60 * 60 * 1000; 
 
     const warnId = setTimeout(() => {
       setShowWarning(true);
