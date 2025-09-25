@@ -150,7 +150,6 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
 useEffect(() => {
   if (!user) return;
 
-  window.history.pushState({ dummy: true }, "", window.location.href);
 
   const handleBackBtn = (event: PopStateEvent) => {
     event.preventDefault();
