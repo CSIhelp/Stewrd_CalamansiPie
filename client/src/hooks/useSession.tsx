@@ -99,7 +99,6 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
     const cancelBackLogout = () => {
     setShowBackWarning(false);
     
-    window.history.pushState(null, "", window.location.href);
   };
 
 
@@ -151,7 +150,6 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
 useEffect(() => {
   if (!user) return;
 
-  window.history.pushState(null, "", window.location.href);
 
   const handleBackBtn = (event: PopStateEvent) => {
     event.preventDefault();
