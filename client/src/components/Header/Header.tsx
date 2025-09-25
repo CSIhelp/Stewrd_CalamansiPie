@@ -14,7 +14,6 @@ import CrowdSourceLogo from "/CrowdsourceLogo.png"
 import CrowdSourceIcon from "/CrowdsourceIcon.png"
 
 
-
 interface HeaderProps {
   title: string; 
 }
