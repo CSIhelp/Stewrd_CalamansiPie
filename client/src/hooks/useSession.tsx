@@ -119,7 +119,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
     setWarningId(warnId);
 
     const outId = setTimeout(() => {
-      console.log("User logged out due to inactivity");
+      //console.log("User logged out due to inactivity");
       clearSession();
     }, logoutTime);
     setTimeoutId(outId);

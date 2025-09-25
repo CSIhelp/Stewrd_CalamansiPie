@@ -37,7 +37,7 @@ export default function DeactivateAccountModal({
 
       const result = await response.json();
       if (response.ok && result.success) {
-        console.log("User deactivated:", result);
+        //console.log("User deactivated:", result);
         if (onDeactivated) onDeactivated();
         notifications.show({
           title: "Account Deactivated",

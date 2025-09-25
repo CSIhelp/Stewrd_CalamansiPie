@@ -55,7 +55,7 @@ const handleLogout = async () => {
       });
     }
   } catch (err) {
-    console.error("Logout failed", err);
+    // console.error("Logout failed", err);
   } finally {
     clearSession();       
     localStorage.clear();    

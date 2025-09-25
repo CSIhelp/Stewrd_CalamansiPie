@@ -132,7 +132,7 @@ export default function FirstLoginModal({
         });
       }
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       notifications.show({
         title: "Network error",
         message: "Could not update password",

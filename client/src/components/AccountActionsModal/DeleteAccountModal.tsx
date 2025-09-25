@@ -31,7 +31,7 @@ export default function DeleteUserModal({
 
       const result = await response.json();
       if (response.ok) {
-        console.log("User deleted:", result);
+        //console.log("User deleted:", result);
         if (onDeleted) onDeleted();
         notifications.show({
           title: "Account Deleted",

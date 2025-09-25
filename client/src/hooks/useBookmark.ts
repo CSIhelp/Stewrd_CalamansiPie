@@ -14,7 +14,7 @@ function useBookmarks() {
       try {
         const parsed = JSON.parse(cached);
         setBookmarks(parsed);
-        console.log("Loaded cached bookmarks:", parsed.length);
+        // //console.log("Loaded cached bookmarks:", parsed.length);
       } catch {
         localStorage.removeItem("bookmarks");
       }
@@ -27,13 +27,13 @@ function useBookmarks() {
     if (!firebaseIdToken) return;
 
     try {
-      console.log("Fetching bookmarks from server...");
+      //console.log("Fetching bookmarks from server...");
       const res = await axios.get(`${BACKEND_URL}/api/bookmarks`, {
         headers: { Authorization: `Bearer ${firebaseIdToken}` },
       });
 
       const fresh = res.data.bookmarks || [];
-      console.log("Bookmarks received:", fresh.length);
+      //console.log("Bookmarks received:", fresh.length);
 
       setBookmarks(fresh);
       localStorage.setItem("bookmarks", JSON.stringify(fresh));
