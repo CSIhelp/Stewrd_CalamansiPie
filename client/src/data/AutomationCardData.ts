@@ -60,7 +60,7 @@ export const NewCardsData = [
         title: "Bills Documentation",
         description: "Access Documentation for Bills.",
         buttonText: "View Documentation",
-        buttonLink: "https://docs.google.com/document/d/1BXYom2ENDFUlS_ArPBJavtC09Mmr0bd7SD8Mr6_13JU/edit?tab=t.0#heading=h.j11w99qd33lk",
+        buttonLink: "https://drive.google.com/drive/u/1/folders/1-UIvGbROEtHh4ccu6VYKaAuyjZeSalcV",
     },
         { 
           id: 8,
@@ -84,7 +84,7 @@ export const NewCardsData = [
         title: "Petty Cash Documentation",
         description: "Access Documentation for Petty Cash.",
         buttonText: "View Documentation",
-        buttonLink: "https://docs.google.com/document/d/1BXYom2ENDFUlS_ArPBJavtC09Mmr0bd7SD8Mr6_13JU/edit?tab=t.0#heading=h.j11w99qd33lk",
+        buttonLink: "https://drive.google.com/drive/u/1/folders/1-UIvGbROEtHh4ccu6VYKaAuyjZeSalcV",
           
 
     },
