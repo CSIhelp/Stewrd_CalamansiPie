@@ -88,6 +88,18 @@ function LogIn() {
         const userCredential = await signInWithCustomToken(auth, customToken);
         const idToken = await userCredential.user.getIdToken();
         const sessionId = res.data.sessionId;
+        const allowedCompany = "Crowdsource"; 
+
+        if (!clientId.startsWith("CIS")) {
+        notifications.show({
+          title: "Unauthorized Company",
+          message: "Only Crowdsource employees can log in",
+          color: "red",
+          icon: <IconX size={20} />,
+        });
+        setLoading(false);
+        return;
+      }
 
         // Save tokens in localStorage
         localStorage.setItem("token", customToken);
