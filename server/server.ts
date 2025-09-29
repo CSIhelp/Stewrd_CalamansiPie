@@ -16,7 +16,15 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(express.text({ type: "*/*" }));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://preview-production.john-crowdsource-cis.pages.dev/"], 
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 console.log("✅ Backend server starting...");
 

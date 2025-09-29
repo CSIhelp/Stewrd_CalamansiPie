@@ -40,7 +40,7 @@ function LogIn() {
   useEffect(() => {
   const firebaseIdToken = localStorage.getItem("firebaseIdToken");
   if (firebaseIdToken) {
-    fetch("https://johnbackend-b2mm634az-csis-projects-620122e0.vercel.app/api/auth/logout", {
+    fetch("https://johnbackend-57rw36ixu-csis-projects-620122e0.vercel.app/api/auth/logout", {
       method: "POST",
       headers: { Authorization: `Bearer ${firebaseIdToken}` },
     }).catch((err) => console.error("Logout API failed", err));
