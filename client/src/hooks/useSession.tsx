@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const API_BASE =
-  "https://johnbackend-b2mm634az-csis-projects-620122e0.vercel.app/api/auth";
+  "https://johnbackend-o1gkyfoct-csis-projects-620122e0.vercel.app/api/auth";
 
 type SessionUser = {
   id: string;
@@ -129,7 +129,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     refreshSession();
   }, []);
-
+// Idle log out
   useEffect(() => {
 
       if (user) {
@@ -149,6 +149,25 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
       if (warningId) clearTimeout(warningId);
     }
   }, [user]);
+
+  // Logout on window close (sendBeacon)
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const sessionId = localStorage.getItem("sessionId");
+      if (!sessionId) return;
+
+      const payload = JSON.stringify({ sessionId });
+      const blob = new Blob([payload], { type: "application/json" });
+
+      const success = navigator.sendBeacon(`${API_BASE}/logout`, blob);
+      console.log("sendBeacon fired?", success, payload);
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () =>
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
+
 
 useEffect(() => {
   if (!user) return;

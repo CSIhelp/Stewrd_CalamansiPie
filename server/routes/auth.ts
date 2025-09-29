@@ -84,14 +84,13 @@ router.get("/userManagement", async (req, res) => {
   }
 });
 
-// Log in 
+// Log in
 router.post("/login", async (req, res) => {
   try {
     const { ClientId, Password } = req.body;
     const uid = `client_${ClientId}`;
     const userRef = db.collection("users").doc(uid);
     const userDoc = await userRef.get();
-    
 
     if (!userDoc.exists) {
       return res.status(401).json({ error: "Invalid ClientId" });
@@ -110,23 +109,26 @@ router.post("/login", async (req, res) => {
 
     if (user.isOnline) {
       return res
-      .status(403)
-      .json({success:false, error: " User already logged in on another device"})
+        .status(403)
+        .json({
+          success: false,
+          error: " User already logged in on another device",
+        });
     }
 
     const sessionId = uuidv4();
 
     await userRef.update({
       isOnline: true,
-      currentSessionId: sessionId
-    })
+      currentSessionId: sessionId,
+    });
 
     // Create custom token
     const customToken = await admin.auth().createCustomToken(uid, {
       ClientId: user.ClientId,
       role: user.Role,
       company: user.Company,
-      sessionId
+      sessionId,
     });
 
     res.json({
@@ -135,25 +137,53 @@ router.post("/login", async (req, res) => {
       role: user.Role,
       firstLogin: user.isFirstLogin,
       company: user.Company,
-      sessionId
+      sessionId,
     });
   } catch (err: any) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed", details: err.message });
   }
-
 });
 
-// Log Out 
+// Log Out
 router.post("/logout", async (req, res) => {
+  let body: any = req.body;
   try {
+    if (typeof body === "string") {
+      body = JSON.parse(body);
+    }
+  } catch (e) {
+    console.error("Failed to parse body:", req.body);
+  }
+  try {
+    const { sessionId } = body;
+
+    if (sessionId) {
+      const snapshot = await db
+        .collection("users")
+        .where("currentSessionId", "==", sessionId)
+        .limit(1)
+        .get();
+
+      if (snapshot.empty) {
+        return res
+          .status(404)
+          .json({ success: false, error: "Session not found" });
+      }
+
+      const userRef = snapshot.docs[0].ref;
+      await userRef.update({ isOnline: false, currentSessionId: null });
+
+      return res.json({ success: true, message: "Auto logout successful" });
+    }
+
+    // fallback to token-based logout
     const authHeader = req.headers.authorization;
     if (!authHeader) return res.status(401).json({ error: "No token" });
 
     const token = authHeader.split(" ")[1];
     const decoded = await admin.auth().verifyIdToken(token);
     const uid = `client_${decoded.ClientId}`;
-
 
     await db.collection("users").doc(uid).update({ isOnline: false });
 
@@ -163,7 +193,6 @@ router.post("/logout", async (req, res) => {
     res.status(500).json({ success: false, error: err });
   }
 });
-
 
 // Deactivate user
 router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
@@ -268,7 +297,9 @@ router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
     // Verify admin password
     const validAdmin = await bcrypt.compare(adminPassword, adminData.Password);
     if (!validAdmin) {
-      return res.status(403).json({ success: false, error: "Invalid admin password" });
+      return res
+        .status(403)
+        .json({ success: false, error: "Invalid admin password" });
     }
 
     // Hash new password
@@ -278,7 +309,9 @@ router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
     const userDoc = await userRef.get();
 
     if (!userDoc.exists) {
-      return res.status(404).json({ success: false, error: "Target user not found" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Target user not found" });
     }
 
     // Update password
@@ -286,10 +319,11 @@ router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
 
     res.json({ success: true, message: `Password for ${clientId} updated` });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: "Server error", details: err.message });
+    res
+      .status(500)
+      .json({ success: false, error: "Server error", details: err.message });
   }
 });
-
 
 // Get user dashboard info
 router.get("/Dashboard", authMiddleware, async (req, res) => {
@@ -301,40 +335,49 @@ router.get("/Dashboard", authMiddleware, async (req, res) => {
 });
 
 // Change password on first login
-router.patch("/firstLogin", authMiddleware, async (req: Request, res: Response) => {
-  try {
-    const { oldPassword, newPassword } = req.body;
+router.patch(
+  "/firstLogin",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const { oldPassword, newPassword } = req.body;
 
-    // Get clientId from decoded token
-    const decodedUser = req.user as any;
-    const clientId = decodedUser.ClientId;
-    const uid = `client_${clientId}`;
+      // Get clientId from decoded token
+      const decodedUser = req.user as any;
+      const clientId = decodedUser.ClientId;
+      const uid = `client_${clientId}`;
 
-    // Get user document
-    const userRef = db.collection("users").doc(uid);
-    const userDoc = await userRef.get();
-    if (!userDoc.exists) {
-      return res.status(404).json({ success: false, error: "User not found" });
+      // Get user document
+      const userRef = db.collection("users").doc(uid);
+      const userDoc = await userRef.get();
+      if (!userDoc.exists) {
+        return res
+          .status(404)
+          .json({ success: false, error: "User not found" });
+      }
+
+      const userData = userDoc.data() as any;
+
+      // Check old password
+      const valid = await bcrypt.compare(oldPassword, userData.Password);
+      if (!valid) {
+        return res
+          .status(401)
+          .json({ success: false, error: "Invalid current password" });
+      }
+
+      // Hash new password and update
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await userRef.update({ Password: hashedPassword, isFirstLogin: false });
+
+      res.json({ success: true, message: "Password updated successfully" });
+    } catch (err: any) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ success: false, error: "Server error", details: err.message });
     }
-
-    const userData = userDoc.data() as any;
-
-    // Check old password
-    const valid = await bcrypt.compare(oldPassword, userData.Password);
-    if (!valid) {
-      return res.status(401).json({ success: false, error: "Invalid current password" });
-    }
-
-    // Hash new password and update
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await userRef.update({ Password: hashedPassword, isFirstLogin: false });
-
-    res.json({ success: true, message: "Password updated successfully" });
-  } catch (err: any) {
-    console.error(err);
-    res.status(500).json({ success: false, error: "Server error", details: err.message });
   }
-});
-
+);
 
 export default router;
