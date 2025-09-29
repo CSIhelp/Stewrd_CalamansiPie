@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const API_BASE =
-  "https://johnbackend-o1gkyfoct-csis-projects-620122e0.vercel.app/api/auth";
+  "https://johnbackend-afpvqr4ui-csis-projects-620122e0.vercel.app/api/auth";
 
 type SessionUser = {
   id: string;
