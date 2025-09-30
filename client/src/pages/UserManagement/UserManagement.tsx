@@ -32,7 +32,7 @@ import useUserManagement from "../../hooks/useUserManagement";
 
 import "./UserManagement.css";
 
-const API_BASE = "https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE = "https://johnbackend.vercel.app/api/auth";
 
 
 type User = {

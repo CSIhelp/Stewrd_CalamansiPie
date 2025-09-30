@@ -19,9 +19,9 @@ app.use(express.json());
 app.use(express.text({ type: "*/*" }));
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://preview-production.john-crowdsource-cis.pages.dev/"], 
+    origin: ["http://localhost:5173", "https://preview-production.john-crowdsource-cis.pages.dev"], 
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
     credentials: true,
   })
 );
