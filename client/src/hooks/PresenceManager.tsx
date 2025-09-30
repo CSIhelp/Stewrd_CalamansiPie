@@ -28,9 +28,9 @@ export default function PresenceManager() {
         await axios.post(`${API_BASE}/ping`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("✅ Ping sent");
+        console.log("Ping sent");
       } catch (err) {
-        console.error("❌ Ping failed", err);
+        console.error(" Ping failed", err);
       }
     }, 10 * 60_000);
 
