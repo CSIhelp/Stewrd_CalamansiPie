@@ -14,6 +14,8 @@ import Documentation from './pages/Documentation/Documentation';
 import UserManagement from './pages/UserManagement/UserManagement';
 import Unauthorized from './pages/Authentication/Authentication';
 import ContactUs from './pages/ContactUs/ContactUs';
+import BankReconciliation from './pages/BankReconciliation/BankReconciliation';
+import LooseLeaf from './pages/LooseLeaf/LooseLeaf';
 
 import BackLogoutModal from './components/LogoutModal/LogOut';
 import { useSession } from './hooks/useSession';
@@ -66,6 +68,16 @@ function App() {
         <Route path="/payments" element={
           <ProtectedRoute>
             <Payments />
+          </ProtectedRoute>
+        } />
+                <Route path="/bankreconciliation" element={
+          <ProtectedRoute>
+            <BankReconciliation/>
+          </ProtectedRoute>
+        } />
+                <Route path="/looseleaf" element={
+          <ProtectedRoute>
+            <LooseLeaf />
           </ProtectedRoute>
         } />
         <Route path="/Documentation" element={

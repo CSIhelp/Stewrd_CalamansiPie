@@ -49,7 +49,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const refreshSession = async () => {
-    if (refreshingRef.current) return; // lock
+    if (refreshingRef.current) return;
     refreshingRef.current = true;
 
     const token = localStorage.getItem("firebaseIdToken");
@@ -135,8 +135,8 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (warningRef.current) clearTimeout(warningRef.current);
 
-    warningRef.current = setTimeout(() => setShowWarning(true), 10 * 1000);
-    timeoutRef.current = setTimeout(() => clearSession(), 12 * 1000);
+    warningRef.current = setTimeout(() => setShowWarning(true), 59 * 59 * 1000);
+    timeoutRef.current = setTimeout(() => clearSession(), 60 * 60  * 1000);
   };
 
   const stayLoggedIn = () => {
@@ -169,7 +169,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (!user) return;
 
     startIdleTimer();
-    console.log("Idle timer effect triggered, user:", user);
+ 
 
     const events = ["mousemove", "keydown", "click", "scroll"];
     const resetTimer = () => startIdleTimer();

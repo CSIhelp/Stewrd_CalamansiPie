@@ -9,6 +9,8 @@ import {
   IconClipboard,
   IconSearch,
   IconArrowUpRight,
+  IconBuildingBank,
+  IconCashRegister,
   IconMenu
 } from '@tabler/icons-react';
 import { Group, TextInput, Paper, Text, Container, Burger  } from '@mantine/core';
@@ -23,6 +25,8 @@ const SideBarLinks = [
   { link: '/pettycash', label: 'Petty Cash', icon: IconCash },
   { link: '/bills', label: 'Bills', icon: IconInvoice },
   { link: '/payments', label: 'Payments', icon: IconCreditCardPay },
+  {link: '/bankreconciliation' , label: "Bank Reconciliation", icon: IconBuildingBank },
+  {link: '/looseleaf' , label: "Looseleaf", icon: IconCashRegister }
 ];
 
 export function SideNavBar() {

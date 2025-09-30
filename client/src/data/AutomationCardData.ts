@@ -88,5 +88,45 @@ export const NewCardsData = [
           
 
     },
+            { 
+          id: 11, 
+        category: "Documentation",
+        title: "Bank ReconciliationDocumentation",
+        description: "Access Documentation for Bank Reconciliation .",
+        buttonText: "View Documentation",
+        buttonLink: "https://example.com/petty-cash-documentation",
+          
+
+    },
+            { 
+          id: 12, 
+        category: "BankReconciliation",
+        title: "Bank Reconciliation Upload",
+        description: "Upload your SOA here for Bank Reconciliation.",
+        buttonText: "Upload",
+        buttonLink: "https://example.com/BankReconciliation-upload",
+          
+
+    },
+            { 
+          id: 13, 
+        category: "Documentation",
+        title: "Looseleaf Documentation",
+        description: "Access Documentation for Looseleaf.",
+        buttonText: "View Documentation",
+        buttonLink: "https://example.com/petty-cash-documentation",
+          
+
+    },
+            { 
+          id: 14, 
+        category: "LooseLeaf",
+        title: "Looseleaf Upload ",
+        description: "Upload your SOA here for Looseleaf.",
+        buttonText: "View Upload",
+        buttonLink: "https://example.com/petty-cash-documentation",
+          
+
+    },
     
 ];
