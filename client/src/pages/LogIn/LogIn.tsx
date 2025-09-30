@@ -77,7 +77,7 @@ function LogIn() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://johnbackend-b2mm634az-csis-projects-620122e0.vercel.app/api/auth/login",
+        "https://johnbackend.vercel.app/api/auth/login",
         { ClientId: clientId, Password: password }
       );
 
@@ -100,7 +100,7 @@ function LogIn() {
           navigate("/dashboard");
           localStorage.setItem("firstLogin", "true");
         }
-        refreshSession();
+        
         navigate("/dashboard");
 
         if (
