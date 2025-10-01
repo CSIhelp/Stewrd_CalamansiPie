@@ -101,7 +101,7 @@ export default function FirstLoginModal({
 
     try {
       const res = await fetch(
-        `https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth/firstLogin/${clientId}`,
+        `https://johncis.vercel.app/api/auth/firstLogin/${clientId}`,
         {
           method: "PATCH",
           headers: {

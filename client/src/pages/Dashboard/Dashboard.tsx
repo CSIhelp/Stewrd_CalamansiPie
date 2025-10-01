@@ -1,9 +1,9 @@
-import React from "react";
-import { useState, useEffect, useCallback } from "react";
-import { Card, Group, Container, Loader, Alert } from "@mantine/core";
+import React, { useState, useEffect } from "react";
+import { Card, Group, Container, Loader, Alert, Center } from "@mantine/core";
 
 // hooks
 import useBookmarks from "../../hooks/useBookmark";
+import PresenceManager from "../../hooks/PresenceManager";
 
 import "./Dashboard.css";
 import Header from "../../components/Header/Header";
@@ -19,74 +19,97 @@ type Bookmark = {
   buttonText?: string;
   buttonLink?: string;
   category?: string;
-  
 };
 
 function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
 
-  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
-  const token = localStorage.getItem("token") || "";
-  const { bookmarks, removeBookmark, loading, fetchBookmarks } = useBookmarks();
+  const { bookmarks, removeBookmark, loading } = useBookmarks();
+
+  // Optimistic local state update for bookmarks
+  const [localBookmarks, setLocalBookmarks] = useState<Bookmark[]>([]);
 
   useEffect(() => {
-    const firstLogin = localStorage.getItem("firstLogin") === "true";
-    if (firstLogin) setShowFirstLoginModal(true);
- 
+    setLocalBookmarks(bookmarks);
+  }, [bookmarks]);
+
+  // Check first login
+  useEffect(() => {
+    if (localStorage.getItem("firstLogin") === "true") {
+      setShowFirstLoginModal(true);
+    }
   }, []);
 
   const handleRemove = async (id: number) => {
-    await removeBookmark(id);
-    fetchBookmarks();
+    try {
+      // Optimistically remove from local state
+      setLocalBookmarks(prev => prev.filter(b => b.cardId !== id));
+      await removeBookmark(id);
+    } catch (err) {
+      setError("Failed to remove bookmark");
+    }
   };
-
 
   return (
     <>
-      <div>
-
-        <AdminPassword
+      <PresenceManager />
+      <AdminPassword
         opened={showFirstLoginModal}
         onClose={() => {
           setShowFirstLoginModal(false);
-          localStorage.removeItem("firstLogin"); 
+          localStorage.removeItem("firstLogin");
         }}
         clientId={localStorage.getItem("clientId") || ""}
         firebaseIdToken={localStorage.getItem("firebaseIdToken") || ""}
       />
-        <Header title="Dashboard" />
-        <div className="DashboardContainer">
-          <SideNavBar />
-          <Container className="DashboardCardContainer">
-            <Card withBorder radius="md" p="lg" className="DashboardCard">
-              <Group className="DashboardTitleCard">
-                <h1>Favorites/Bookmarked</h1>
-              </Group>
- {loading && <p>Loading bookmarks...</p>}
 
-              {/* Favorite Item card */}
+      <Header title="Dashboard" />
+      <div className="DashboardContainer">
+        <SideNavBar />
+        <Container className="DashboardCardContainer">
+          <Card withBorder radius="md" p="lg" className="DashboardCard">
+            <Group className="DashboardTitleCard">
+              <h1>Favorites / Bookmarked</h1>
+            </Group>
 
-              {error && <Alert color="red">{error}</Alert>}
-          
-              {/* Favorite Item cards */}
-              {bookmarks.map((bookmark) => (
-                <NewItemCard
-                  key={bookmark._id ?? bookmark.cardId}
-                  cardId={bookmark.cardId}
-                  title={bookmark.title}
-                  description={bookmark.description ?? ""}
-                  buttonText={bookmark.buttonText ?? ""}
-                  buttonLink={bookmark.buttonLink ?? ""}
-                  category={bookmark.category ?? ""}
-                  isBookmarked
-                  onRemove={() => handleRemove(bookmark.cardId)}
-                />
-              ))}
-             
-            </Card>
-          </Container>
-        </div>
+            {/* Loading State */}
+            {loading && (
+              <Center my="md">
+                <Loader variant="dots" />
+              </Center>
+            )}
+
+            {/* Error State */}
+            {error && (
+              <Alert color="red" mt="md">
+                {error}
+              </Alert>
+            )}
+
+            {/* Favorite Item Cards */}
+            {localBookmarks.map(bookmark => (
+              <NewItemCard
+                key={bookmark._id ?? bookmark.cardId}
+                cardId={bookmark.cardId}
+                title={bookmark.title}
+                description={bookmark.description ?? ""}
+                buttonText={bookmark.buttonText ?? ""}
+                buttonLink={bookmark.buttonLink ?? ""}
+                category={bookmark.category ?? ""}
+                isBookmarked
+                onRemove={() => handleRemove(bookmark.cardId)}
+              />
+            ))}
+
+            {/* Empty State */}
+            {!loading && localBookmarks.length === 0 && (
+              <Center my="md">
+                <p>No bookmarks yet.</p>
+              </Center>
+            )}
+          </Card>
+        </Container>
       </div>
     </>
   );

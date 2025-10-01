@@ -25,7 +25,7 @@ export default function DeactivateAccountModal({
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://johnbackend-hctabrmqd-csis-projects-620122e0.vercel.app/api/auth/userManagement/deactivate/${clientId}`,
+        `https://johncis.vercel.app/api/auth/userManagement/deactivate/${clientId}`,
         {
           method: "PATCH",
           headers: {

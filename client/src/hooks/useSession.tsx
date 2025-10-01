@@ -1,8 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 
-const API_BASE =
-  "https://johnbackend-afpvqr4ui-csis-projects-620122e0.vercel.app/api/auth";
+const API_BASE = "https://johncis.vercel.app/api/auth";
 
 type SessionUser = {
   id: string;
@@ -18,7 +16,6 @@ interface SessionContextValue {
   stayLoggedIn: () => void;
   showBackWarning: boolean;
   cancelBackLogout: () => void;
-  
 }
 
 const SessionContext = createContext<SessionContextValue>({
@@ -28,176 +25,204 @@ const SessionContext = createContext<SessionContextValue>({
   showWarning: false,
   stayLoggedIn: () => {},
   showBackWarning: false,
-  cancelBackLogout: () => {}
-  
+  cancelBackLogout: () => {},
 });
 
-export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
- 
+export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<SessionUser>(null);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const [warningId, setWarningId] = useState<NodeJS.Timeout | null>(null);
   const [showWarning, setShowWarning] = useState(false);
-    const [showBackWarning, setShowBackWarning] = useState(false);
+  const [showBackWarning, setShowBackWarning] = useState(false);
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const warningRef = useRef<NodeJS.Timeout | null>(null);
+  const refreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const initializedRef = useRef(false);
+  const refreshingRef = useRef(false);
+
+  // Decode JWT
+  const parseJwt = (token: string) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch {
+      return null;
+    }
+  };
+
   const refreshSession = async () => {
-    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
-    if (!firebaseIdToken) {
+    if (refreshingRef.current) return;
+    refreshingRef.current = true;
+
+    const token = localStorage.getItem("firebaseIdToken");
+    if (!token) {
       setUser(null);
+      refreshingRef.current = false;
       return;
     }
+
+    const decoded = parseJwt(token);
+    if (decoded?.exp && Date.now() / 1000 > decoded.exp) {
+      console.log("Token expired, clearing session");
+      clearSession();
+      refreshingRef.current = false;
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE}/Dashboard`, {
-        headers: { Authorization: `Bearer ${firebaseIdToken}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      const data = await res.json();
 
+      if (res.status === 401) {
+        console.log("Unauthorized, clearing session");
+        clearSession();
+        return;
+      }
+
+      const data = await res.json();
       if (data.success && data.user) {
-        setUser({
+        const newUser = {
           id: data.user.ClientId,
           company: data.user.company,
           role: data.user.role,
-        });
+        };
+
+        // Only update if changed
+        if (
+          !user ||
+          user.id !== newUser.id ||
+          user.company !== newUser.company ||
+          user.role !== newUser.role
+        ) {
+          console.log("Refreshing session...");
+          setUser(newUser);
+        }
+      } else if (user !== null) {
+        setUser(null);
       }
     } catch (err) {
       console.error("Failed to refresh session", err);
+      setUser(null);
+    } finally {
+      refreshingRef.current = false;
     }
   };
 
-  // log out
   const clearSession = async () => {
-    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    const token = localStorage.getItem("firebaseIdToken");
     try {
-    if (firebaseIdToken) {
-      await fetch(`${API_BASE}/logout`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${firebaseIdToken}` },
-         body: JSON.stringify({ isLoggedIn: false }),
-      });
+      if (token) {
+        await fetch(`${API_BASE}/logout`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ isLoggedIn: false }),
+        });
+      }
+    } catch (err) {
+      console.error("Logout API failed", err);
+    } finally {
+      localStorage.clear();
+      setUser(null);
+      setShowWarning(false);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (warningRef.current) clearTimeout(warningRef.current);
+      if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
+      window.location.href = "/";
     }
-
-  } catch (err) {
-    console.error("Logout API failed", err);
-  } finally {
-    localStorage.clear()
-    setUser(null);
-    setShowWarning(false);
-    if (timeoutId) clearTimeout(timeoutId);
-    if (warningId) clearTimeout(warningId);
-     window.location.href = "/";
-  }
   };
-  const stayLoggedIn = () => {
-  if (timeoutId) clearTimeout(timeoutId);
-  if (warningId) clearTimeout(warningId);
-
-  setShowWarning(false);
-  startIdleTimer();
-  };
-
-    const cancelBackLogout = () => {
-    setShowBackWarning(false);
-    
-      if (!window.history.state?.dummy) {
-    window.history.pushState({ dummy: true }, "", window.location.href);
-  }
-  };
-
 
   const startIdleTimer = () => {
-    if (timeoutId) clearTimeout(timeoutId);
-    if (warningId) clearTimeout(warningId);
-     if (!user) return;
+    if (!user) return;
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (warningRef.current) clearTimeout(warningRef.current);
 
-
-    // 1 hr idle duration
-    const warningTime =  59 * 59 * 1000; 
-    const logoutTime = 60 * 60 * 1000; 
-
-    const warnId = setTimeout(() => {
-      setShowWarning(true);
-    }, warningTime);
-    setWarningId(warnId);
-
-    const outId = setTimeout(() => {
-      //console.log("User logged out due to inactivity");
-      clearSession();
-    }, logoutTime);
-    setTimeoutId(outId);
+    warningRef.current = setTimeout(() => setShowWarning(true), 59 * 59 * 1000);
+    timeoutRef.current = setTimeout(() => clearSession(), 60 * 60  * 1000);
   };
-  useEffect(() => {
-    refreshSession();
-  }, []);
-// Idle log out
-  useEffect(() => {
 
-      if (user) {
-      startIdleTimer();
+  const stayLoggedIn = () => {
+    setShowWarning(false);
+    startIdleTimer();
+  };
 
-      const events = ["mousemove", "keydown", "click", "scroll"];
-      const resetTimer = () => startIdleTimer();
-      events.forEach((event) => window.addEventListener(event, resetTimer));
-
-      return () => {
-        events.forEach((event) =>
-          window.removeEventListener(event, resetTimer)
-        );
-      };
-    } else {
-      if (timeoutId) clearTimeout(timeoutId);
-      if (warningId) clearTimeout(warningId);
+  const cancelBackLogout = () => {
+    setShowBackWarning(false);
+    if (!window.history.state?.dummy) {
+      window.history.pushState({ dummy: true }, "", window.location.href);
     }
-  }, [user]);
+  };
 
-  // Logout on window close (sendBeacon)
+  // Initialize only once
+  useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
+    refreshSession();
+    refreshIntervalRef.current = setInterval(refreshSession, 15 * 60_000);
+
+    return () => {
+      if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
+    };
+  }, []);
+
+  // Idle timer (runs once)
+  useEffect(() => {
+    if (!user) return;
+
+    startIdleTimer();
+ 
+
+    const events = ["mousemove", "keydown", "click", "scroll"];
+    const resetTimer = () => startIdleTimer();
+    events.forEach((e) => window.addEventListener(e, resetTimer));
+
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, resetTimer));
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (warningRef.current) clearTimeout(warningRef.current);
+    };
+  }, [user]); 
+
+  // sendBeacon logout
   useEffect(() => {
     const handleBeforeUnload = () => {
       const sessionId = localStorage.getItem("sessionId");
       if (!sessionId) return;
-
       const payload = JSON.stringify({ sessionId });
-      const blob = new Blob([payload], { type: "application/json" });
-
-      const success = navigator.sendBeacon(`${API_BASE}/logout`, blob);
-      console.log("sendBeacon fired?", success, payload);
+      navigator.sendBeacon(
+        `${API_BASE}/logout`,
+        new Blob([payload], { type: "application/json" })
+      );
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () =>
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
+  // Back button warning
+  useEffect(() => {
+    if (!user) return;
+    if (!window.history.state?.dummy)
+      window.history.pushState({ dummy: true }, "", window.location.href);
 
-useEffect(() => {
-  if (!user) return;
-
-if (!window.history.state?.dummy) {
-    window.history.pushState({ dummy: true }, "", window.location.href);
-  }
-
-  const handleBackBtn = (event: PopStateEvent) => {
-    event.preventDefault();
-    setShowBackWarning(true);
-  };
-
-  window.addEventListener("popstate", handleBackBtn);
-
-  return () => {
-    window.removeEventListener("popstate", handleBackBtn);
-  };
-}, [user]);
-
+    const handleBackBtn = (e: PopStateEvent) => {
+      e.preventDefault();
+      setShowBackWarning(true);
+      console.log("handle back, user:", user);
+    };
+    window.addEventListener("popstate", handleBackBtn);
+    return () => window.removeEventListener("popstate", handleBackBtn);
+  }, [user]);
 
   return (
     <SessionContext.Provider
-      value={{user,
+      value={{
+        user,
         refreshSession,
         clearSession,
         showWarning,
         showBackWarning,
         stayLoggedIn,
-        cancelBackLogout, }}
+        cancelBackLogout,
+      }}
     >
       {children}
     </SessionContext.Provider>

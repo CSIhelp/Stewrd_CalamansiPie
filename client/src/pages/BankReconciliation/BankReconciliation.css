@@ -1,0 +1,75 @@
+.BankReconciliationContainer{
+    display: flex;
+    flex-direction: row !important;
+    width: 100%;
+}
+.BankReconciliationCardContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100vw !important;
+    margin-left: 30vw;
+    margin-top: 2vw;
+    align-items: center;
+     justify-items: center;
+
+
+}
+
+.BankReconciliationCard{
+    width: 60vw !important;
+    margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-radius: 10px;
+}
+
+.BankReconciliationTitleCard { 
+    width: 52vw !important;
+    margin-left: 1vw;
+    margin-bottom: 2vw;
+    border-bottom: 1px solid #877E7E;
+    font-size: 0.8vw;
+}
+
+@media (min-width: 760px) and (max-width: 1023px) {
+  .BankReconciliationContainer {
+    flex-direction: row;
+  }
+
+  .BankReconciliationCardContainer {
+    width: calc(100% - 250px); /* smaller sidebar */
+    margin-left: 250px !important;
+    padding: 1rem;
+  }
+
+  .BankReconciliationCard {
+    width: 60vw !important;
+    margin-left: 0;
+  }
+
+  .BankReconciliationTitleCard {
+    width: 50%;
+    font-size: 1vw;
+  }
+}
+@media (max-width: 759px) {
+  .BankReconciliationContainer {
+    flex-direction: column;
+  }
+
+  .BankReconciliationCardContainer {
+    width: 100%;
+    margin-left: 0vw !important;
+    padding: 1rem;
+  }
+
+  .BankReconciliationCard {
+    width: 80vw !important;
+    margin-left: 0;
+  }
+
+  .BankReconciliationTitleCard {
+    width: 70vw !important;
+    font-size: 2.5vw;
+    margin-left: 0;
+  }
+}

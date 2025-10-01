@@ -14,6 +14,31 @@ dotenv.config();
 const db = admin.firestore();
 const router = express.Router();
 
+
+// Presence tracking 
+const lastSeenMap: Record<string, number> = {};
+const TIMEOUT = 15 * 60 * 1000; // 15 minutes
+
+// Background checker: logs out inactive users
+setInterval(async () => {
+  const now = Date.now();
+
+  for (const [userId, lastSeen] of Object.entries(lastSeenMap)) {
+    if (now - lastSeen > TIMEOUT) {
+      try {
+        await db.collection("users").doc(userId).update({
+          isOnline: false,
+          currentSessionId: null,
+        });
+        console.log(`Auto-logged out ${userId}`);
+        delete lastSeenMap[userId];
+      } catch (err) {
+        console.error("Failed to auto logout:", err);
+      }
+    }
+  }
+},15 * 60 * 1000); 
+
 // Middleware
 const authMiddleware = async (
   req: Request,
@@ -106,8 +131,11 @@ router.post("/login", async (req, res) => {
 
     const valid = await bcrypt.compare(Password, user.Password);
     if (!valid) return res.status(401).json({ error: "Invalid password" });
+    const now = Date.now();
+    const lastSeen = user.lastSeen || 0;
+    const isActiveSession = user.isOnline && (now - lastSeen < 60_000);
 
-    if (user.isOnline) {
+    if (isActiveSession) {
       return res
         .status(403)
         .json({
@@ -118,10 +146,7 @@ router.post("/login", async (req, res) => {
 
     const sessionId = uuidv4();
 
-    await userRef.update({
-      isOnline: true,
-      currentSessionId: sessionId,
-    });
+   lastSeenMap[uid] = now;
 
     // Create custom token
     const customToken = await admin.auth().createCustomToken(uid, {
@@ -142,6 +167,29 @@ router.post("/login", async (req, res) => {
   } catch (err: any) {
     console.error("Login error:", err);
     res.status(500).json({ error: "Login failed", details: err.message });
+  }
+});
+
+router.post("/online", authMiddleware, async (req, res) => {
+  try {
+    const decoded = req.user as any; 
+    const uid = `client_${decoded.ClientId}`;
+    const sessionId = decoded.sessionId; 
+    const now = Date.now();
+
+    const userRef = db.collection("users").doc(uid);
+    await userRef.update({
+      isOnline: true,
+      lastSeen: now,
+      currentSessionId: sessionId,
+    });
+
+    lastSeenMap[uid] = now;
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Online route error:", err);
+    res.status(500).json({ success: false, error: "Failed to update status" });
   }
 });
 
@@ -193,6 +241,7 @@ router.post("/logout", async (req, res) => {
     res.status(500).json({ success: false, error: err });
   }
 });
+
 
 // Deactivate user
 router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
@@ -380,4 +429,16 @@ router.patch(
   }
 );
 
+//last seen
+router.post("/ping", authMiddleware, (req, res) => {
+  try {
+    const decoded = req.user as any;
+    const uid = `client_${decoded.ClientId}`;
+    lastSeenMap[uid] = Date.now();
+    res.json({ success: true, message: "Ping received" });
+  } catch (err) {
+    console.error("Ping error:", err);
+    res.status(500).json({ success: false, error: "Ping failed" });
+  }
+});
 export default router;
