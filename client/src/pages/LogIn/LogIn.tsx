@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import "./LogIn.css";
 import axios from "axios";
 import DeactivatedAccountModal from "../../components/DeactivatedAccount/DeactivatedAccount";
-
+import AlreadyLoggedInModal from "../../components/AccountLoggedInModal/AccountLoggedInModal";
 import ForgotUserModal from "../../components/ForgotPassword/ForgotPasswordModal";
 import { useSession } from "../../hooks/useSession";
 import { notifications } from "@mantine/notifications";
@@ -25,8 +25,8 @@ import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
 
 import { auth } from "../../firebase.js";
 import { signInWithCustomToken } from "firebase/auth";
-// image 
-import CrowdSourceLogo from "/CrowdsourceLogo.png"
+// image
+import CrowdSourceLogo from "/CrowdsourceLogo.png";
 
 function LogIn() {
   const navigate = useNavigate();
@@ -34,29 +34,27 @@ function LogIn() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [forgotOpened, setForgotOpened] = React.useState(false);
+  const [alreadyLoggedIn, setAlreadyLoggedIn] = useState(false);
+const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: string } | null>(null);
   const [deactivatedAccount, setDeactivatedAccountOpened] =
     React.useState(false);
 
-
-
   useEffect(() => {
-  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
-  if (firebaseIdToken) {
-    fetch("https://johncis.vercel.app/api/auth/logout", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${firebaseIdToken}` },
-    }).catch((err) => console.error("Logout API failed", err));
-  }
-   
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    if (firebaseIdToken) {
+      fetch("https://johncis.vercel.app/api/auth/logout", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${firebaseIdToken}` },
+      }).catch((err) => console.error("Logout API failed", err));
+    }
+
     localStorage.removeItem("token");
     localStorage.removeItem("firebaseIdToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("sessionId");
     localStorage.removeItem("firstLogin");
-     auth.signOut();
-
+    auth.signOut();
   }, []);
-
 
   // Loading for cold start
   const [loading, setLoading] = useState(false);
@@ -89,18 +87,18 @@ function LogIn() {
         const idToken = await userCredential.user.getIdToken();
         const userConmpany = res.data.company;
         const sessionId = res.data.sessionId;
-        const allowedCompany = "Crowdsource"; 
+        const allowedCompany = "Crowdsource";
 
         if (userConmpany !== allowedCompany) {
-        notifications.show({
-          title: "Unauthorized Company",
-          message: "Only Crowdsource employees can log in",
-          color: "red",
-          icon: <IconX size={20} />,
-        });
-        setLoading(false);
-        return;
-      }
+          notifications.show({
+            title: "Unauthorized Company",
+            message: "Only Crowdsource employees can log in",
+            color: "red",
+            icon: <IconX size={20} />,
+          });
+          setLoading(false);
+          return;
+        }
 
         // Save tokens in localStorage
         localStorage.setItem("token", customToken);
@@ -114,10 +112,10 @@ function LogIn() {
           refreshSession();
           navigate("/dashboard");
           localStorage.setItem("firstLogin", "true");
+        } else {
+          refreshSession();
+          navigate("/dashboard");
         }
-        else {
-        refreshSession();
-        navigate("/dashboard"); }
 
         if (
           res.data.error &&
@@ -143,6 +141,8 @@ function LogIn() {
         if (errorMsg.includes("deactivated")) {
           setDeactivatedAccountOpened(true);
         } else if (errorMsg.includes("already logged in")) {
+          setPendingCreds({ clientId, password });
+          setAlreadyLoggedIn(true);
           notifications.show({
             title: "Already Logged In",
             message:
@@ -167,15 +167,59 @@ function LogIn() {
         });
       }
     } finally {
-      setClientId('')
-      setPassword('')
+      setClientId("");
+      setPassword("");
       setLoading(false);
     }
   };
+
+const handleForceLogin = async (passwordFromModal: string) => {
+  if (!pendingCreds) return; 
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        "https://johncis.vercel.app/api/auth/login",
+        {
+          ClientId: pendingCreds.clientId,
+          Password: passwordFromModal,
+          forceLogout: true,
+        }
+      );
+
+      if (res.data.success) {
+        const customToken = res.data.customToken;
+        const userCredential = await signInWithCustomToken(auth, customToken);
+        const idToken = await userCredential.user.getIdToken();
+
+        localStorage.setItem("token", customToken);
+        localStorage.setItem("firebaseIdToken", idToken);
+        localStorage.setItem("userRole", res.data.role);
+        localStorage.setItem("sessionId", res.data.sessionId);
+
+        await refreshSession();
+        navigate("/dashboard");
+        setAlreadyLoggedIn(false);
+         setPendingCreds(null);
+      }
+    } catch (err) {
+      notifications.show({
+        title: "Log In Failed",
+        message: "Unable to force logout. Please try again.",
+        color: "red",
+        icon: <IconX size={20} />,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <header className="Header HeaderPhone">
-        <div className="HeaderLogo HeaderLogoPhone">  <img src={CrowdSourceLogo} alt="Logo" className="LogoImage" /></div>
+        <div className="HeaderLogo HeaderLogoPhone">
+          {" "}
+          <img src={CrowdSourceLogo} alt="Logo" className="LogoImage" />
+        </div>
       </header>
       <Container className="LogInContainer">
         <Card className="LogInTitleCard">
@@ -239,6 +283,12 @@ function LogIn() {
           <DeactivatedAccountModal
             opened={deactivatedAccount}
             onClose={() => setDeactivatedAccountOpened(false)}
+          />
+          <AlreadyLoggedInModal
+            clientId={pendingCreds?.clientId || ""}  
+            opened={alreadyLoggedIn}
+            onClose={() => setAlreadyLoggedIn(false)}
+            onConfirm={handleForceLogin}
           />
         </Card>
       </Container>

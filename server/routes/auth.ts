@@ -112,7 +112,7 @@ router.get("/userManagement", async (req, res) => {
 // Log in
 router.post("/login", async (req, res) => {
   try {
-    const { ClientId, Password } = req.body;
+    const { ClientId, Password, forceLogout } = req.body; 
     const uid = `client_${ClientId}`;
     const userRef = db.collection("users").doc(uid);
     const userDoc = await userRef.get();
@@ -131,24 +131,37 @@ router.post("/login", async (req, res) => {
 
     const valid = await bcrypt.compare(Password, user.Password);
     if (!valid) return res.status(401).json({ error: "Invalid password" });
-    const now = Date.now();
-    const lastSeen = user.lastSeen || 0;
-    const isActiveSession = user.isOnline && (now - lastSeen < 60_000);
 
-    if (isActiveSession) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          error: " User already logged in on another device",
-        });
+    const now = Date.now();
+  
+    const isActiveSession = user.isOnline;
+
+    //  Block only if another session is active AND forceLogout is not requested
+    if (isActiveSession && !forceLogout) {
+      return res.status(403).json({
+        success: false,
+        error: "User already logged in on another device",
+      });
+    }
+
+    // If forceLogout is requested, clear old session
+    if (isActiveSession && forceLogout) {
+      await userRef.update({
+        isOnline: false,
+        currentSessionId: null,
+      });
     }
 
     const sessionId = uuidv4();
+    lastSeenMap[uid] = now;
 
-   lastSeenMap[uid] = now;
+    // ✅ Mark new session online
+    await userRef.update({
+      isOnline: true,
+      lastSeen: now,
+      currentSessionId: sessionId,
+    });
 
-    // Create custom token
     const customToken = await admin.auth().createCustomToken(uid, {
       ClientId: user.ClientId,
       role: user.Role,
@@ -169,6 +182,7 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "Login failed", details: err.message });
   }
 });
+
 
 router.post("/online", authMiddleware, async (req, res) => {
   try {
