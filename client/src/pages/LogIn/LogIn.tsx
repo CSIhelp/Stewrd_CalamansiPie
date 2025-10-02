@@ -91,7 +91,7 @@ function LogIn() {
         const sessionId = res.data.sessionId;
         const allowedCompany = "Crowdsource"; 
 
-        if (!userConmpany("allowedCompany")) {
+        if (userConmpany !== allowedCompany) {
         notifications.show({
           title: "Unauthorized Company",
           message: "Only Crowdsource employees can log in",

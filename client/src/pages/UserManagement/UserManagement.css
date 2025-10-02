@@ -58,6 +58,9 @@
   width: 16px !important;   
   height: 16px !important;
 }
+.AccountSettingsBtn:disabled{
+  background-color: #817979;
+}
 
 .ResetBtn {
   border: #29aae1 solid 2px;

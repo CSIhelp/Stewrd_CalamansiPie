@@ -280,17 +280,27 @@ const UserManagement = () => {
                         onReset={refreshUsers}
                       />
                       {/* Account User Menu ( Deactivate / Delete) */}
+
                       <Menu>
                         <MenuTarget>
+                          <Tooltip 
+                            label={
+                              user.role === "admin"
+                                ? "Admin Account cannot be deactivated or deleted"
+                                : "Account Settings"
+                            }
+                            withArrow
+                          >
                           <Button
                             variant="subtle"
                             color="red"
                             className="AccountSettingsBtn"
-                            
+                            disabled={user.role === "admin"} 
                           >
                             {<IconUserOff size={16} />}
                             
                           </Button>
+                          </Tooltip>
                         </MenuTarget>
 
                         <Menu.Dropdown className="AccountActionMenu">
