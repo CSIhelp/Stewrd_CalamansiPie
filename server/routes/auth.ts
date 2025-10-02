@@ -14,8 +14,7 @@ dotenv.config();
 const db = admin.firestore();
 const router = express.Router();
 
-
-// Presence tracking 
+// Presence tracking
 const lastSeenMap: Record<string, number> = {};
 const TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
@@ -37,10 +36,14 @@ setInterval(async () => {
       }
     }
   }
-},15 * 60 * 1000); 
+}, 15 * 60 * 1000);
 
 // Middleware
-const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: "No token provided" });
 
@@ -50,7 +53,8 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     const uid = `client_${decoded.ClientId}`;
     const userDoc = await db.collection("users").doc(uid).get();
 
-    if (!userDoc.exists) return res.status(401).json({ error: "User not found" });
+    if (!userDoc.exists)
+      return res.status(401).json({ error: "User not found" });
 
     const user = userDoc.data() as any;
     if (decoded.sessionId !== user.currentSessionId) {
@@ -118,7 +122,7 @@ router.get("/userManagement", async (req, res) => {
 // Log in
 router.post("/login", async (req, res) => {
   try {
-    const { ClientId, Password, forceLogout } = req.body; 
+    const { ClientId, Password, forceLogout } = req.body;
     const uid = `client_${ClientId}`;
     const userRef = db.collection("users").doc(uid);
     const userDoc = await userRef.get();
@@ -139,7 +143,7 @@ router.post("/login", async (req, res) => {
     if (!valid) return res.status(401).json({ error: "Invalid password" });
 
     const now = Date.now();
-  
+
     const isActiveSession = user.isOnline;
 
     //  Block only if another session is active AND forceLogout is not requested
@@ -155,7 +159,7 @@ router.post("/login", async (req, res) => {
       await userRef.update({
         isOnline: false,
         currentSessionId: null,
-         lastSeen: admin.firestore.FieldValue.delete(), 
+        lastSeen: admin.firestore.FieldValue.delete(),
       });
     }
 
@@ -190,12 +194,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
 router.post("/online", authMiddleware, async (req, res) => {
   try {
-    const decoded = req.user as any; 
+    const decoded = req.user as any;
     const uid = `client_${decoded.ClientId}`;
-    const sessionId = decoded.sessionId; 
+    const sessionId = decoded.sessionId;
     const now = Date.now();
 
     const userRef = db.collection("users").doc(uid);
@@ -263,7 +266,6 @@ router.post("/logout", async (req, res) => {
   }
 });
 
-
 // Deactivate user
 router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
   try {
@@ -304,12 +306,26 @@ router.delete("/userManagement/:clientId", async (req, res) => {
         .json({ success: false, message: "User not found" });
 
     await userRef.delete();
+    const bookmarksSnap = await db
+      .collection("bookmarks")
+      .where("user", "==", uid) // assuming you store clientId in bookmarks
+      .get();
 
-    res.json({ success: true, message: `User ${req.params.clientId} deleted` });
+    if (!bookmarksSnap.empty) {
+      const batch = db.batch();
+      bookmarksSnap.forEach((doc) => batch.delete(doc.ref));
+      await batch.commit();
+    }
+
+    res.json({
+      success: true,
+      message: `User ${uid} and related bookmarks deleted`,
+    });
   } catch (err: any) {
+    console.error("Delete user error:", err);
     res.status(500).json({
       success: false,
-      error: "Failed to delete  user",
+      error: "Failed to delete user and bookmarks",
       details: err.message,
     });
   }
