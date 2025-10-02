@@ -87,10 +87,11 @@ function LogIn() {
         const customToken = res.data.customToken;
         const userCredential = await signInWithCustomToken(auth, customToken);
         const idToken = await userCredential.user.getIdToken();
+        const userConmpany = res.data.company;
         const sessionId = res.data.sessionId;
         const allowedCompany = "Crowdsource"; 
 
-        if (!clientId.startsWith("CIS")) {
+        if (!userConmpany("allowedCompany")) {
         notifications.show({
           title: "Unauthorized Company",
           message: "Only Crowdsource employees can log in",
