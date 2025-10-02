@@ -40,17 +40,23 @@ setInterval(async () => {
 },15 * 60 * 1000); 
 
 // Middleware
-const authMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: "No token provided" });
 
   const token = authHeader.split(" ")[1];
   try {
     const decoded = await admin.auth().verifyIdToken(token);
+    const uid = `client_${decoded.ClientId}`;
+    const userDoc = await db.collection("users").doc(uid).get();
+
+    if (!userDoc.exists) return res.status(401).json({ error: "User not found" });
+
+    const user = userDoc.data() as any;
+    if (decoded.sessionId !== user.currentSessionId) {
+      return res.status(401).json({ error: "Session expired or logged out" });
+    }
+
     req.user = decoded;
     next();
   } catch {
@@ -149,6 +155,7 @@ router.post("/login", async (req, res) => {
       await userRef.update({
         isOnline: false,
         currentSessionId: null,
+         lastSeen: admin.firestore.FieldValue.delete(), 
       });
     }
 

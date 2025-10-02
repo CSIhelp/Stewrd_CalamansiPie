@@ -108,27 +108,32 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const clearSession = async () => {
-    const token = localStorage.getItem("firebaseIdToken");
-    try {
-      if (token) {
-        await fetch(`${API_BASE}/logout`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ isLoggedIn: false }),
-        });
-      }
-    } catch (err) {
-      console.error("Logout API failed", err);
-    } finally {
-      localStorage.clear();
-      setUser(null);
-      setShowWarning(false);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (warningRef.current) clearTimeout(warningRef.current);
-      if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
-      window.location.href = "/";
+     const token = localStorage.getItem("firebaseIdToken");
+  const sessionId = localStorage.getItem("sessionId");
+
+  try {
+    if (token && sessionId) {
+      await fetch(`${API_BASE}/logout`, {
+        method: "POST",
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sessionId, isOnline: false }),
+      });
     }
-  };
+  } catch (err) {
+    console.error("Logout API failed", err);
+  } finally {
+    localStorage.clear();
+    setUser(null);
+    setShowWarning(false);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (warningRef.current) clearTimeout(warningRef.current);
+    if (refreshIntervalRef.current) clearInterval(refreshIntervalRef.current);
+    window.location.href = "/";
+  }
+};
 
   const startIdleTimer = () => {
     if (!user) return;
