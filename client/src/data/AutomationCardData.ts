@@ -7,7 +7,7 @@ export const NewCardsData = [
     title: "Invoices Upload",
     description: "Upload your invoices to the system for processing.",
     buttonText: "View Portal",
-    buttonLink: "https://example.com/invoices-upload",
+    buttonLink: "https://primary-production-a810.up.railway.app/form/52e1495a-8b08-477f-a823-fe30f43e02f6",
   },
    {
     id: 2,
