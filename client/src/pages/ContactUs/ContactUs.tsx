@@ -37,6 +37,7 @@ const ContactUs = () => {
     const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+  
 
  const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -49,6 +50,16 @@ const ContactUs = () => {
         body: JSON.stringify(formData),
       }
     );
+ setFormData({
+      name: '',
+      company: '',
+      email: '',
+      topic: '',
+      message: '',
+      bugDescription: '',
+      timeEncountered: '',
+      dateEncountered: '',
+    });
 
     const data = await response.json();
 
