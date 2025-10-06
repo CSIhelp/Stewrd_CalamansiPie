@@ -141,6 +141,9 @@ router.post("/login", async (req, res) => {
 
     const valid = await bcrypt.compare(Password, user.Password);
     if (!valid) return res.status(401).json({ error: "Invalid password" });
+    const now = Date.now();
+    const lastSeen = user.lastSeen || 0;
+    const isActiveSession = user.isOnline && (now - lastSeen < 60_000);
 
     const now = Date.now();
 
@@ -166,7 +169,7 @@ router.post("/login", async (req, res) => {
     const sessionId = uuidv4();
     lastSeenMap[uid] = now;
 
-    // ✅ Mark new session online
+    //  Mark new session online
     await userRef.update({
       isOnline: true,
       lastSeen: now,

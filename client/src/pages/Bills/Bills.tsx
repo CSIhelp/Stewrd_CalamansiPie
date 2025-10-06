@@ -11,7 +11,7 @@ import { NewCardsData } from "../../data/AutomationCardData";
 import useBookmarks from "../../hooks/useBookmark";
 
 function Bills() {
-  const { bookmarks, addBookmark, removeBookmark, loading } = useBookmarks();
+  const { bookmarks } = useBookmarks();
   const [error, setError] = React.useState<string | null>(null);
 
 
