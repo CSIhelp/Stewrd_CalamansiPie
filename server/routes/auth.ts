@@ -69,7 +69,7 @@ const authMiddleware = async (
 };
 
 // Add user account
-router.post("/userManagement", async (req, res) => {
+router.post("/userManagement", authMiddleware, async (req, res) => {
   try {
     const { ClientId, Company, Password, Role } = req.body;
 
@@ -109,7 +109,7 @@ router.post("/userManagement", async (req, res) => {
 });
 
 // Get all users
-router.get("/userManagement", async (req, res) => {
+router.get("/userManagement",  authMiddleware, async (req, res) => {
   try {
     const snapshot = await db.collection("users").get();
     const users = snapshot.docs.map((doc) => doc.data());
@@ -267,7 +267,7 @@ router.post("/logout", async (req, res) => {
 });
 
 // Deactivate user
-router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
+router.patch("/userManagement/deactivate/:clientId",  authMiddleware, async (req, res) => {
   try {
     const uid = `client_${req.params.clientId}`;
     const userRef = db.collection("users").doc(uid);
@@ -294,7 +294,7 @@ router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
 });
 
 //Delete User
-router.delete("/userManagement/:clientId", async (req, res) => {
+router.delete("/userManagement/:clientId", authMiddleware, async (req, res) => {
   try {
     const uid = `client_${req.params.clientId}`;
     const userRef = db.collection("users").doc(uid);
@@ -332,7 +332,7 @@ router.delete("/userManagement/:clientId", async (req, res) => {
 });
 
 // Reactivate user
-router.patch("/userManagement/reactivate/:clientId", async (req, res) => {
+router.patch("/userManagement/reactivate/:clientId", authMiddleware, async (req, res) => {
   try {
     const uid = `client_${req.params.clientId}`;
     const userRef = db.collection("users").doc(uid);
@@ -467,12 +467,26 @@ router.patch(
 );
 
 //last seen
-router.post("/ping", authMiddleware, (req, res) => {
+router.post("/ping", authMiddleware, async (req, res) => {
   try {
     const decoded = req.user as any;
     const uid = `client_${decoded.ClientId}`;
-    lastSeenMap[uid] = Date.now();
-    res.json({ success: true, message: "Ping received" });
+    const now = Date.now();
+
+    lastSeenMap[uid] = now;
+    await db.collection("users").doc(uid).update({
+      lastSeen: admin.firestore.FieldValue.serverTimestamp(),
+      isOnline: true,
+    });
+
+    res.json({
+      success: true,
+      message: "Ping received",
+      lastSeenReadable: new Date(now).toLocaleString("en-PH", {
+        timeZone: "Asia/Manila",
+        hour12: true,
+      }),
+    });
   } catch (err) {
     console.error("Ping error:", err);
     res.status(500).json({ success: false, error: "Ping failed" });

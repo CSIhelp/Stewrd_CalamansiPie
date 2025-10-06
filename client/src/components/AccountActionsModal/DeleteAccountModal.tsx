@@ -19,13 +19,16 @@ export default function DeleteUserModal({
 }: DeleteUserModalProps) {
   const handleDelete = async () => {
     try {
+    
+      const token = localStorage.getItem("firebaseIdToken");
       const response = await fetch(
         `https://johncis.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-          },
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          }
         }
       );
 

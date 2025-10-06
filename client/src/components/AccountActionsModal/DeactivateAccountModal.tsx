@@ -23,7 +23,7 @@ export default function DeactivateAccountModal({
       return;
     }
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("firebaseIdToken");
       const response = await fetch(
         `https://johncis.vercel.app/api/auth/userManagement/deactivate/${clientId}`,
         {
