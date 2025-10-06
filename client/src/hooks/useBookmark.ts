@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-const BACKEND_URL = "https://johncis.vercel.app";
+const BACKEND_URL = "https://johnbackend.vercel.app";
 
 // A global singleton interval and cache
 let globalInterval: NodeJS.Timeout | null = null;

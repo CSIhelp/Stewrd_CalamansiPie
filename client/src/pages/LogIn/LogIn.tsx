@@ -42,7 +42,7 @@ const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: s
   useEffect(() => {
     const firebaseIdToken = localStorage.getItem("firebaseIdToken");
     if (firebaseIdToken) {
-      fetch("https://johncis.vercel.app/api/auth/logout", {
+      fetch("https://johnbackend.vercel.app/api/auth/logout", {
         method: "POST",
         headers: { Authorization: `Bearer ${firebaseIdToken}` },
       }).catch((err) => console.error("Logout API failed", err));
@@ -77,7 +77,7 @@ const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: s
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://johncis.vercel.app/api/auth/login",
+        "https://johnbackend.vercel.app/api/auth/login",
         { ClientId: clientId, Password: password }
       );
 
@@ -87,19 +87,9 @@ const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: s
         const idToken = await userCredential.user.getIdToken();
         const userConmpany = res.data.company;
         const sessionId = res.data.sessionId;
-        const allowedCompany = "Crowdsource";
 
-        if (userConmpany !== allowedCompany) {
-          notifications.show({
-            title: "Unauthorized Company",
-            message: "Only Crowdsource employees can log in",
-            color: "red",
-            icon: <IconX size={20} />,
-          });
-          setLoading(false);
-          return;
-        }
 
+   
         // Save tokens in localStorage
         localStorage.setItem("token", customToken);
         localStorage.setItem("firebaseIdToken", idToken);
@@ -178,7 +168,7 @@ const handleForceLogin = async (passwordFromModal: string) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://johncis.vercel.app/api/auth/login",
+        "https://johnbackend.vercel.app/api/auth/login",
         {
           ClientId: pendingCreds.clientId,
           Password: passwordFromModal,

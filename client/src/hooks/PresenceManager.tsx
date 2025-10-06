@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import axios from "axios";
 
 const API_BASE =
-  "https://johncis.vercel.app/api/auth";
+  "https://johnbackend.vercel.app/api/auth";
 
 export default function PresenceManager() {
   const pingRef = useRef<NodeJS.Timeout | null>(null);

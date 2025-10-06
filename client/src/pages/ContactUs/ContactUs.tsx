@@ -43,7 +43,7 @@ const ContactUs = () => {
   e.preventDefault();
   try {
     const response = await fetch(
-      "https://johncis.vercel.app/api/contact",
+      "https://johnbackend.vercel.app/api/contact",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

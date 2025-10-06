@@ -34,7 +34,7 @@ function useUserManagement(adminCompany: string) {
 
       try {
         const res = await axios.get(
-          "https://johncis.vercel.app/api/auth/userManagement",
+          "https://johnbackend.vercel.app/api/auth/userManagement",
           {
             headers: { Authorization: `Bearer ${token}` },
             params: { company: adminCompany },

@@ -28,7 +28,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
       
 
 
-    const API_BASE = "https://johncis.vercel.app/api/auth";
+    const API_BASE = "https://johnbackend.vercel.app/api/auth";
 
 const [loadingUser, setLoadingUser] = useState(true);
 
