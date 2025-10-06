@@ -8,9 +8,10 @@
   box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -webkit-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -moz-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
-position: fixed;
-top: 10;
+  position: fixed;
+  top:0;
 left:0;
+overflow-y: scroll;
 
 
 }
@@ -68,15 +69,15 @@ left:0;
 }
 
 .documentation{
-  margin-top:10vh;
+  margin-top:5vh;
   border-top: 1px solid #877E7E;
-  padding-top: 20px;
+  padding-top: 10px;
  
 }
 .search {
   width: 95%;
   margin-left: 2%;
-  margin-top: 10px !important;
+  margin-top: 15vh !important;
   margin-bottom: 20px;
   border-radius: var(--mantine-radius-sm);
 }
@@ -152,7 +153,8 @@ margin-bottom: 0 !important;
 @media (min-width : 760px) and ( max-width: 1023px ){ 
 
 .navbar {
-  height: 100vh;
+  height: 82vh;
   width: 250px !important;
 }
 }
+

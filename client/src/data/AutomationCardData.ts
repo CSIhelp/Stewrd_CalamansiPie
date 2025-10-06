@@ -7,7 +7,7 @@ export const NewCardsData = [
     title: "Invoices Upload",
     description: "Upload your invoices to the system for processing.",
     buttonText: "View Portal",
-    buttonLink: "https://example.com/invoices-upload",
+    buttonLink: "https://primary-production-a810.up.railway.app/form/52e1495a-8b08-477f-a823-fe30f43e02f6",
   },
    {
     id: 2,
@@ -15,7 +15,7 @@ export const NewCardsData = [
     title: "Bills Upload",
     description: "Upload your Bills to the system for processing.",
     buttonText: "View Portal",
-    buttonLink: "https://example.com/bills-upload",
+    buttonLink: "https://primary-production-a810.up.railway.app/form/a9cef0bd-ac2a-419a-820b-f4a444d43d70",
   },
 {
         id: 3,
@@ -39,7 +39,7 @@ export const NewCardsData = [
         title: "Petty Cash Upload",
         description: "Upload your payments to the system for processing.",
         buttonText: "View Portal",
-        buttonLink: "https://example.com/petty-cash-upload",
+        buttonLink: "https://primary-production-a810.up.railway.app/form/a9cef0bd-ac2a-419a-820b-f4a444d43d70",
 
     },
 
@@ -60,7 +60,7 @@ export const NewCardsData = [
         title: "Bills Documentation",
         description: "Access Documentation for Bills.",
         buttonText: "View Documentation",
-        buttonLink: "https://example.com/bills-documentation",
+        buttonLink: "https://drive.google.com/drive/folders/1-UIvGbROEtHh4ccu6VYKaAuyjZeSalcV",
     },
         { 
           id: 8,
@@ -84,6 +84,46 @@ export const NewCardsData = [
         title: "Petty Cash Documentation",
         description: "Access Documentation for Petty Cash.",
         buttonText: "View Documentation",
+        buttonLink: "https://drive.google.com/drive/folders/1-UIvGbROEtHh4ccu6VYKaAuyjZeSalcV",
+          
+
+    },
+            { 
+          id: 11, 
+        category: "Documentation",
+        title: "Bank ReconciliationDocumentation",
+        description: "Access Documentation for Bank Reconciliation .",
+        buttonText: "View Documentation",
+        buttonLink: "https://example.com/petty-cash-documentation",
+          
+
+    },
+            { 
+          id: 12, 
+        category: "BankReconciliation",
+        title: "Bank Reconciliation Upload",
+        description: "Upload your SOA here for Bank Reconciliation.",
+        buttonText: "Upload",
+        buttonLink: "https://example.com/BankReconciliation-upload",
+          
+
+    },
+            { 
+          id: 13, 
+        category: "Documentation",
+        title: "Looseleaf Documentation",
+        description: "Access Documentation for Looseleaf.",
+        buttonText: "View Documentation",
+        buttonLink: "https://example.com/petty-cash-documentation",
+          
+
+    },
+            { 
+          id: 14, 
+        category: "LooseLeaf",
+        title: "Looseleaf Upload ",
+        description: "Upload your SOA here for Looseleaf.",
+        buttonText: "View Upload",
         buttonLink: "https://example.com/petty-cash-documentation",
           
 

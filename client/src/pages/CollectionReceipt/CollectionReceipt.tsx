@@ -20,10 +20,6 @@ type Bookmark = {
 function CollectionReceipt() {
 
   const { bookmarks, addBookmark, removeBookmark, loading } = useBookmarks();
-  
-
-
-
   const collectionReceiptCards = NewCardsData.filter(card => card.category === 'CollectionReceipt');
 
   const isBookmarked = (cardId: number): boolean =>

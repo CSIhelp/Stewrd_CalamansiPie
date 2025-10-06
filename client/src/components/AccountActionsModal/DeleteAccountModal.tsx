@@ -19,19 +19,22 @@ export default function DeleteUserModal({
 }: DeleteUserModalProps) {
   const handleDelete = async () => {
     try {
+    
+      const token = localStorage.getItem("firebaseIdToken");
       const response = await fetch(
         `https://johnbackend.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-          },
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          }
         }
       );
 
       const result = await response.json();
       if (response.ok) {
-        console.log("User deleted:", result);
+        //console.log("User deleted:", result);
         if (onDeleted) onDeleted();
         notifications.show({
           title: "Account Deleted",

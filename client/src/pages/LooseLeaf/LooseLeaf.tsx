@@ -17,8 +17,6 @@ function LooseLeaf() {
 
   const LooseLeafCards = NewCardsData.filter((card) => card.category === "LooseLeaf");
 
-  const isBookmarked = (cardId: number): boolean =>
-    bookmarks.some((bm) => bm.cardId === cardId);
 
   return (
     <>

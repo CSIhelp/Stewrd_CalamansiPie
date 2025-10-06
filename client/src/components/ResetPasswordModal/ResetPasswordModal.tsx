@@ -129,7 +129,7 @@ export default function ResetPasswordModal({
       }
     } catch (err) {
       alert("Network error. Could not reset password.");
-      console.error(err);
+      // console.error(err);
     }
   };
   // Password requirement check indicators

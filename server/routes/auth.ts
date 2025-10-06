@@ -14,8 +14,7 @@ dotenv.config();
 const db = admin.firestore();
 const router = express.Router();
 
-
-// Presence tracking 
+// Presence tracking
 const lastSeenMap: Record<string, number> = {};
 const TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
@@ -37,7 +36,7 @@ setInterval(async () => {
       }
     }
   }
-},15 * 60 * 1000); 
+}, 15 * 60 * 1000);
 
 // Middleware
 const authMiddleware = async (
@@ -51,6 +50,17 @@ const authMiddleware = async (
   const token = authHeader.split(" ")[1];
   try {
     const decoded = await admin.auth().verifyIdToken(token);
+    const uid = `client_${decoded.ClientId}`;
+    const userDoc = await db.collection("users").doc(uid).get();
+
+    if (!userDoc.exists)
+      return res.status(401).json({ error: "User not found" });
+
+    const user = userDoc.data() as any;
+    if (decoded.sessionId !== user.currentSessionId) {
+      return res.status(401).json({ error: "Session expired or logged out" });
+    }
+
     req.user = decoded;
     next();
   } catch {
@@ -59,7 +69,7 @@ const authMiddleware = async (
 };
 
 // Add user account
-router.post("/userManagement", async (req, res) => {
+router.post("/userManagement", authMiddleware, async (req, res) => {
   try {
     const { ClientId, Company, Password, Role } = req.body;
 
@@ -99,7 +109,7 @@ router.post("/userManagement", async (req, res) => {
 });
 
 // Get all users
-router.get("/userManagement", async (req, res) => {
+router.get("/userManagement",  authMiddleware, async (req, res) => {
   try {
     const snapshot = await db.collection("users").get();
     const users = snapshot.docs.map((doc) => doc.data());
@@ -112,7 +122,7 @@ router.get("/userManagement", async (req, res) => {
 // Log in
 router.post("/login", async (req, res) => {
   try {
-    const { ClientId, Password } = req.body;
+    const { ClientId, Password, forceLogout } = req.body;
     const uid = `client_${ClientId}`;
     const userRef = db.collection("users").doc(uid);
     const userDoc = await userRef.get();
@@ -135,20 +145,37 @@ router.post("/login", async (req, res) => {
     const lastSeen = user.lastSeen || 0;
     const isActiveSession = user.isOnline && (now - lastSeen < 60_000);
 
-    if (isActiveSession) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          error: " User already logged in on another device",
-        });
+    const now = Date.now();
+
+    const isActiveSession = user.isOnline;
+
+    //  Block only if another session is active AND forceLogout is not requested
+    if (isActiveSession && !forceLogout) {
+      return res.status(403).json({
+        success: false,
+        error: "User already logged in on another device",
+      });
+    }
+
+    // If forceLogout is requested, clear old session
+    if (isActiveSession && forceLogout) {
+      await userRef.update({
+        isOnline: false,
+        currentSessionId: null,
+        lastSeen: admin.firestore.FieldValue.delete(),
+      });
     }
 
     const sessionId = uuidv4();
+    lastSeenMap[uid] = now;
 
-   lastSeenMap[uid] = now;
+    //  Mark new session online
+    await userRef.update({
+      isOnline: true,
+      lastSeen: now,
+      currentSessionId: sessionId,
+    });
 
-    // Create custom token
     const customToken = await admin.auth().createCustomToken(uid, {
       ClientId: user.ClientId,
       role: user.Role,
@@ -172,9 +199,9 @@ router.post("/login", async (req, res) => {
 
 router.post("/online", authMiddleware, async (req, res) => {
   try {
-    const decoded = req.user as any; 
+    const decoded = req.user as any;
     const uid = `client_${decoded.ClientId}`;
-    const sessionId = decoded.sessionId; 
+    const sessionId = decoded.sessionId;
     const now = Date.now();
 
     const userRef = db.collection("users").doc(uid);
@@ -242,9 +269,8 @@ router.post("/logout", async (req, res) => {
   }
 });
 
-
 // Deactivate user
-router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
+router.patch("/userManagement/deactivate/:clientId",  authMiddleware, async (req, res) => {
   try {
     const uid = `client_${req.params.clientId}`;
     const userRef = db.collection("users").doc(uid);
@@ -271,7 +297,7 @@ router.patch("/userManagement/deactivate/:clientId", async (req, res) => {
 });
 
 //Delete User
-router.delete("/userManagement/:clientId", async (req, res) => {
+router.delete("/userManagement/:clientId", authMiddleware, async (req, res) => {
   try {
     const uid = `client_${req.params.clientId}`;
     const userRef = db.collection("users").doc(uid);
@@ -283,19 +309,33 @@ router.delete("/userManagement/:clientId", async (req, res) => {
         .json({ success: false, message: "User not found" });
 
     await userRef.delete();
+    const bookmarksSnap = await db
+      .collection("bookmarks")
+      .where("user", "==", uid) // assuming you store clientId in bookmarks
+      .get();
 
-    res.json({ success: true, message: `User ${req.params.clientId} deleted` });
+    if (!bookmarksSnap.empty) {
+      const batch = db.batch();
+      bookmarksSnap.forEach((doc) => batch.delete(doc.ref));
+      await batch.commit();
+    }
+
+    res.json({
+      success: true,
+      message: `User ${uid} and related bookmarks deleted`,
+    });
   } catch (err: any) {
+    console.error("Delete user error:", err);
     res.status(500).json({
       success: false,
-      error: "Failed to delete  user",
+      error: "Failed to delete user and bookmarks",
       details: err.message,
     });
   }
 });
 
 // Reactivate user
-router.patch("/userManagement/reactivate/:clientId", async (req, res) => {
+router.patch("/userManagement/reactivate/:clientId", authMiddleware, async (req, res) => {
   try {
     const uid = `client_${req.params.clientId}`;
     const userRef = db.collection("users").doc(uid);
@@ -430,12 +470,26 @@ router.patch(
 );
 
 //last seen
-router.post("/ping", authMiddleware, (req, res) => {
+router.post("/ping", authMiddleware, async (req, res) => {
   try {
     const decoded = req.user as any;
     const uid = `client_${decoded.ClientId}`;
-    lastSeenMap[uid] = Date.now();
-    res.json({ success: true, message: "Ping received" });
+    const now = Date.now();
+
+    lastSeenMap[uid] = now;
+    await db.collection("users").doc(uid).update({
+      lastSeen: admin.firestore.FieldValue.serverTimestamp(),
+      isOnline: true,
+    });
+
+    res.json({
+      success: true,
+      message: "Ping received",
+      lastSeenReadable: new Date(now).toLocaleString("en-PH", {
+        timeZone: "Asia/Manila",
+        hour12: true,
+      }),
+    });
   } catch (err) {
     console.error("Ping error:", err);
     res.status(500).json({ success: false, error: "Ping failed" });

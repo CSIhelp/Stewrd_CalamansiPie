@@ -58,11 +58,11 @@ const UserManagement = () => {
   const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<DisplayUser | null>(null);
   const [resetModalOpen, setResetModalOpen] = useState(false);
-
+  const firebaseIdToken = localStorage.getItem("firebaseIdToken");
   // Get admin company from JWT
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+  
     if (!token) return;
 
     fetch(`${API_BASE}/Dashboard`, {
@@ -97,7 +97,7 @@ const UserManagement = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${firebaseIdToken}`,
         },
         body: JSON.stringify({
           ClientId: data.clientId,
@@ -138,7 +138,7 @@ const UserManagement = () => {
         `${API_BASE}/userManagement/reactivate/${user.clientId}`,
         {
           method: "PATCH",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${firebaseIdToken}` },
         }
       );
       const result = await res.json();
@@ -280,17 +280,27 @@ const UserManagement = () => {
                         onReset={refreshUsers}
                       />
                       {/* Account User Menu ( Deactivate / Delete) */}
+
                       <Menu>
                         <MenuTarget>
+                          <Tooltip 
+                            label={
+                              user.role === "admin"
+                                ? "Admin Account cannot be deactivated or deleted"
+                                : "Account Settings"
+                            }
+                            withArrow
+                          >
                           <Button
                             variant="subtle"
                             color="red"
                             className="AccountSettingsBtn"
-                            
+                            disabled={user.role === "admin"} 
                           >
                             {<IconUserOff size={16} />}
                             
                           </Button>
+                          </Tooltip>
                         </MenuTarget>
 
                         <Menu.Dropdown className="AccountActionMenu">
