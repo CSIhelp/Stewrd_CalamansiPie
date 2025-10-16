@@ -130,8 +130,13 @@ router.post("/login", async (req, res) => {
     if (!userDoc.exists) {
       return res.status(401).json({ error: "Invalid ClientId" });
     }
-
     const user = userDoc.data() as any;
+    const allowedCompany = process.env.ALLOWED_COMPANY;
+
+    if (user.Company !== allowedCompany) {
+      return res.status(403).json({ error: "Unauthorized company access" });
+    }
+
 
     if (!user.Active) {
       return res
@@ -141,9 +146,6 @@ router.post("/login", async (req, res) => {
 
     const valid = await bcrypt.compare(Password, user.Password);
     if (!valid) return res.status(401).json({ error: "Invalid password" });
-    const now = Date.now();
-    const lastSeen = user.lastSeen || 0;
-    const isActiveSession = user.isOnline && (now - lastSeen < 60_000);
 
     const now = Date.now();
 
@@ -169,7 +171,7 @@ router.post("/login", async (req, res) => {
     const sessionId = uuidv4();
     lastSeenMap[uid] = now;
 
-    //  Mark new session online
+    // Mark new session online
     await userRef.update({
       isOnline: true,
       lastSeen: now,
@@ -196,7 +198,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "Login failed", details: err.message });
   }
 });
-
 router.post("/online", authMiddleware, async (req, res) => {
   try {
     const decoded = req.user as any;

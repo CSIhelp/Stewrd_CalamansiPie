@@ -88,7 +88,19 @@ const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: s
         const userConmpany = res.data.company;
         const sessionId = res.data.sessionId;
 
+        const allowedCompany = "John";
+        const userRole = res.data.role;
 
+        if (userConmpany !== allowedCompany) {
+          notifications.show({
+            title: "Unauthorized Company",
+            message: "Only John employees can log in",
+            color: "red",
+            icon: <IconX size={20} />,
+          });
+          setLoading(false);
+          return;
+        }
    
         // Save tokens in localStorage
         localStorage.setItem("token", customToken);
@@ -180,7 +192,21 @@ const handleForceLogin = async (passwordFromModal: string) => {
         const customToken = res.data.customToken;
         const userCredential = await signInWithCustomToken(auth, customToken);
         const idToken = await userCredential.user.getIdToken();
+        const userConmpany = res.data.company;
 
+        const allowedCompany = "John";
+        const userRole = res.data.role;
+
+        if (userConmpany !== allowedCompany) {
+          notifications.show({
+            title: "Unauthorized Company",
+            message: "Only John employees can log in",
+            color: "red",
+            icon: <IconX size={20} />,
+          });
+          setLoading(false);
+          return;
+        }
         localStorage.setItem("token", customToken);
         localStorage.setItem("firebaseIdToken", idToken);
         localStorage.setItem("userRole", res.data.role);
