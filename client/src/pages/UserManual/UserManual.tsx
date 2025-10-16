@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Tabs, TextInput, ScrollArea, Text } from "@mantine/core";
+import { Tabs, TextInput, ScrollArea, Text, List, ListItem } from "@mantine/core";
 import "./UserManual.css";
 
 //images
@@ -71,8 +71,22 @@ export default function UserManual() {
         content: (
         <>
           {" "}
-          <h1> Bills User Manual </h1>
-          <h3 className="UserManualSubheading">Instruction on how to use Bills </h3>
+          <h1> John Bills User Manual </h1>
+          <h3 className="UserManualSubheading">Instruction onHow to create a Bill entry to the Main Database</h3>
+          <h2 className="UserManualHeading"> Requirements </h2>
+              <List>
+      <List.Item>Form link for Bill and Petty Cash entries: Bill and Petty Cash Form</List.Item>
+      <List.Item>Form link for registering Vendor and TIN: TIN and Vendor to QBO Form</List.Item>
+      <List.Item>To start development server run npm start command</List.Item>
+    </List>
+        <h2 className="UserManualHeading"> Bill Tutorial </h2>
+          <h4 className="stepTitle"> 1. Navigate the Side Navigation</h4>
+          <p className="stepDescription">   - Scroll through the list of menu items.</p>
+         <img src={navigate1} className="imgUser1" /> 
+        <h4 className="stepTitle"> 2. Click on the Bills </h4>
+          <p className="stepDescription">   - Example: Collection receipts</p>
+                  <h4 className="stepTitle"> 2. Go to the Bill and Petty Cash Entry Form </h4>
+          <p className="stepDescription">  - Enter your email address. This is where the receipt and documentation file will go.</p>
         </>
       ),
     },
