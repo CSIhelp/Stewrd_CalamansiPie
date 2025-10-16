@@ -1,4 +1,4 @@
-.userManualcontainer {
+.UserManualcontainer {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -14,14 +14,14 @@
   justify-items: center;
 }
 
-.userManualsearch {
+.UserManualsearch {
   margin-bottom: 16px;
   width: 70% !important;
   justify-content: left !important;
   align-self: start;
 }
 
-.userManualtabs {
+.UserManualtabs {
   border-radius: 10px;
   background: white;
   padding: 16px;
@@ -29,36 +29,47 @@
    min-height: 40vw;
 }
 
-.userManualtablist {
+.UserManualtablist {
   margin-bottom: 10px;
   border-bottom: 1px solid #e9ecef;
 }
 
-.userManualtab {
+.UserManualtab {
   font-weight: 600;
   color: #5f5f5f;
   transition: color 0.2s ease;
 }
 
-.userManualtab[data-active="true"] {
+.UserManualtab[data-active="true"] {
   color: #ffffff;
   border-bottom: 2px solid #29AAE1;
   border-radius: 20px 0 20px 0 ;
   background-color: #29AAE1;
 }
 
-.userManualpanel {
+.UserManualpanel {
   margin-top: 10px;
   margin-left: 30px;
 }
 
-.userManualscroll {
+.UserManualscroll {
   padding-right: 10px;
 }
 
-.userManualcontent {
+.UserManualcontent {
   line-height: 1.6;
   color: #333;
+}
+.UserManualRequirments {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 0 20px 20px 20px;
+  padding-top: -10px !important;
+  border-top: #e9e9e9 solid 3px ;
+   border-bottom: #e9e9e9 solid 3px ;
+   border-radius: 5px;
 }
 .UserManualSubheading{  
   margin-top: -20px;
@@ -66,11 +77,11 @@
   font-weight: 400;
 }
 
-.stepTitle {
+.StepTitle {
 margin-top: 0 !important;
 margin-bottom: -5px;
 }
-.stepDescription{
+.StepDescription{
   margin-top: 5px !important;
   line-height: 17px;
   margin-left: 20px;

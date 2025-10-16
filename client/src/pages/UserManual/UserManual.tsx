@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Tabs, TextInput, ScrollArea, Text, List, ListItem } from "@mantine/core";
+import { Tabs, TextInput, ScrollArea, Text, List, ListItem, Group } from "@mantine/core";
 import "./UserManual.css";
 
 //images
@@ -22,13 +22,13 @@ export default function UserManual() {
           {" "}
           <h1> John User Manual </h1>
           <h3 className="UserManualSubheading">Instruction on how to use Navigate through John</h3>
-          <h4 className="stepTitle"> 1. Navigate the Side Navigation</h4>
-          <p className="stepDescription">   - Scroll through the list of menu items to view all available sections. Each menu item corresponds to a page on the website.</p>
+          <h4 className="StepTitle"> 1. Navigate the Side Navigation</h4>
+          <p className="StepDescription">   - Scroll through the list of menu items to view all available sections. Each menu item corresponds to a page on the website.</p>
          <img src={navigate1} className="imgUser1" /> 
-        <h4 className="stepTitle"> 2. Click on the section that you want to go to </h4>
-          <p className="stepDescription">   - Example: Collection receipts</p>
-                  <h4 className="stepTitle"> 2. Click on the section that you want to go to </h4>
-          <p className="stepDescription">   - Example: Collection receipts</p>
+        <h4 className="StepTitle"> 2. Click on the section that you want to go to </h4>
+          <p className="StepDescription">   - Example: Collection receipts</p>
+                  <h4 className="StepTitle"> 2. Click on the section that you want to go to </h4>
+          <p className="StepDescription">   - Example: Collection receipts</p>
         </>
       ),
     },
@@ -73,20 +73,21 @@ export default function UserManual() {
           {" "}
           <h1> John Bills User Manual </h1>
           <h3 className="UserManualSubheading">Instruction onHow to create a Bill entry to the Main Database</h3>
+         <Group className="UserManualRequirments">
           <h2 className="UserManualHeading"> Requirements </h2>
               <List>
       <List.Item>Form link for Bill and Petty Cash entries: Bill and Petty Cash Form</List.Item>
       <List.Item>Form link for registering Vendor and TIN: TIN and Vendor to QBO Form</List.Item>
       <List.Item>To start development server run npm start command</List.Item>
-    </List>
+    </List></Group>
         <h2 className="UserManualHeading"> Bill Tutorial </h2>
-          <h4 className="stepTitle"> 1. Navigate the Side Navigation</h4>
-          <p className="stepDescription">   - Scroll through the list of menu items.</p>
+          <h4 className="StepTitle"> 1. Navigate the Side Navigation</h4>
+          <p className="StepDescription">   - Scroll through the list of menu items.</p>
          <img src={navigate1} className="imgUser1" /> 
-        <h4 className="stepTitle"> 2. Click on the Bills </h4>
-          <p className="stepDescription">   - Example: Collection receipts</p>
-                  <h4 className="stepTitle"> 2. Go to the Bill and Petty Cash Entry Form </h4>
-          <p className="stepDescription">  - Enter your email address. This is where the receipt and documentation file will go.</p>
+        <h4 className="StepTitle"> 2. Click on the Bills </h4>
+          <p className="StepDescription">   - Example: Collection receipts</p>
+                  <h4 className="StepTitle"> 2. Go to the Bill and Petty Cash Entry Form </h4>
+          <p className="StepDescription">  - Enter your email address. This is where the receipt and documentation file will go.</p>
         </>
       ),
     },
@@ -155,26 +156,26 @@ export default function UserManual() {
     <>
       <Header title="User Manual" />
       <SideNavBar />
-      <div className="userManualcontainer">
+      <div className="UserManualcontainer">
         <TextInput
-          placeholder="Search user manual..."
+          placeholder="Search User manual..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="userManualsearch"
+          className="UserManualsearch"
         />
 
         <Tabs
           value={activeTab}
           onChange={setActiveTab}
-          className="userManualtabs"
+          className="UserManualtabs"
             orientation="vertical"
         >
-          <Tabs.List grow className="userManualtablist">
+          <Tabs.List grow className="UserManualtablist">
             {filteredTabs.map((tab) => (
               <Tabs.Tab
                 key={tab.value}
                 value={tab.value}
-                className="userManualtab"
+                className="UserManualtab"
               >
                 {tab.label}
               </Tabs.Tab>
@@ -185,10 +186,10 @@ export default function UserManual() {
             <Tabs.Panel
               key={tab.value}
               value={tab.value}
-              className="userManualpanel"
+              className="UserManualpanel"
             >
-              <ScrollArea className="userManualscroll">
-                <Text className="userManualcontent">{tab.content}</Text>
+              <ScrollArea className="UserManualscroll">
+                <Text className="UserManualcontent">{tab.content}</Text>
               </ScrollArea>
             </Tabs.Panel>
           ))}
