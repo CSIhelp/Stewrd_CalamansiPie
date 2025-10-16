@@ -93,7 +93,7 @@ const handleLogout = async () => {
         </Menu.Target>
 
         <Menu.Dropdown>
-              { userRole =="admin" && (<Menu.Item
+              { (userRole =="admin" || userRole == "accountant" ) && (<Menu.Item
             color="blue"
             leftSection={<IconUsers size={16} />}
             onClick={handleOpenUserManage}

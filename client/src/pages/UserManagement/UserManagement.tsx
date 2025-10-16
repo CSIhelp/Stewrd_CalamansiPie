@@ -86,9 +86,9 @@ const UserManagement = () => {
     if (!token) return;
     const activeUsers = users.filter((user) => user.isActive === true);
 
-    if (activeUsers.length >= 3) {
+    if (activeUsers.length >= 5) {
       alert(
-        "You can only have a maximum of 3 active accounts (including Admin)."
+        "You can only have a maximum of 5 active accounts (including Admin)."
       );
       return;
     }
@@ -189,9 +189,9 @@ const UserManagement = () => {
         <Container className="UserManagementCardContainer">
           {/* Disabled Buttons message */}
           <Tooltip
-            label="Maximum of 3 active accounts allowed"
+            label="Maximum of 5 active accounts allowed"
             withArrow
-            disabled={users.filter((u) => u.isActive).length < 3} // Show tooltip only when disabled
+            disabled={users.filter((u) => u.isActive).length < 5} // Show tooltip only when disabled
           >
             <Button
               className="AddUserButton"
@@ -199,7 +199,7 @@ const UserManagement = () => {
               color="blue"
               onClick={() => setAddModalOpen(true)}
               disabled={
-                users.filter((user) => user.isActive === true).length >= 3
+                users.filter((user) => user.isActive === true).length >= 5
               }
               leftSection={<IconUserPlus size={16} />}
             >
@@ -232,7 +232,11 @@ const UserManagement = () => {
                         <Badge color="red" variant="light">
                           Admin
                         </Badge>
-                      ) : (
+                      ) : user.role === "accountant" ? (
+                          <Badge color="teal" variant="light">
+                            Accountant
+                          </Badge>
+                        ) : (
                         <Badge color="blue" variant="light">
                           User
                         </Badge>
@@ -285,9 +289,9 @@ const UserManagement = () => {
                         <MenuTarget>
                           <Tooltip 
                             label={
-                              user.role === "admin"
-                                ? "Admin Account cannot be deactivated or deleted"
-                                : "Account Settings"
+                                  user.role === "admin" || user.role === "accountant"
+                                    ? "Account cannot be deactivated or deleted"
+                                    : "Account Settings"
                             }
                             withArrow
                           >
@@ -295,7 +299,10 @@ const UserManagement = () => {
                             variant="subtle"
                             color="red"
                             className="AccountSettingsBtn"
-                            disabled={user.role === "admin"} 
+                            disabled={user.role === "admin" ||
+                              user.role === "accountant"
+                              
+                            } 
                           >
                             {<IconUserOff size={16} />}
                             
@@ -315,10 +322,10 @@ const UserManagement = () => {
                             </Menu.Item>
                           ) : (
                             <Tooltip
-                              label="Maximum of 3 active accounts allowed"
+                              label="Maximum of 5 active accounts allowed"
                               withArrow
                               disabled={
-                                users.filter((u) => u.isActive).length < 3
+                                users.filter((u) => u.isActive).length < 5
                               } // Show tooltip only when disabled>
                             >
                               <Menu.Item
@@ -328,7 +335,7 @@ const UserManagement = () => {
                                 onClick={() => handleReactivateUser(user)}
                                 disabled={
                                   users.filter((user) => user.isActive === true)
-                                    .length >= 3
+                                    .length >= 5
                                 }
                               >
                                 Activate Account?

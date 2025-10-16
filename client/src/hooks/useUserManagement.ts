@@ -3,7 +3,7 @@ import axios from "axios";
 
 interface DisplayUser {
   clientId: string;
-  role: "user" | "admin";
+  role: "user" | "admin" | "accountant";
   isActive: boolean;
   isOnline: boolean;
 }
