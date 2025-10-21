@@ -45,7 +45,7 @@ function LogIn() {
   useEffect(() => {
     const firebaseIdToken = localStorage.getItem("firebaseIdToken");
     if (firebaseIdToken) {
-      fetch("https://john-CalamansiPie.vercel.app/api/auth/logout", {
+      fetch("https://stewrd-calamasipie.vercel.app/api/auth/logout", {
         method: "POST",
         headers: { Authorization: `Bearer ${firebaseIdToken}` },
       }).catch((err) => console.error("Logout API failed", err));
@@ -179,7 +179,7 @@ function LogIn() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://john-CalamansiPie.vercel.app/api/auth/login",
+        "https://stewrd-calamasipie.vercel.app/api/auth/login",
         {
           ClientId: pendingCreds.clientId,
           Password: passwordFromModal,
