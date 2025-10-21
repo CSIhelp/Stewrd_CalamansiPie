@@ -188,7 +188,7 @@ export default function FirstLoginModal({
             onChange={(e) => setConfirmPassword(e.currentTarget.value)}
             mt="md"
           />
-          <Button color="blue" fullWidth mt="md" onClick={handleChangePassword}>
+          <Button color="#009444" fullWidth mt="md" onClick={handleChangePassword}>
             Update Password
           </Button>
         </Container>

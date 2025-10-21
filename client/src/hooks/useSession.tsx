@@ -69,9 +69,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     try {
       const res = await fetch(`${API_BASE}/Dashboard`, {
-        headers: { 
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (res.status === 401) {

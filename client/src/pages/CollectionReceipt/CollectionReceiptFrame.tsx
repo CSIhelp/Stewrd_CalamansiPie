@@ -43,15 +43,17 @@ export default function CollectionReceiptFrame() {
                         <LoadingOverlay
                           visible={isLoading}
                           overlayProps={{ radius: "sm", blur: 2 }}
-                          loaderProps={{ color: "#8F87F1", type: "bars" }}
+                          loaderProps={{ color: "#009444", type: "bars" }}
                           zIndex={1}
                         />
           <iframe
             className="CollectionReceiptIframe"
-            src="https://example.com/Collection-frame"
+            src="https://primary-production-a810.up.railway.app/form/a8413289-34e1-4714-b7e7-4c7824f5e5a4"
             title="CollectionReceipt"
            onLoad={() => setIsLoading(false)}
+           
           ></iframe>
+          
         </div>
                 <Button className="HelpButton"  onClick={handleUserManual }>
         Need Help? Click here for user Manual

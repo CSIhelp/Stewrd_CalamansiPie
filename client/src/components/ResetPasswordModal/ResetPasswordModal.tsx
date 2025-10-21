@@ -246,7 +246,7 @@ export default function ResetPasswordModal({
               Cancel
             </Button>
             <Button
-              color="#8F87F1"
+              color="#009444"
               className="ResetModalBtn"
               onClick={handleReset}
               fullWidth

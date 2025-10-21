@@ -198,7 +198,7 @@ const UserManagement = () => {
             <Button
               className="AddUserButton"
               variant="filled"
-              color="#8F87F1"
+              color="#009444"
               onClick={() => setAddModalOpen(true)}
               disabled={
                 users.filter((user) => user.isActive === true).length >= 5
@@ -272,7 +272,7 @@ const UserManagement = () => {
                         <Group className="UserActions">
                           <Button
                             variant="subtle"
-                            color="#8F87F1"
+                            color="#009444"
                             className="ResetBtn"
                             leftSection={<IconKey size={16} />}
                             onClick={() => handleResetPassword(user)}

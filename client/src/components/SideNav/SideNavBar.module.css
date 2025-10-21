@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-  background-color: white;
+  background-color: #009444 !important;
   box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -webkit-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -moz-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
@@ -12,9 +12,14 @@
   top:0;
 left:0;
 overflow-y: scroll;
-
-
+  direction: rtl; 
 }
+
+.navbar > * {
+  direction: ltr;      
+}
+
+
 
 .navbarMain {
   flex: 1;
@@ -33,7 +38,7 @@ overflow-y: scroll;
   align-items: center;
   text-decoration: none;
   font-size: var(--mantine-font-size-s);
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
+  color: #ffffff;
   padding: 10px;
   border-radius: var(--mantine-radius-sm);
   font-weight: 500;
@@ -43,30 +48,39 @@ overflow-y: scroll;
 
 .link:hover {
 
- background-color: #29AAE1;
- color: white;
+ background-color: #D5F0E1;
+ color:#283A18 !important;
 }
 .activeLink {
   display: flex;
   align-items: center;
   text-decoration: none;
   font-size: var(--mantine-font-size-s);
-  background-color: #29AAE1 !important;
-  color: white !important;
+  background-color: #D5F0E1 !important;
+  color: rgb(0, 0, 0) !important;
   padding: 10px;
   border-radius: var(--mantine-radius-sm);
   font-weight: 500;
   width: 100%;
   transition: background-color 0.2s ease, color 0.2s ease;
   
+
+}
+  
+.activeLink :global(.linkIcon) {
+  color: #283A18!important;
+    margin-right: 10px;
+  width: 25px;
+  height: 25px;
 }
 
-.linkIcon {
-  color: black;
+.link :global(.linkIcon) {
+  color: #ffffff;
   margin-right: 10px;
   width: 25px;
   height: 25px;
 }
+
 
 .documentation{
   margin-top:5vh;
@@ -80,6 +94,7 @@ overflow-y: scroll;
   margin-top: 15vh !important;
   margin-bottom: 20px;
   border-radius: var(--mantine-radius-sm);
+
 }
 
 .SearchItemContainer{
@@ -91,10 +106,11 @@ justify-content: space-between;
   margin-top: 10px;
   padding: 10px;
   border-bottom: 0.5px solid #E0E0E0;
+  
 }
 .SearchItemContainer:hover {
   background-color: #F0FCFF;
-  border-left: #29AAE1 solid 5px;
+  border-left: #009444 solid 5px;
   border-radius: 10px;
 }
 
@@ -131,7 +147,6 @@ margin-bottom: 0 !important;
   max-width: 300px;
   height: 100vh;
   z-index: 999;
-  background-color: white;
   box-shadow: 2px 0 10px rgba(0,0,0,0.2);
   transition: transform 0.3s ease;
 }

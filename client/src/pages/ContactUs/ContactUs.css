@@ -31,7 +31,7 @@
 }
 .DashboardBtn {
   margin-top: 20px;
-  background-color: #29aae1;
+  background-color: #009444;
 }
 .ContactUsDescription {
   width: 30%;
@@ -56,7 +56,7 @@
   width:1800px !important;
   background-color: #ffff !important;
   padding: 40px;
-  border-top: 5px #29aae1 solid;
+  border-top: 5px #009444 solid;
   border-radius: 20px;
   overflow-y: scroll;
   height: 400px;
@@ -111,7 +111,7 @@
     width: 100%;
     align-items: center;
     margin-top: 20px;
-    border-top: #29aae1 1px dashed;
+    border-top: #009444 1px dashed;
     border-radius: 50px;
     padding-top: 10px;
   }

@@ -10,7 +10,7 @@
   
 }
 .ChequeDisbursementFormCard{
-  border-left: #8F87F1 solid 10px;
+  border-left: #009444 solid 10px;
   border-radius: 20px;
 }
 /* Container for the iframe */
@@ -36,17 +36,17 @@
   margin-left: 5vh;
 }
 .BackButton {
-  background-color: #8F87F1 ;
+  background-color: #009444 ;
 }
 
 .HelpButton {
   background-color: #ffffff !important;
-  color: #8F87F1; 
+  color: #009444; 
   text-decoration: underline;
 }
 .HelpButton:hover {
   background-color: #e8f7ff !important;
-  color: #8F87F1; 
+  color: #009444; 
   text-decoration: underline;
 }
 .ChequeDisbursementFrameDescription{

@@ -22,7 +22,7 @@ export default function AlreadyLoggedInModal({
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Already Logged In" centered>
+    <Modal opened={opened} onClose={onClose} title="Already Logged In"  className= "AlreadyLoggedin" centered>
       <Text mb="sm">
         Your account <b>{clientId}</b> is active on another device.  
         Would you like to log out there and continue here?
