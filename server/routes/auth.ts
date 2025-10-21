@@ -9,6 +9,12 @@ import { v4 as uuidv4 } from "uuid";
 
 import { QuerySnapshot, DocumentData } from "firebase-admin/firestore";
 
+import {
+  deactivateUser,
+  reactivateUser,
+  deleteUser,
+} from "../controllers/userController.js";
+
 dotenv.config();
 
 const db = admin.firestore();
@@ -137,7 +143,6 @@ router.post("/login", async (req, res) => {
       return res.status(403).json({ error: "Unauthorized company access" });
     }
 
-
     if (!user.Active) {
       return res
         .status(403)
@@ -171,7 +176,7 @@ router.post("/login", async (req, res) => {
     const sessionId = uuidv4();
     lastSeenMap[uid] = now;
 
-    // Mark new session online
+    // ✅ Mark new session online
     await userRef.update({
       isOnline: true,
       lastSeen: now,
@@ -198,6 +203,7 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "Login failed", details: err.message });
   }
 });
+
 router.post("/online", authMiddleware, async (req, res) => {
   try {
     const decoded = req.user as any;
@@ -270,97 +276,12 @@ router.post("/logout", async (req, res) => {
   }
 });
 
-// Deactivate user
-router.patch("/userManagement/deactivate/:clientId",  authMiddleware, async (req, res) => {
-  try {
-    const uid = `client_${req.params.clientId}`;
-    const userRef = db.collection("users").doc(uid);
-    const userDoc = await userRef.get();
-
-    if (!userDoc.exists)
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-
-    await userRef.update({ Active: false });
-
-    res.json({
-      success: true,
-      message: `User ${req.params.clientId} deactivated`,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      error: "Failed to deactivate user",
-      details: err.message,
-    });
-  }
-});
-
-//Delete User
-router.delete("/userManagement/:clientId", authMiddleware, async (req, res) => {
-  try {
-    const uid = `client_${req.params.clientId}`;
-    const userRef = db.collection("users").doc(uid);
-    const userDoc = await userRef.get();
-
-    if (!userDoc.exists)
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-
-    await userRef.delete();
-    const bookmarksSnap = await db
-      .collection("bookmarks")
-      .where("user", "==", uid) // assuming you store clientId in bookmarks
-      .get();
-
-    if (!bookmarksSnap.empty) {
-      const batch = db.batch();
-      bookmarksSnap.forEach((doc) => batch.delete(doc.ref));
-      await batch.commit();
-    }
-
-    res.json({
-      success: true,
-      message: `User ${uid} and related bookmarks deleted`,
-    });
-  } catch (err: any) {
-    console.error("Delete user error:", err);
-    res.status(500).json({
-      success: false,
-      error: "Failed to delete user and bookmarks",
-      details: err.message,
-    });
-  }
-});
-
-// Reactivate user
-router.patch("/userManagement/reactivate/:clientId", authMiddleware, async (req, res) => {
-  try {
-    const uid = `client_${req.params.clientId}`;
-    const userRef = db.collection("users").doc(uid);
-    const userDoc = await userRef.get();
-
-    if (!userDoc.exists)
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-
-    await userRef.update({ Active: true });
-
-    res.json({
-      success: true,
-      message: `User ${req.params.clientId} reactivated`,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      error: "Failed to reactivate user",
-      details: err.message,
-    });
-  }
-});
+// Deativate User
+router.patch("/userManagement/deactivate/:clientId", deactivateUser);
+// Activate User
+router.patch("/userManagement/reactivate/:clientId", reactivateUser);
+// Delete User
+router.delete("/userManagement/:clientId", deleteUser);
 
 //Reset password
 router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
@@ -375,40 +296,50 @@ router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
     const adminRef = db.collection("users").doc(loggedInUid);
 
     const adminDoc = await adminRef.get();
-    if (!adminDoc.exists) {
-      return res.status(403).json({ success: false, error: "Admin not found" });
-    }
+    if (!adminDoc.exists)
+      return res.status(403).json({ success: false, error: "User not found" });
 
     const adminData = adminDoc.data() as any;
-    if (adminData.Role !== "admin") {
+
+    //  Allow only admin or accountant to proceed
+    if (adminData.Role !== "admin" && adminData.Role !== "accountant") {
       return res.status(403).json({ success: false, error: "Not authorized" });
     }
 
-    // Verify admin password
-    const validAdmin = await bcrypt.compare(adminPassword, adminData.Password);
-    if (!validAdmin) {
-      return res
-        .status(403)
-        .json({ success: false, error: "Invalid admin password" });
+    // If accountant, can only change *own* password
+    if (adminData.Role === "accountant" && adminData.ClientId !== clientId) {
+      return res.status(403).json({
+        success: false,
+        error: "Accountants can only change their own password",
+      });
     }
 
-    // Hash new password
-    const hashedPassword = await bcrypt.hash(Password, 10);
+    // Verify provided password matches their own current password
+    const validPassword = await bcrypt.compare(adminPassword, adminData.Password);
+    if (!validPassword) {
+      return res
+        .status(403)
+        .json({ success: false, error: "Invalid current password" });
+    }
 
+    //Hash and update
+    const hashedPassword = await bcrypt.hash(Password, 10);
     const userRef = db.collection("users").doc(uid);
     const userDoc = await userRef.get();
 
-    if (!userDoc.exists) {
+    if (!userDoc.exists)
       return res
         .status(404)
         .json({ success: false, error: "Target user not found" });
-    }
 
-    // Update password
     await userRef.update({ Password: hashedPassword, isFirstLogin: true });
 
-    res.json({ success: true, message: `Password for ${clientId} updated` });
+    res.json({
+      success: true,
+      message: `Password for ${clientId} updated successfully`,
+    });
   } catch (err: any) {
+    console.error("Reset password error:", err);
     res
       .status(500)
       .json({ success: false, error: "Server error", details: err.message });

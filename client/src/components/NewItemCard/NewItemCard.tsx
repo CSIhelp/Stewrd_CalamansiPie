@@ -10,6 +10,7 @@ import { useState, type FC } from "react";
 import { notifications } from "@mantine/notifications";
 import useBookmarks  from "../../hooks/useBookmark"; 
 import "./NewItemCard.css";
+import { useNavigate } from "react-router-dom";
 
 
 interface NewItemCardProps {
@@ -33,6 +34,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
   category,
 
 }) => {
+    const navigate = useNavigate();
   const { bookmarks, addBookmark, removeBookmark,fetchBookmarks,loading } = useBookmarks();
 
   const isBookmarked = bookmarks.some((bm) => bm.cardId === cardId);
@@ -101,7 +103,9 @@ const NewItemCard: FC<NewItemCardProps> = ({
 
     }
   };
-
+  const handleGoToForm = () => {
+    navigate(buttonLink);
+  };
   return (
     <Card withBorder radius="md" p="lg" className="NewItemCard">
       <Group justify="space-between" mb="xs" className="NewCardGroup">
@@ -129,7 +133,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
 
       <Button
         component="a"
-        href={buttonLink}
+        onClick={handleGoToForm}
         target="_blank"
         rel="noopener noreferrer"
         variant="filled"
