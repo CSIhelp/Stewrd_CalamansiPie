@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Modal,
   TextInput,
@@ -10,6 +10,8 @@ import {
 } from "@mantine/core";
 import "./AddAccount.css";
 import { useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { IconX, IconCheck, IconWeight } from "@tabler/icons-react";
 
 // Password strength checker
 const passwordRequirements = [
@@ -36,38 +38,67 @@ function getStrength(password: string) {
 interface AddAccountModalProps {
   opened: boolean;
   onClose: () => void;
-  onCreate: (data: { clientId: string; password: string }) => void;
+  onCreate: (data: {
+    clientId: string;
+    password: string;
+    company: string;
+  }) => void;
+  adminCompany: string;
 }
 
 export default function AddAccountModal({
   opened,
   onClose,
   onCreate,
+  adminCompany,
 }: AddAccountModalProps) {
   const [clientId, setClientId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+
   // Password validation
   const strength = getStrength(password);
   const [isFocused, setIsFocused] = useState(false);
 
+  // Close Modal
+  const [confirmClose, setConfirmClose] = useState(false); 
+  const [isDirty, setIsDirty] = useState(false);
+
   const handleCreate = () => {
     if (!clientId || !password || !confirmPassword) {
-      alert("All fields are required");
+      notifications.show({
+        title: "All fields are required",
+        message: `Add user failed`,
+        color: "red",
+        icon: <IconX size={20} />,
+      });
       return;
     }
-    if (password != confirmPassword) {
-      alert("Password do not match");
+    if (password !== confirmPassword) {
+      notifications.show({
+        title: "Passwords do not match",
+        message: `Add user failed`,
+        color: "red",
+        icon: <IconX size={20} />,
+      });
       return;
     }
+      if (strength < 90) { 
+    notifications.show({
+      title: "Weak password",
+      message: "Password does not meet the required strength.",
+      color: "red",
+      icon: <IconX size={20} />,
+    });
+    return;
+  }
 
-    onCreate({ clientId, password });
+    // Send company as part of payload
+    onCreate({ clientId, password, company: adminCompany });
 
     setClientId("");
     setPassword("");
     setConfirmPassword("");
-
     onClose();
   };
 
@@ -81,10 +112,37 @@ export default function AddAccountModal({
       {passwordRequirements.label}
     </Text>
   ));
+
+  // Clear Input 
+  const resetForm = () => {
+    setClientId("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+   const handleAttemptClose = () => {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      onClose();
+      resetForm();
+    }
+  };
+ 
+    // Detect unsaved changes
+  useEffect(() => {
+    if (clientId || password || confirmPassword) {
+      setIsDirty(true);
+    } else {
+      setIsDirty(false);
+    }
+  }, [clientId, password, confirmPassword]);
+
   return (
+    <>
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose= {handleAttemptClose} 
       title="Add Account"
       classNames={{ title: "AddAccountTitle" }}
       centered
@@ -135,10 +193,11 @@ export default function AddAccountModal({
         />
 
         <div className="AddActionsGroup">
-          <Button variant="outline" color="dark" onClick={onClose} fullWidth>
+             <Button variant="outline" color="dark" onClick={handleAttemptClose} fullWidth className="CancelBtn">
             Cancel
           </Button>
-          <Button
+
+           <Button
             color="blue"
             className="CreateBtn"
             onClick={handleCreate}
@@ -146,8 +205,41 @@ export default function AddAccountModal({
           >
             Create Account
           </Button>
+      
+         
         </div>
       </div>
     </Modal>
+
+
+  {/* Confirmation modal */}
+      <Modal
+        opened={confirmClose}
+        onClose={() => setConfirmClose(false)}
+        title="Unsaved Changes"
+        centered
+      >
+        <Text>
+          You have unsaved changes. Closing this window will disregard them. Do you want
+          to continue?
+        </Text>
+        <div className="AddActionsGroup" style={{ marginTop: 20 }}>
+          <Button variant="outline" color="dark" onClick={() => setConfirmClose(false)} fullWidth>
+            No, go back
+          </Button>
+          <Button
+            color="red"
+            onClick={() => {
+              resetForm();
+              setConfirmClose(false);
+              onClose();
+            }}
+            fullWidth
+          >
+            Yes, discard changes
+          </Button>
+        </div>
+      </Modal>
+      </>
   );
 }

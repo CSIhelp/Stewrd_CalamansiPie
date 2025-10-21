@@ -1,0 +1,65 @@
+.TransferFrameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* full screen height */
+  width: 100%;
+  background-color: #f8f9fa; /* optional background */
+  margin-top: 5vh;
+  
+}
+.TransferFormCard{
+  border-left: #8F87F1 solid 10px;
+  border-radius: 20px;
+}
+/* Container for the iframe */
+.TransferIframeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 80vw;
+
+  
+}
+.TransferFrameTop {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+  justify-content: space-between;
+}
+.TransferFrameTitle{
+  font-weight: 600;
+  font-size: 25px;
+  margin-left: 5vh;
+}
+.BackButton {
+  background-color: #8F87F1 ;
+}
+
+.HelpButton {
+  background-color: #ffffff !important;
+  color: #8F87F1; 
+  text-decoration: underline;
+}
+.HelpButton:hover {
+  background-color: #e8f7ff !important;
+  color: #8F87F1; 
+  text-decoration: underline;
+}
+.TransferFrameDescription{
+    margin-left: 5vh;
+}
+/* The iframe itself */
+.TransferIframe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 75vh;
+  border: none;
+  border-radius: 12px;
+ overflow-y: hidden !important;
+}

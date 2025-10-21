@@ -49,3 +49,23 @@
     font-size: 14px;
     margin-bottom: 5px;
 }
+
+
+@media (max-width: 750px ) {
+  .AddActionsGroup{
+    display: flex;
+    flex-direction:column-reverse;
+   
+  }
+  .CreateBtn {
+    width: auto;
+  
+  }
+  .CancelBtn {
+     margin-bottom: 20px !important;
+  }
+
+  .AddAccountContainer{ 
+    height: 80vh;
+  }
+}

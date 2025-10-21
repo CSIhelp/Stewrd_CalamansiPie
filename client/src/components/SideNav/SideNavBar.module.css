@@ -8,9 +8,10 @@
   box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -webkit-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
 -moz-box-shadow: -6px -36px 93px -116px rgba(0,0,0,0.65);
-position: fixed;
-top: 10;
+  position: fixed;
+  top:0;
 left:0;
+overflow-y: scroll;
 
 
 }
@@ -68,15 +69,15 @@ left:0;
 }
 
 .documentation{
-  margin-top:10vh;
+  margin-top:5vh;
   border-top: 1px solid #877E7E;
-  padding-top: 20px;
+  padding-top: 10px;
  
 }
 .search {
   width: 95%;
   margin-left: 2%;
-  margin-top: 10px !important;
+  margin-top: 15vh !important;
   margin-bottom: 20px;
   border-radius: var(--mantine-radius-sm);
 }
@@ -118,3 +119,42 @@ margin-bottom: 0 !important;
   font-size: 12px;
   color: #877E7E;
 }
+
+/* Mobile Responsive  */
+
+/* Hide sidebar on mobile by default */
+.mobileNavbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80%;
+  max-width: 300px;
+  height: 100vh;
+  z-index: 999;
+  background-color: white;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.mobileBurger {
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  z-index: 1000;
+}
+
+.mobileCloseBurger {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+@media (min-width : 760px) and ( max-width: 1023px ){ 
+
+.navbar {
+  height: 82vh;
+  width: 250px !important;
+}
+}
+

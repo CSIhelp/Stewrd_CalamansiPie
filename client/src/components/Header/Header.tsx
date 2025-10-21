@@ -1,11 +1,18 @@
 import type { FC } from 'react';
-import { IconChevronDown, IconLogout, IconUsers
+import {useState, useEffect} from 'react';
+import { IconChevronDown, IconLogout, IconUsers, IconPhone
  } from '@tabler/icons-react';
 import { Menu } from '@mantine/core';
 import UserMenu from '../UserMenu/UserMenu';
 import './Header.modules.css';
 import { useNavigate } from 'react-router-dom';
 import '@mantine/core/styles.css';
+import { useSession } from '../../hooks/useSession';
+
+//images
+import CrowdSourceLogo from "/CrowdsourceLogo.png"
+import CrowdSourceIcon from "/CrowdsourceIcon.png"
+
 
 interface HeaderProps {
   title: string; 
@@ -14,20 +21,62 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ title }) => {
     const navigate = useNavigate();
-    
-  const handleLogout = () => {
-    console.log('User logged out');
-    navigate ('/')
+    const userRole = localStorage.getItem("userRole");
+    const [adminCompany, setAdminCompany] = useState<string>("");
+    const [clientId, setClientId] = useState<string>("");
+    const { user, clearSession, refreshSession } = useSession();
+      
+
+
+    const API_BASE = "https://johnbackend.vercel.app/api/auth";
+
+const [loadingUser, setLoadingUser] = useState(true);
+
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      await refreshSession();
+    } finally {
+      setLoadingUser(false);
+    }
   };
+  fetchUser();
+}, [refreshSession]);
+
+
+  
+const handleLogout = async () => {
+  try {
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    if (firebaseIdToken) {
+      await fetch(`${API_BASE}/logout`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${firebaseIdToken}` },
+      });
+    }
+  } catch (err) {
+    // console.error("Logout failed", err);
+  } finally {
+    clearSession();       
+    localStorage.clear();    
+    navigate("/");           
+  }
+};
    const handleOpenUserManage = () => {
     
     navigate ('/userManagement')
   };
+  const handleContact = () => {
+    navigate ('/contact')
+  }
 
+    
   return (
     <header className="Header">
    
-      <div className="HeaderLogo">LOGO</div>
+      <div className="HeaderLogo">
+        <img src={CrowdSourceLogo} alt="Logo" className="LogoImage" />
+      </div>
 
  
       <h1 className="HeaderTitle">{title}</h1>
@@ -36,23 +85,30 @@ const Header: FC<HeaderProps> = ({ title }) => {
         <Menu.Target>
     
           <UserMenu
-            image="https://via.placeholder.com/150"
-
-            name="Company Name"
-            email="hspoonlicker@outlook.com"
+            image={ CrowdSourceIcon  }
+            company={user?.company || "loading.."}
+            clientId={user?.id || "loading.."}
          icon={<IconChevronDown size={16} />}
           />
         </Menu.Target>
 
         <Menu.Dropdown>
-                <Menu.Item
+              { (userRole =="admin" || userRole == "accountant" ) && (<Menu.Item
             color="blue"
             leftSection={<IconUsers size={16} />}
             onClick={handleOpenUserManage}
             className='HeaderLogout'
           >
            User Management
-          </Menu.Item> 
+          </Menu.Item> )}
+                    <Menu.Item
+            color="blue"
+            leftSection={<IconPhone size={16} />}
+            onClick={handleContact}
+            className='HeaderLogout'
+          >
+           Contact Us 
+          </Menu.Item>  
           <Menu.Item
             color="red"
             leftSection={<IconLogout size={16} />}

@@ -1,122 +1,218 @@
 import React, { useState, useEffect } from "react";
 import {
   Card,
-  Group,
   Container,
   Table,
-  Checkbox,
   Button,
   Badge,
-  Modal,
-  MenuLabel,
   Menu,
   MenuTarget,
   MenuItem,
-  rem,
+  Tooltip,
+  Group
 } from "@mantine/core";
-import "./UserManagement.css";
 import {
   IconUserPlus,
   IconKey,
   IconUserOff,
   IconUserX,
+  IconCheck,
+  IconX,
 } from "@tabler/icons-react";
-
-// import components
+import { notifications } from "@mantine/notifications";
 import Header from "../../components/Header/Header";
 import { SideNavBar } from "../../components/SideNav/SideNavBar";
-import { useDisclosure } from "@mantine/hooks";
 import AddAccountModal from "../../components/AddAccountModal/AddAccount";
-import DeactivateAccountModal from "../../components/AccountActionsModal/DeactivateAccountModal";
 import DeleteUserModal from "../../components/AccountActionsModal/DeleteAccountModal";
+import DeactivateAccountModal from "../../components/AccountActionsModal/DeactivateAccountModal";
 import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswordModal";
 
+// Optimize User Display 
+import useUserManagement from "../../hooks/useUserManagement";
+import { useSession } from "../../hooks/useSession";
+
+import "./UserManagement.css";
+
+const API_BASE = "https://johnbackend.vercel.app/api/auth";
+
+
+type User = {
+  ClientId: string;
+  Role: string;
+  Company: string;
+  Active: boolean;
+  isOnline: boolean;
+};
+
+type DisplayUser = {
+  clientId: string;
+  role: string;
+  isActive: boolean;
+  isOnline: boolean;
+};
+
 const UserManagement = () => {
-  // Sample users data ( save to local storage only)
-  const [users, setUsers] = useState<{ clientId: string; role: string }[]>([]);
-
-  // Modal
-
+  const [adminCompany, setAdminCompany] = useState("");
+  const { users, setUsers, loading, refreshUsers } = useUserManagement(adminCompany);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<DisplayUser | null>(null);
   const [resetModalOpen, setResetModalOpen] = useState(false);
-
-
-  //  Load users from localStorage on component mount
+  const currentUser = localStorage.getItem("userRole");
+    const { user: currentSessionUser } = useSession();
+  // Get admin company from JWT
   useEffect(() => {
-    const storedUsers = localStorage.getItem("users");
-    if (storedUsers) {
-      setUsers(JSON.parse(storedUsers));
-    } else {
-      const defaultUsers = [{ clientId: "AV84320", role: "Admin" }];
-      localStorage.setItem("users", JSON.stringify(defaultUsers));
-      setUsers(defaultUsers);
-    }
+    const token = localStorage.getItem("token");
+    const firebaseIdToken = localStorage.getItem("firebaseIdToken");
+    if (!token) return;
+
+    fetch(`${API_BASE}/Dashboard`, {
+      headers: { Authorization: `Bearer ${firebaseIdToken}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.user.company) {
+          setAdminCompany(data.user.company);
+        }
+      });
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
-  }, [users]);
-
-  //  Add user (max 3 including Admin)
-  const handleCreateAccount = (data: {
+  // Add user
+  const handleCreateAccount = async (data: {
     clientId: string;
     password: string;
+    role?: string;
   }) => {
-    if (users.length >= 3) {
-      alert("You can only have a maximum of 3 accounts (including Admin).");
+    const token = localStorage.getItem("firebaseIdToken");
+    if (!token) return;
+    const activeUsers = users.filter((user) => user.isActive === true);
+
+    if (activeUsers.length >= 5) {
+      alert(
+        "You can only have a maximum of 5 active accounts (including Admin)."
+      );
       return;
     }
+    try {
+      const res = await fetch(`${API_BASE}/userManagement`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ClientId: data.clientId,
+          Company: adminCompany,
+          Password: data.password,
+          Role: data.role || "user",
+        }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        notifications.show({
+          title: " User Created ",
+          message: `User ${data.clientId} added successfully!`,
+          color: "teal",
+          icon: <IconCheck size={20} />,
+        });
+        refreshUsers();
+        setAddModalOpen(false);
+      } else {
 
-    const newUser = { clientId: data.clientId, role: "User" };
-
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-    alert(`User ${data.clientId} added successfully!`);
+        notifications.show({
+          title: " Duplicate ClientID ",
+          message: ` ${result.error} `  ,
+          color: "red",
+          icon: <IconX size={20} />,
+        });
+      }
+    } catch (err) {
+      alert("Network error, failed to add user");
+    }
   };
 
-  //  Prepare for Database/ Backend connection
-  //  const handleCreateAccount = async (data: { clientId: string; password: string }) => {
-  //     console.log('Data ready to send to backend:', data);
+  // API call for reactivation
+  const handleReactivateUser = async (user: DisplayUser) => {
+    const token = localStorage.getItem("firebaseIdToken");
+    try {
+      const res = await fetch(
+        `${API_BASE}/userManagement/reactivate/${user.clientId}`,
+        {
+          method: "PATCH",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const result = await res.json();
+      if (result.success) {
 
-  //     try {
-  //       const response = await fetch('/api/users', {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify(data),
-  //       });
+          notifications.show({
+          title: " User Reactivation ",
+          message: `User ${user.clientId} reactivated successfully!`,
+          color: "teal",
+          icon: <IconCheck size={20} />,
+        });
+        refreshUsers();
+      } else {
+          notifications.show({
+          title: " User Reactivation Failed ",
+          message: `User ${user.clientId} , ${result.error}`,
+          color: "teal",
+          icon: <IconCheck size={20} />,
+        });
+      }
+    } catch (err) {
+      alert("Network error, failed to reactivate user");
+    }
+  };
 
-  //       if (!response.ok) {
-  //         throw new Error('Failed to create account');
-  //       }
+  // Delete user modal
+  const handleOpenDelete = (user: DisplayUser) => {
+    setSelectedUser(user);
+    setDeleteModalOpen(true);
+  };
 
-  //       alert('Account created successfully!');
-  //     } catch (error) {
-  //       console.error(error);
-  //       alert('Error creating account');
-  //     }
-  //   };
+  // Deactivate user modal
+  const handleOpenDeactivate = (user: DisplayUser) => {
+    setSelectedUser(user);
+    setDeactivateModalOpen(true);
+  };
+
+  const handleResetPassword = (user: DisplayUser) => {
+    setSelectedUser(user);
+    setResetModalOpen(true);
+  };
 
   return (
-    <>
-      <Header title="User Management" />
+  <>
+   <Header title="User Management" />
       <div className="UserManagementContainer">
         <SideNavBar />
         <Container className="UserManagementCardContainer">
-          <Button
-            className="AddUserButton"
-            variant="Filled"
-            color="blue"
-            onClick={() => setAddModalOpen(true)}
-            disabled={users.length >= 3}
-            leftSection={<IconUserPlus size={16} />}
+          {/* Disabled Buttons message */}
+          <Tooltip
+            label="Maximum of 5 active accounts allowed"
+            withArrow
+            disabled={users.filter((u) => u.isActive).length < 5} // Show tooltip only when disabled
           >
-            Add User
-          </Button>
+            <Button
+              className="AddUserButton"
+              variant="filled"
+              color="#8F87F1"
+              onClick={() => setAddModalOpen(true)}
+              disabled={
+                users.filter((user) => user.isActive === true).length >= 5
+              }
+              leftSection={<IconUserPlus size={16} />}
+            >
+              Add User
+            </Button>
+          </Tooltip>
           <AddAccountModal
             opened={addModalOpen}
             onClose={() => setAddModalOpen(false)}
             onCreate={handleCreateAccount}
+            adminCompany={adminCompany}
           />
 
           <Card withBorder radius="md" p="lg" className="UserManagementCard">
@@ -125,96 +221,177 @@ const UserManagement = () => {
                 <Table.Tr>
                   <Table.Th>Client ID</Table.Th>
                   <Table.Th>Role</Table.Th>
-
+                  <Table.Th>Status</Table.Th>
                   <Table.Th>Actions</Table.Th>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
-                {users.map((user, index) => (
-                  <Table.Tr key={index}>
-                    <td style={{ padding: " 16px" }}>{user.clientId}</td>
-                    <td>
-                      {user.role === "Admin" ? (
-                        <Badge color="red" variant="light">
-                          Admin
-                        </Badge>
-                      ) : (
-                        <Badge color="blue" variant="light">
-                          User
-                        </Badge>
-                      )}
-                    </td>
+                {users
+                
+                  .map((user, index) => (
+                    <Table.Tr key={index}>
+                      <td data-label="Client Id">{user.clientId}</td>
+                      <td data-label="Role">
+                        {user.role === "admin" ? (
+                          <Badge color="red" variant="light">
+                            Admin
+                          </Badge>
+                        ) : user.role === "accountant" ? (
+                          <Badge color="teal" variant="light">
+                            Accountant
+                          </Badge>
+                        ) : (
+                          <Badge color="violet" variant="light">
+                            User
+                          </Badge>
+                        )}
+                      </td>
+                      <td data-label="Status">
+                        {user.isActive ? (
+                          <Badge color="green" variant="light">
+                            Activated
+                          </Badge>
+                        ) : (
+                          <Badge color="gray" variant="light">
+                            Deactivated
+                          </Badge>
+                        )}
+                        {user.isOnline ? (
+                          <Badge color="green" variant="light">
+                            Online
+                          </Badge>
+                        ) : (
+                          <Badge color="gray" variant="light">
+                            Offline
+                          </Badge>
+                        )}
+                      </td>
 
-                    <td>
-                        {/* Change Password of Users */}
-                      <Button
-                        variant="subtle"
-                        color="blue"
-                        className="ResetBtn"
-                        leftSection={<IconKey size={16} />}
-                        onClick={() => setResetModalOpen(true) }
-                      >
-                        Reset Password
-                      </Button>
-                      <ResetPasswordModal
-                            opened={resetModalOpen}
-                            onClose={() => setResetModalOpen(false) }
-                            onReset={(data: { adminPassword: string; newPassword: string }) => {
-                              // Handle password reset logic here
-                              console.log('Resetting password with data:', data);
-                              alert('Password reset successfully!');
-                              setResetModalOpen(false);
-                            }}
-                            />
-                      {/* Account User Menu ( Deactivate / Delete) */}
-                      <Menu>
-                        <MenuTarget>
+                      <td data-label="Actions">
+ {/* Change Password of Users */}{" "}
+                        <Group className="UserActions">
                           <Button
                             variant="subtle"
-                            color="red"
-                            className="AccountSettingsBtn"
+                            color="#8F87F1"
+                            className="ResetBtn"
+                            leftSection={<IconKey size={16} />}
+                            onClick={() => handleResetPassword(user)}
+                            disabled={
+                              (user.role === "admin" &&
+                                currentUser !== "admin") ||
+                              (user.role === "accountant" &&
+                                currentUser !== "accountant")
+                            }
                           >
-                            {<IconUserOff size={16} />}
+                            Reset Password
                           </Button>
-                        </MenuTarget>
-                        <Menu.Dropdown 
-                        className="AccountActionMenu">
-                          <Menu.Item 
-                             className="DeactivateBtn"
-                            color="yellow"
-                            leftSection={<IconUserOff size={16} />}
-                            onClick={() => setDeactivateModalOpen(true) }>
-                            Deactivate Account?
-                          </Menu.Item>
+
+                          {/*  Reset user password */}
+                          <ResetPasswordModal
+                            opened={resetModalOpen}
+                            onClose={() => setResetModalOpen(false)}
                           
-                            <Menu.Item 
-                              className="DeleteBtn"
-                            color="red"
-                            leftSection={<IconUserX size={16} />}
-                            onClick={() => setDeleteModalOpen(true) }>
-                           Delete Account
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
-                    </td>
+                             
+                           clientId={selectedUser?.clientId ?? ""}
+                            
+                            onReset={refreshUsers}
+                            currentUserRole={currentUser ?? ""}
+                            currentUserId={currentSessionUser?.id ?? ""}
+                          />
 
+                          {/* Account User Menu ( Deactivate / Delete) */}
 
-                    <DeactivateAccountModal
-                            opened={deactivateModalOpen}
-                            onClose={() => setDeactivateModalOpen(false) }/>
-                    <DeleteUserModal 
-                            opened={deleteModalOpen}
-                            onClose={() => setDeleteModalOpen(false) }/>
+                          <Menu>
+                            <MenuTarget>
+                              <Tooltip
+                                label={
+                                  user.role === "admin" || user.role === "accountant"
+                                    ? "Account cannot be deactivated or deleted"
+                                    : "Account Settings"
+                                }
+                                withArrow
+                              >
+                                <Button
+                                  variant="subtle"
+                                  color="red"
+                                  className="AccountSettingsBtn"
+                                  disabled={
+                                    user.role === "admin" ||
+                                    user.role === "accountant"
+                                  }
+                                >
+                                  {<IconUserOff size={16} />}
+                                </Button>
+                              </Tooltip>
+                            </MenuTarget>
 
+                            <Menu.Dropdown className="AccountActionMenu">
+                              {user.isActive ? (
+                                <Menu.Item
+                                  className="DeactivateBtn"
+                                  color="yellow"
+                                  leftSection={<IconUserOff size={16} />}
+                                  onClick={() => handleOpenDeactivate(user)}
+                                >
+                                  Deactivate Account?
+                                </Menu.Item>
+                              ) : (
+                                <Tooltip
+                                  label="Maximum of 5 active accounts allowed"
+                                  withArrow
+                                  disabled={
+                                    users.filter((u) => u.isActive).length < 5
+                                  } // Show tooltip only when disabled>
+                                >
+                                  <Menu.Item
+                                    className="ActivateBtn"
+                                    color="green"
+                                    leftSection={<IconUserPlus size={16} />}
+                                    onClick={() => handleReactivateUser(user)}
+                                    disabled={
+                                      users.filter(
+                                        (user) => user.isActive === true
+                                      ).length >= 5
+                                    }
+                                  >
+                                    Activate Account?
+                                  </Menu.Item>
+                                </Tooltip>
+                              )}
 
-                  </Table.Tr>
-                ))}
+                              <Menu.Item
+                                className="DeleteBtn"
+                                color="red"
+                                leftSection={<IconUserX size={16} />}
+                                onClick={() => handleOpenDelete(user)}
+                              >
+                                Delete Account
+                              </Menu.Item>
+                            </Menu.Dropdown>
+                          </Menu>
+                        </Group>
+                      </td>
+                    </Table.Tr>
+                  ))}
               </Table.Tbody>
             </Table>
           </Card>
+          <DeleteUserModal
+            opened={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            clientId={selectedUser?.clientId ?? ""}
+            onDeleted={refreshUsers}
+          />
+          <DeactivateAccountModal
+            opened={deactivateModalOpen}
+            onClose={() => setDeactivateModalOpen(false)}
+            clientId={selectedUser?.clientId ?? ""}
+            onDeactivated={refreshUsers}
+          />
         </Container>
       </div>
     </>
   );
 };
+
 export default UserManagement;

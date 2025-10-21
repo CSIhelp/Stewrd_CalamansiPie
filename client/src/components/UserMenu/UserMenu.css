@@ -1,7 +1,7 @@
 .UserMenu{
  display: flex;
  flex-direction: row;
- width: 17vw;
+ width: 18vw;
 height: 50px;
   align-items: center;
   background-color: white;
@@ -11,20 +11,67 @@ height: 50px;
   padding-right: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-.UserButton {
-
-}
 
 .UserMenu:hover {
   background-color:#e7f5ff;
-}
-
-.UserInfo {
-  flex: 1;
-
 }
 .ProfilePhoto {
   width: 40px;
   height: 40px;
 
+}
+.UserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 55%;
+   line-height: 1; 
+
+}
+
+.UserId {
+  font-weight: 560 !important;
+  padding-right: 5px !important;
+   line-height: 1 !important; 
+}
+.UserCompany {
+  font-size: 14px !important;
+   line-height: 1 !important; 
+}
+
+@media (min-width: 941px) and (max-width : 1200px ) {
+.UserInfo {
+  width: 40% !important;
+}
+}
+
+@media (min-width: 610px) and (max-width : 941px ) {
+.UserMenu {
+   width: 30vw !important ;
+}
+.UserInfo {
+  width: 40% !important;
+}
+}
+
+@media (min-width: 490px) and (max-width : 610px ) {
+.UserMenu {
+   width: 40vw !important ;
+}
+.UserInfo {
+  min-width: 40%;
+  max-width: 55%;
+}
+}
+
+@media (max-width : 489px) {
+.UserId{
+  display: none;
+}
+.UserInfo  {
+  display: none;
+}
+.UserMenu {
+  width: 25vw ;
+}
 }

@@ -1,7 +1,8 @@
 .DashboardContainer{
     display: flex;
     flex-direction: row !important;
-    width: 90vw;
+    width: 100%;
+   
   
 }
 .DashboardCardContainer{
@@ -15,9 +16,10 @@
 }
 .DashboardCard{
     width: 60vw !important;
-      margin-left: 1vw;
+    margin-left: 1vw;
     margin-bottom: 2vw;
     border-radius: 10px;
+
  
 }
 .DashboardTitleCard { 
@@ -28,21 +30,51 @@
     font-size: 0.8vw;
 }
 
-.FavoriteCard, .FavoriteCard1 {
-    border-left: #29AAE1 solid 5px;
-    border-radius: 10px;
-    background-color: #F0FCFF;
-    margin-bottom: 2vh;
-}
 
-.FavoriteCard1 {
-  border-left: #073041 solid 5px;
-}
 
-.DashboardCardContainer {
-    display: flex;
+@media (min-width : 760px) and ( max-width: 1023px ){
+.DashboardContainer {
+    flex-direction: row;
+  }
+
+  .DashboardCardContainer {
+    width: calc(100% - 250px); /* smaller sidebar */
+    margin-left: 250px !important;
+    padding: 1rem;
+  }
+
+  .DashboardCard {
+    width: 60vw !important;
+    margin-left: 0;
+  }
+
+  .DashboardTitleCard {
+    width: 50%;
+    font-size: 1.2vw;
+  }
+
+}
+@media (max-width: 759px){
+    .DashboardContainer {
     flex-direction: column;
-    width: 100vw !important;
-    margin-left: 20vw;
-     justify-items: center;
+  }
+
+  .DashboardCardContainer {
+    width: 100%;
+    margin-left: 0vw !important;
+    padding: 1rem;
+  }
+
+  .DashboardCard {
+    width: 80vw !important;
+    margin-left: 0;
+  }
+
+
+  .DashboardTitleCard {
+    width: 70vw !important;
+    font-size: 2.5vw;
+    margin-left: 0;
+  }
 }
+
