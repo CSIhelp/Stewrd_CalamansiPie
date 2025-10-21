@@ -64,7 +64,7 @@ npm start
 ```
 ## Backend API
 ```bash
-https://johnbackend.vercel.app
+https://stewrd-calamasipie.vercel.app
 ```
 
 ### API endpoints

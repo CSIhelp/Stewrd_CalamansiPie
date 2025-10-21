@@ -42,7 +42,7 @@ const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: s
   useEffect(() => {
     const firebaseIdToken = localStorage.getItem("firebaseIdToken");
     if (firebaseIdToken) {
-      fetch("https://johnbackend.vercel.app/api/auth/logout", {
+      fetch("https://stewrd-calamasipie.vercel.app/api/auth/logout", {
         method: "POST",
         headers: { Authorization: `Bearer ${firebaseIdToken}` },
       }).catch((err) => console.error("Logout API failed", err));
@@ -77,7 +77,7 @@ const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: s
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://johnbackend.vercel.app/api/auth/login",
+        "https://stewrd-calamasipie.vercel.app/api/auth/login",
         { ClientId: clientId, Password: password }
       );
 
@@ -88,13 +88,13 @@ const [pendingCreds, setPendingCreds] = useState<{ clientId: string; password: s
         const userConmpany = res.data.company;
         const sessionId = res.data.sessionId;
 
-        const allowedCompany = "John";
+        const allowedCompany = "CalamansiPie";
         const userRole = res.data.role;
 
         if (userConmpany !== allowedCompany) {
           notifications.show({
             title: "Unauthorized Company",
-            message: "Only John employees can log in",
+            message: "Only employees can log in",
             color: "red",
             icon: <IconX size={20} />,
           });
@@ -180,7 +180,7 @@ const handleForceLogin = async (passwordFromModal: string) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://johnbackend.vercel.app/api/auth/login",
+        "https://stewrd-calamasipie.vercel.app/api/auth/login",
         {
           ClientId: pendingCreds.clientId,
           Password: passwordFromModal,
@@ -194,13 +194,13 @@ const handleForceLogin = async (passwordFromModal: string) => {
         const idToken = await userCredential.user.getIdToken();
         const userConmpany = res.data.company;
 
-        const allowedCompany = "John";
+        const allowedCompany = "CalamansiPie";
         const userRole = res.data.role;
 
         if (userConmpany !== allowedCompany) {
           notifications.show({
             title: "Unauthorized Company",
-            message: "Only John employees can log in",
+            message: "Only employees can log in",
             color: "red",
             icon: <IconX size={20} />,
           });
