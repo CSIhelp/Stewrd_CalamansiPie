@@ -8,11 +8,11 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import { useNavigate } from 'react-router-dom';
-import "./WithdrawFrame.css";
+import "./TinFrame.css";
 import Header from "../../components/Header/Header";
 
-export default function WithdrawFrame() {
-   const [isLoading, setIsLoading] = useState(true);
+export default function TinFrame() {
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate(); 
   const handleBack  = () => {
     navigate ("/dashboard")
@@ -22,35 +22,35 @@ export default function WithdrawFrame() {
  }
   return (
     <>
-    <Header title="Withdraw Form"/>
-    <Container className="WithdrawFrameContainer">
+    <Header title="Customer TIN Registration Form"/>
+    <Container className="TinFrameContainer">
      
-      <Card shadow="sm" radius="md" withBorder className="WithdrawFormCard">
-        <Group className="WithdrawFrameTop" > 
-        <Text className="WithdrawFrameTitle">
-          Withdraw Form
+      <Card shadow="sm" radius="md" withBorder className="TinFormCard">
+        <Group className="TinFrameTop" > 
+        <Text className="TinFrameTitle">
+          Customer Tin Form
         </Text>
         <Button className="BackButton" onClick={handleBack }>
           Back To Dashboard
         </Button>
         </Group>
       
-        <Text className="WithdrawFrameDescription">
-         Please Upload your Withdraw transaction
+        <Text className="TinFrameDescription">
+           Register Customer TIN here
         </Text>
 
-        <div className="WithdrawIframeContainer">
-           <LoadingOverlay
+        <div className="TinIframeContainer">
+                        <LoadingOverlay
                           visible={isLoading}
                           overlayProps={{ radius: "sm", blur: 2 }}
-                          loaderProps={{ color: "#009444", type: "bars" }}
-                          zIndex={1}
+                          loaderProps={{ color: "blue", type: "bars" }}
+                          zIndex={100}
                         />
           <iframe
-            className="WithdrawIframe"
-            src="https://primary-production-a810.up.railway.app/form/df0783be-0ac8-436d-8ef8-c88dfe62c1cd"
-            title="Withdraw"
-           onLoad={() => setIsLoading(false)}
+            className="TinIframe"
+            src="https://primary-production-a810.up.railway.app/form/d60e1edc-eae9-4e79-8f0f-ed4253ca93bb"
+            title="Tin"
+            onLoad={() => setIsLoading(false)}
           ></iframe>
         </div>
                 <Button className="HelpButton"  onClick={handleUserManual }>

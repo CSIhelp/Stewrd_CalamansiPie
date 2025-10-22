@@ -1,4 +1,4 @@
-.InvoiceFrameContainer {
+.TinFrameContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,12 +9,12 @@
   margin-top: 5vh;
   
 }
-.InvoiceFormCard{
-  border-left: #009444 solid 10px;
+.TinFormCard{
+  border-left: #009444  solid 10px;
   border-radius: 20px;
 }
 /* Container for the iframe */
-.InvoiceIframeContainer {
+.TinIframeContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,36 +24,36 @@
 
   
 }
-.InvoiceFrameTop {
+.TinFrameTop {
   display: flex;
   flex-direction: row;
   width: 95%;
   justify-content: space-between;
 }
-.InvoiceFrameTitle{
+.TinFrameTitle{
   font-weight: 600;
   font-size: 25px;
   margin-left: 5vh;
 }
 .BackButton {
-  background-color: #009444 ;
+  background-color: #009444  ;
 }
 
 .HelpButton {
   background-color: #ffffff !important;
-  color: #009444; 
+  color: #009444 ; 
   text-decoration: underline;
 }
 .HelpButton:hover {
   background-color: #e8f7ff !important;
-  color: #009444; 
+  color: #009444 ; 
   text-decoration: underline;
 }
-.InvoiceFrameDescription{
+.TinFrameDescription{
     margin-left: 5vh;
 }
 /* The iframe itself */
-.InvoiceIframe {
+.TinIframe {
   display: flex;
   justify-content: center;
   align-items: center;

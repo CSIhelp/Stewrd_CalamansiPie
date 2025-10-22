@@ -43,12 +43,12 @@ export default function InvoiceFrame() {
                         <LoadingOverlay
                           visible={isLoading}
                           overlayProps={{ radius: "sm", blur: 2 }}
-                          loaderProps={{ color: "#8F87F1", type: "bars" }}
+                          loaderProps={{ color: "#009444", type: "bars" }}
                           zIndex={1}
                         />
           <iframe
             className="InvoiceIframe"
-            src="https://example.com/Invoice-frame"
+            src="https://primary-production-a810.up.railway.app/form/c421f98e-3a1a-4208-a912-54cccc7261f3"
             title="Invoice"
             onLoad={() => setIsLoading(false)}
           ></iframe>

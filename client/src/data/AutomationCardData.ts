@@ -57,7 +57,7 @@ export const NewCardsData = [
     id: 7,
     category: "LooseLeaf",
     title: "Generate Looseleaf",
-    description: "Manually Generate Monthly Looseleaf.",
+    description: "Generate Monthly Looseleaf.",
     buttonText: "Generate Looseleaf",
     buttonLink: "/looseleafform",
   },
@@ -94,12 +94,28 @@ export const NewCardsData = [
     buttonText: "View Portal",
     buttonLink: "/transferform",
   },
-  {
+    {
     id: 12,
+    category: "Tin",
+    title: "Customer Tin Registration",
+    description: "Register Customer TIN Number.",
+    buttonText: "View Portal",
+    buttonLink: "/customertinform",
+  },
+      {
+    id: 13,
+    category: "Tin",
+    title: "Vendor Tin Registration",
+    description: "Register Vendor or SupplierTIN Number.",
+    buttonText: "View Portal",
+    buttonLink: "/vendortinform",
+  },
+  {
+    id: 14,
     category: "Documentation",
     title: "Documentation Folder",
     description: "Access All The Documentation Files",
     buttonText: "View Documentation",
-    buttonLink: "https://example.com/petty-cash-documentation"
+    buttonLink: "Sample",
   },
 ];

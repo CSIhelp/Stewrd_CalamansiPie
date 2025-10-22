@@ -19,18 +19,18 @@ app.use(express.json());
 app.use(express.text({ type: "*/*" }));
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://preview-production.john-crowdsource-cis.pages.dev"], 
+    origin: ["http://localhost:5173", "https://customize.stewrd-calamansipie.pages.dev", "https://stewrd-calamansipie.pages.dev" ], 
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
     credentials: true,
   })
 );
 
-console.log("✅ Backend server starting...");
+console.log(" Backend server starting...");
 
 // Health check
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "API is running 🚀" });
+  res.json({ status: "ok", message: "API is running " });
 });
 
 // Request logger
@@ -46,5 +46,5 @@ app.use("/api/contact", contactRouter);
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`✅ Backend server running on http://localhost:${PORT}`);
+  console.log(` Backend server running on http://localhost:${PORT}`);
 });

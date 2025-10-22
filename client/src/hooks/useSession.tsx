@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 
-const API_BASE = "https://johnbackend.vercel.app/api/auth";
+const API_BASE = "https://stewrd-calamasipie.vercel.app/api/auth";
 
 type SessionUser = {
   id: string;
@@ -69,9 +69,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     try {
       const res = await fetch(`${API_BASE}/Dashboard`, {
-        headers: { 
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (res.status === 401) {

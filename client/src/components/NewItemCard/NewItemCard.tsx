@@ -114,7 +114,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
         </Text>
         <ActionIcon
           variant="subtle"
-          color="blue"
+          color="#009444"
           onClick={handleToggleBookmark}
         >
           {isBookmarked ? (
@@ -137,7 +137,7 @@ const NewItemCard: FC<NewItemCardProps> = ({
         target="_blank"
         rel="noopener noreferrer"
         variant="filled"
-        color="#29AAE1"
+        color="#009444"
         rightSection={<IconArrowRight size={16} />}
         radius="xl"
         className="NewCardtBtn"

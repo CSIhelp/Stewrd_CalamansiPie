@@ -22,7 +22,7 @@ export default function AlreadyLoggedInModal({
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Already Logged In" centered>
+    <Modal opened={opened} onClose={onClose} title="Already Logged In"  className= "AlreadyLoggedin" centered>
       <Text mb="sm">
         Your account <b>{clientId}</b> is active on another device.  
         Would you like to log out there and continue here?
@@ -34,12 +34,13 @@ export default function AlreadyLoggedInModal({
         placeholder="Enter your password"
         required
         mb="md"
+       
       />
       <Group justify="flex-end">
-        <Button variant="light" onClick={onClose}>
+        <Button variant="light" onClick={onClose} color="#009444">
           Cancel
         </Button>
-        <Button onClick={handleSubmit}>Continue</Button>
+        <Button   color="#009444" onClick={handleSubmit}>Continue</Button>
       </Group>
     </Modal>
   );

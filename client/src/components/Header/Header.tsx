@@ -10,8 +10,8 @@ import '@mantine/core/styles.css';
 import { useSession } from '../../hooks/useSession';
 
 //images
-import CrowdSourceLogo from "/CrowdsourceLogo.png"
-import CrowdSourceIcon from "/CrowdsourceIcon.png"
+
+import CalamansiPieIcon from "/Joe.png"
 
 
 interface HeaderProps {
@@ -28,7 +28,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
       
 
 
-    const API_BASE = "https://johnbackend.vercel.app/api/auth";
+    const API_BASE = "https://stewrd-calamasipie.vercel.app/api/auth";
 
 const [loadingUser, setLoadingUser] = useState(true);
 
@@ -75,7 +75,7 @@ const handleLogout = async () => {
     <header className="Header">
    
       <div className="HeaderLogo">
-        <img src={CrowdSourceLogo} alt="Logo" className="LogoImage" />
+        <img src={CalamansiPieIcon} alt="Logo" className="LogoImage" />
       </div>
 
  
@@ -85,7 +85,7 @@ const handleLogout = async () => {
         <Menu.Target>
     
           <UserMenu
-            image={ CrowdSourceIcon  }
+            image={ CalamansiPieIcon }
             company={user?.company || "loading.."}
             clientId={user?.id || "loading.."}
          icon={<IconChevronDown size={16} />}
@@ -94,7 +94,7 @@ const handleLogout = async () => {
 
         <Menu.Dropdown>
               { (userRole =="admin" || userRole == "accountant" ) && (<Menu.Item
-            color="blue"
+            color="#009444"
             leftSection={<IconUsers size={16} />}
             onClick={handleOpenUserManage}
             className='HeaderLogout'
@@ -102,7 +102,7 @@ const handleLogout = async () => {
            User Management
           </Menu.Item> )}
                     <Menu.Item
-            color="blue"
+            color="#009444"
             leftSection={<IconPhone size={16} />}
             onClick={handleContact}
             className='HeaderLogout'

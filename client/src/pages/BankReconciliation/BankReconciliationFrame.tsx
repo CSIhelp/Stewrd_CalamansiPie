@@ -47,7 +47,7 @@ export default function BankReconciliationFrame() {
             <LoadingOverlay
               visible={isLoading}
               overlayProps={{ radius: "sm", blur: 2 }}
-              loaderProps={{ color: "violet", type: "bars" }}
+              loaderProps={{ color: "#009444", type: "bars" }}
               zIndex={1}
             />
             <iframe

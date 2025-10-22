@@ -47,12 +47,12 @@ export default function ChequeDisbursementFrame() {
             <LoadingOverlay
               visible={isLoading}
               overlayProps={{ radius: "sm", blur: 2 }}
-              loaderProps={{ color: "#8F87F1", type: "bars" }}
+              loaderProps={{ color: "#009444", type: "bars" }}
               zIndex={1}
             />
             <iframe
               className="ChequeDisbursementIframe"
-              src="https://example.com/frame"
+              src="https://primary-production-a810.up.railway.app/form/e0e2d57d-95b3-4724-bff1-dc33fed13f44"
               title="ChequeDisbursement"
                onLoad={() => setIsLoading(false)}
             ></iframe>

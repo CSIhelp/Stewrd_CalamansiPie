@@ -38,11 +38,11 @@ ContactRouter.post(
      try {
       let emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1)">
-        <div style="background-color: #0d99ff; color: white; text-align: center; padding: 16px; font-size: 20px; font-weight: bold;">
-          JOHN INQUIRIES
+        <div style="background-color: #009444; color: white; text-align: center; padding: 16px; font-size: 20px; font-weight: bold;">
+          STEWRD INQUIRIES
         </div>
         <div style="padding: 20px; color: #333; line-height: 1.5;">
-          <h3 style="margin-bottom: 8px; color: #0d99ff;">Contact Information</h3>
+          <h3 style="margin-bottom: 8px; color: #009444;">Contact Information</h3>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Company:</strong> ${company}</p>
           <p><strong>Email:</strong> ${email}</p>
@@ -61,15 +61,15 @@ ContactRouter.post(
           }
         </div>
         <div style="background-color: #f9f9f9; text-align: center; padding: 12px; font-size: 12px; color: #666;">
-          This email was generated from john website contact form.
+          This email was generated from STEWRD website contact form.
         </div>
       </div>
       `;
 
       const data = await resend.emails.send({
-        from: "John Inquries <onboarding@resend.dev>", 
+        from: "STEWRD Inquries <onboarding@resend.dev>", 
         to: "help@crowdsourcesolutions.ph",
-        subject: `John Contact Form : ${topic}`,
+        subject: `STEWRD Contact Form : ${topic}`,
         html: emailHtml,
       });
 

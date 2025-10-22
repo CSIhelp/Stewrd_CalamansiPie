@@ -33,7 +33,7 @@ export default function LooseLeafFrame() {
             <LoadingOverlay
               visible={isLoading}
               overlayProps={{ radius: "sm", blur: 2 }}
-              loaderProps={{ color: "#8F87F1", type: "bars" }}
+              loaderProps={{ color: "#009444", type: "bars" }}
               zIndex={1}
             />
             <iframe

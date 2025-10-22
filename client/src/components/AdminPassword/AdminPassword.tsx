@@ -101,7 +101,7 @@ export default function FirstLoginModal({
 
     try {
       const res = await fetch(
-        `https://johnbackend.vercel.app/api/auth/firstLogin/${clientId}`,
+        `https://stewrd-calamasipie.vercel.app/api/auth/firstLogin/${clientId}`,
         {
           method: "PATCH",
           headers: {
@@ -188,7 +188,7 @@ export default function FirstLoginModal({
             onChange={(e) => setConfirmPassword(e.currentTarget.value)}
             mt="md"
           />
-          <Button color="blue" fullWidth mt="md" onClick={handleChangePassword}>
+          <Button color="#009444" fullWidth mt="md" onClick={handleChangePassword}>
             Update Password
           </Button>
         </Container>

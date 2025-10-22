@@ -198,7 +198,7 @@ export default function AddAccountModal({
           </Button>
 
            <Button
-            color="blue"
+            color="#009444"
             className="CreateBtn"
             onClick={handleCreate}
             fullWidth

@@ -103,7 +103,7 @@ export default function ResetPasswordModal({
     try {
       const idToken = localStorage.getItem("firebaseIdToken");
       const response = await fetch(
-        `https://johnbackend.vercel.app/api/auth/userManagement/${clientId}`,
+        `https://stewrd-calamasipie.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "PATCH",
           headers: {
@@ -246,7 +246,7 @@ export default function ResetPasswordModal({
               Cancel
             </Button>
             <Button
-              color="#8F87F1"
+              color="#009444"
               className="ResetModalBtn"
               onClick={handleReset}
               fullWidth

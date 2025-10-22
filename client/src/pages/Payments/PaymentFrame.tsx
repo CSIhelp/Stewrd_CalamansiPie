@@ -42,14 +42,14 @@ export default function PaymentFrame() {
               <LoadingOverlay
                 visible={isLoading}
                 overlayProps={{ radius: "sm", blur: 2 }}
-                loaderProps={{ color: "#8F87F1", type: "bars" }}
+                loaderProps={{ color: "#009444", type: "bars" }}
                 zIndex={1}
               />
             )}
 
             <iframe
               className="PaymentIframe"
-              src="https://example.com/frame"
+              src="https://primary-production-a810.up.railway.app/webhook/calamansi-pie-unpaid-vendors"
               title="Payment"
               onLoad={() => setIsLoading(false)}
             ></iframe>

@@ -22,7 +22,7 @@ export default function DeleteUserModal({
     
       const token = localStorage.getItem("firebaseIdToken");
       const response = await fetch(
-        `https://johnbackend.vercel.app/api/auth/userManagement/${clientId}`,
+        `https://stewrd-calamasipie.vercel.app/api/auth/userManagement/${clientId}`,
         {
           method: "DELETE",
           headers: {

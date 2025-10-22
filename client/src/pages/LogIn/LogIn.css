@@ -18,7 +18,7 @@
   height: 80%;
   justify-content: center;
   align-items: center;
-  background-color: #29aae1 !important;
+  background-color: #009444 !important;
   border-top-left-radius: 10px !important;
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
@@ -69,6 +69,7 @@
 }
 .LogInBtn {
   margin-top: 5vh;
+  background-color:  #009444 !important;
 }
 
 .ForgotPasswordBtn {
@@ -79,7 +80,7 @@
 
 footer {
   width: 100%;
-  background-color: #29aae1;
+  background-color:  #009444 ;
   align-items: center !important;
   justify-content: center !important;
   margin-bottom: 0;
@@ -90,6 +91,9 @@ footer {
 footer p {
   text-align: center;
   color: white;
+}
+.LogoImage{
+height: 55px !important;
 }
 
 @media (min-width: 690px) and (max-width: 759px){

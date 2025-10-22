@@ -332,7 +332,7 @@ router.patch("/userManagement/:clientId", authMiddleware, async (req, res) => {
         .status(404)
         .json({ success: false, error: "Target user not found" });
 
-    await userRef.update({ Password: hashedPassword, isFirstLogin: true });
+    await userRef.update({ Password: hashedPassword});
 
     res.json({
       success: true,

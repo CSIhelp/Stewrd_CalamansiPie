@@ -43,12 +43,12 @@ export default function PettyCashFrame() {
                         <LoadingOverlay
                           visible={isLoading}
                           overlayProps={{ radius: "sm", blur: 2 }}
-                          loaderProps={{ color: "#8F87F1", type: "bars" }}
+                          loaderProps={{ color: "#009444", type: "bars" }}
                           zIndex={1}
                         /> 
                         <iframe
             className="PettyCashIframe"
-            src="https://example.com/PettyCash-frame"
+            src="https://primary-production-a810.up.railway.app/form/d977e046-984e-4db8-b1af-114419391173"
             title="PettyCash"
             onLoad={() => setIsLoading(false)}
           ></iframe>
