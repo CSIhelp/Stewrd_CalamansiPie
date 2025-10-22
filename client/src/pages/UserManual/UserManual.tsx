@@ -260,7 +260,7 @@ export default function UserManual() {
       content: (
         <>
           {" "}
-          <h1> John Bills User Manual </h1>
+          <h1> Bills User Manual </h1>
           <h3 className="UserManualSubheading">
             Form that allows the user to record bill expenses.
           </h3>

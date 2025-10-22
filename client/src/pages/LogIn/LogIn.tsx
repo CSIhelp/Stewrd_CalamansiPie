@@ -240,7 +240,7 @@ function LogIn() {
         <Card className="LogInTitleCard">
           <Group className="LogInTitleGroup">
             <h2 className="WelcomeTxt"> Welcome to</h2>
-            <h1 className="JohnTxt">JOHN</h1>
+            <h1 className="JohnTxt">STEWRD</h1>
             <p className="JohnTagline">
               {" "}
               Spend less time managing, more time growing.{" "}
@@ -257,7 +257,7 @@ function LogIn() {
           <LoadingOverlay
             visible={loading}
             overlayProps={{ radius: "sm", blur: 2 }}
-            loaderProps={{ color: "violet", type: "bars" }}
+            loaderProps={{ color: "#009444", type: "bars" }}
             zIndex={1}
           />
 

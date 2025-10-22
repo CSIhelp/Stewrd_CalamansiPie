@@ -1,8 +1,8 @@
 
-# John
+# STEWRD
 
 ## Overview
-John is a web platform that compiles various automation scripts and tools that provides a collection of automation tools for handling invoice management, payment tracking, and financial reporting. It aims to save time for businesses and individuals by automating repetitive billing and payment processes.
+STEWRD is a web platform that compiles various automation scripts and tools that provides a collection of automation tools for handling invoice management, payment tracking, and financial reporting. It aims to save time for businesses and individuals by automating repetitive billing and payment processes.
 
     
 ## Tech Stack
@@ -35,7 +35,7 @@ John is a web platform that compiles various automation scripts and tools that p
 1. Clone the repository
 ```bash
 git clone https://github.com/CSIhelp/John
-cd John
+cd STEWRD
 ```
 
 2. Install dependencies

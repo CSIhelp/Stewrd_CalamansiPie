@@ -241,7 +241,7 @@ const UserManagement = () => {
                             Accountant
                           </Badge>
                         ) : (
-                          <Badge color="violet" variant="light">
+                          <Badge color="#009444" variant="light">
                             User
                           </Badge>
                         )}
