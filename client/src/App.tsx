@@ -218,7 +218,7 @@ function App() {
         <Route
           path="/chequedisbursementform"
           element={
-            <ProtectedRoute accountantOnly={true} >
+            <ProtectedRoute  >
               <ChequeDisbursementFrame />
             </ProtectedRoute>
           }
@@ -234,7 +234,7 @@ function App() {
                 <Route
           path="/looseleafform"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute accountantOnly={true}>
               <LooseLeafFrame />
             </ProtectedRoute>
           }

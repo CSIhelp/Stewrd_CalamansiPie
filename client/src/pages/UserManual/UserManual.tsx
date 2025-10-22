@@ -208,7 +208,7 @@ export default function UserManual() {
             <List>
               <List.Item>
                 <a
-                  onClick={() => navigate("/invoiceform")}
+                  onClick={() => navigate("/pettycashform")}
                   style={{ cursor: "pointer", textDecoration: "underline" }}
                 >
                   {" "}
@@ -269,7 +269,7 @@ export default function UserManual() {
             <List>
               <List.Item>
                 <a
-                  onClick={() => navigate("/invoiceform")}
+                  onClick={() => navigate("/billsform")}
                   style={{ cursor: "pointer", textDecoration: "underline" }}
                 >
                   {" "}

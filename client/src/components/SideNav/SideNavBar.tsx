@@ -17,6 +17,7 @@ import {
   IconCashBanknoteMove,
   IconChevronUp,
   IconChevronDown,
+  IconContract,
 } from "@tabler/icons-react";
 
 import {
@@ -50,6 +51,7 @@ const SideBarLinks = [
   { link: "/deposit", label: "Deposits", icon: IconCashPlus },
   { link: "/transfer", label: "Transfers", icon: IconCashBanknoteMove },
   { link: "/withdraw", label: "Withdrawals", icon: IconCashMinus },
+  { link: "/tinregistration", label: "Tin Registration", icon: IconContract },
 ];
 
 const reportLinks = [
@@ -97,7 +99,7 @@ export function SideNavBar() {
       key={item.label}
       onClick={() => setActive(item.label)}
     >
-      <item.icon className="linkIcon"stroke={1.5} />
+      <item.icon className="linkIcon" stroke={1.5} />
       <span>{item.label}</span>
     </NavLink>
   ));
@@ -233,7 +235,7 @@ export function SideNavBar() {
                       onClick={() => setActive(item.label)}
                       style={{ paddingLeft: "2.5rem" }}
                     >
-                      <item.icon className="linkIcon"stroke={1.5} />
+                      <item.icon className="linkIcon" stroke={1.5} />
                       <span>{item.label}</span>
                     </NavLink>
                   ))}
@@ -242,9 +244,9 @@ export function SideNavBar() {
             </>
           )}
         </div>
-    
+
         <Group className={classes.documentation} justify="space-between">
-                    <NavLink 
+          <NavLink
             to="/usermanual"
             className={({ isActive }) =>
               isActive ? classes.activeLink : classes.link
@@ -254,7 +256,7 @@ export function SideNavBar() {
             <IconClipboard className={classes.linkIcon} stroke={1.5} />
             <span>User Manual</span>
           </NavLink>{" "}
-      {userRole === "accountant" && (
+          {userRole === "accountant" && (
             <>
               <NavLink
                 to="/documentation"
@@ -263,12 +265,12 @@ export function SideNavBar() {
                 }
                 onClick={() => setActive("Documentation")}
               >
-                <IconClipboard className="linkIcon"stroke={1.5} />
+                <IconClipboard className="linkIcon" stroke={1.5} />
                 <span>Documentation</span>
-              </NavLink>{" "}</>
+              </NavLink>{" "}
+            </>
           )}
-
-        </Group>            
+        </Group>
       </div>
     </nav>
   );
