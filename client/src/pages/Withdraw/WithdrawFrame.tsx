@@ -48,7 +48,7 @@ export default function WithdrawFrame() {
                         />
           <iframe
             className="WithdrawIframe"
-            src="https://example.com/frame"
+            src="https://primary-production-a810.up.railway.app/form/df0783be-0ac8-436d-8ef8-c88dfe62c1cd"
             title="Withdraw"
            onLoad={() => setIsLoading(false)}
           ></iframe>

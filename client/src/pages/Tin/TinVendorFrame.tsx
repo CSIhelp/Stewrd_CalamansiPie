@@ -8,10 +8,10 @@ import {
   LoadingOverlay,
 } from "@mantine/core";
 import { useNavigate } from 'react-router-dom';
-import "./PettyCashFrame.css";
+import "./TinFrame.css";
 import Header from "../../components/Header/Header";
 
-export default function PettyCashFrame() {
+export default function TinFrame() {
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate(); 
   const handleBack  = () => {
@@ -22,34 +22,34 @@ export default function PettyCashFrame() {
  }
   return (
     <>
-    <Header title="Petty Cash Form"/>
-    <Container className="PettyCashFrameContainer">
+    <Header title=" Vendor TIN Registration Form"/>
+    <Container className="TinFrameContainer">
      
-      <Card shadow="sm" radius="md" withBorder className="PettyCashFormCard">
-        <Group className="PettyCashFrameTop" > 
-        <Text className="PettyCashFrameTitle">
-          Petty Cash Form
+      <Card shadow="sm" radius="md" withBorder className="TinFormCard">
+        <Group className="TinFrameTop" > 
+        <Text className="TinFrameTitle">
+        Vendor  Tin Form
         </Text>
         <Button className="BackButton" onClick={handleBack }>
           Back To Dashboard
         </Button>
         </Group>
       
-        <Text className="PettyCashFrameDescription">
-         Please Upload your Petty Cash transaction
+        <Text className="TinFrameDescription">
+         Register Vendor or Supplier TIN here
         </Text>
 
-        <div className="PettyCashIframeContainer">
+        <div className="TinIframeContainer">
                         <LoadingOverlay
                           visible={isLoading}
                           overlayProps={{ radius: "sm", blur: 2 }}
-                          loaderProps={{ color: "#009444", type: "bars" }}
-                          zIndex={1}
-                        /> 
-                        <iframe
-            className="PettyCashIframe"
-            src="https://primary-production-a810.up.railway.app/form/c421f98e-3a1a-4208-a912-54cccc7261f3"
-            title="PettyCash"
+                          loaderProps={{ color: "blue", type: "bars" }}
+                          zIndex={100}
+                        />
+          <iframe
+            className="TinIframe"
+            src="https://primary-production-a810.up.railway.app/form/ffad06fa-5452-480e-902f-0753c66e4ed8"
+            title="Tin"
             onLoad={() => setIsLoading(false)}
           ></iframe>
         </div>

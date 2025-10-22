@@ -44,7 +44,7 @@ export default function BillsFrame() {
           
           <iframe
             className="BillsIframe"
-            src="https://example.com/frame"
+            src="https://primary-production-a810.up.railway.app/form/5a86a925-3ba4-4a2d-bba5-e9791b3d8b80"
             title="Bills"
           onLoad={() => setIsLoading(false)}
           ></iframe>

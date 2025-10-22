@@ -48,7 +48,7 @@ export default function CollectionReceiptFrame() {
                         />
           <iframe
             className="CollectionReceiptIframe"
-            src="https://primary-production-a810.up.railway.app/form/a8413289-34e1-4714-b7e7-4c7824f5e5a4"
+            src="https://primary-production-a810.up.railway.app/webhook/calamansi-pie-unpaid-customers"
             title="CollectionReceipt"
            onLoad={() => setIsLoading(false)}
            

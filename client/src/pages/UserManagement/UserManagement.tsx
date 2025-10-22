@@ -137,7 +137,7 @@ const UserManagement = () => {
     const token = localStorage.getItem("firebaseIdToken");
     try {
       const res = await fetch(
-        `${API_BASE}/userManagement/reactivate/${user.clientId}`,
+        `${API_BASE}/userManagement/reactivate/client_${user.clientId}`,
         {
           method: "PATCH",
           headers: { Authorization: `Bearer ${token}` },
@@ -157,8 +157,8 @@ const UserManagement = () => {
           notifications.show({
           title: " User Reactivation Failed ",
           message: `User ${user.clientId} , ${result.error}`,
-          color: "teal",
-          icon: <IconCheck size={20} />,
+          color: "red",
+          icon: <IconX size={20} />,
         });
       }
     } catch (err) {
@@ -379,13 +379,13 @@ const UserManagement = () => {
           <DeleteUserModal
             opened={deleteModalOpen}
             onClose={() => setDeleteModalOpen(false)}
-            clientId={selectedUser?.clientId ?? ""}
+            clientId={`client_${selectedUser?.clientId ?? ""}`}
             onDeleted={refreshUsers}
           />
           <DeactivateAccountModal
             opened={deactivateModalOpen}
             onClose={() => setDeactivateModalOpen(false)}
-            clientId={selectedUser?.clientId ?? ""}
+            clientId={`client_${selectedUser?.clientId ?? ""}`}
             onDeactivated={refreshUsers}
           />
         </Container>

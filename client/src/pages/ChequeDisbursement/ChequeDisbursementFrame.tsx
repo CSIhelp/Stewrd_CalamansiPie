@@ -52,7 +52,7 @@ export default function ChequeDisbursementFrame() {
             />
             <iframe
               className="ChequeDisbursementIframe"
-              src="https://example.com/frame"
+              src="https://primary-production-a810.up.railway.app/form/e0e2d57d-95b3-4724-bff1-dc33fed13f44"
               title="ChequeDisbursement"
                onLoad={() => setIsLoading(false)}
             ></iframe>

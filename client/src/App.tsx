@@ -21,6 +21,7 @@ import Deposit from './pages/Deposit/Deposit';
 import Withdraw from './pages/Withdraw/Withdraw';
 import Transfer from './pages/Transfer/Transfer';
 import UserManual from './pages/UserManual/UserManual';
+import Tin from "./pages/Tin/TIN";
 
 
 //N8n frames
@@ -35,6 +36,8 @@ import DepositFrame from "./pages/Deposit/DepositFrame";
 import ChequeDisbursementFrame from "./pages/ChequeDisbursement/ChequeDisbursementFrame";
 import BankReconciliationFrame from "./pages/BankReconciliation/BankReconciliationFrame";
 import LooseLeafFrame from "./pages/LooseLeaf/LooseLeafFrame";
+import TinFrame from "./pages/Tin/TinFrame";
+import TinVendorFrame from "./pages/Tin/TinVendorFrame";
 
 import BackLogoutModal from './components/LogoutModal/LogOut';
 import { useSession } from './hooks/useSession';
@@ -119,6 +122,15 @@ function App() {
             <Transfer />
           </ProtectedRoute>
         } />
+                <Route
+          path="/tinregistration"
+          element={
+            <ProtectedRoute>
+              <Tin />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/Documentation" element={
           <ProtectedRoute accountantOnly={true}>
             <Documentation />
@@ -206,7 +218,7 @@ function App() {
         <Route
           path="/chequedisbursementform"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute accountantOnly={true} >
               <ChequeDisbursementFrame />
             </ProtectedRoute>
           }
@@ -214,7 +226,7 @@ function App() {
         <Route
           path="/bankreconciliationform"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute accountantOnly={true} >
               <BankReconciliationFrame />
             </ProtectedRoute>
           }
@@ -224,6 +236,22 @@ function App() {
           element={
             <ProtectedRoute>
               <LooseLeafFrame />
+            </ProtectedRoute>
+          }
+        />
+                                <Route
+          path="/customertinform"
+          element={
+            <ProtectedRoute>
+              <TinFrame />
+              </ProtectedRoute>
+            }
+        />
+                                <Route
+          path="/vendortinform"
+          element={
+            <ProtectedRoute>
+              < TinVendorFrame/>
             </ProtectedRoute>
           }
         />

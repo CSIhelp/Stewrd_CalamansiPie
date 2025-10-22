@@ -49,7 +49,7 @@ export default function PaymentFrame() {
 
             <iframe
               className="PaymentIframe"
-              src="https://example.com/frame"
+              src="https://primary-production-a810.up.railway.app/webhook/calamansi-pie-unpaid-vendors"
               title="Payment"
               onLoad={() => setIsLoading(false)}
             ></iframe>
