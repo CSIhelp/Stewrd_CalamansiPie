@@ -7,7 +7,7 @@ export const NewCardsData = [
     category: "Invoice",
     title: "Invoices Upload",
     description: "Upload your invoices to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create an Invoice",
     buttonLink: "/invoiceform",
   },
   {
@@ -15,7 +15,7 @@ export const NewCardsData = [
     category: "Bills",
     title: "Bills Upload",
     description: "Upload your Bills to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Bill",
     buttonLink: "/billsform",
   },
   {
@@ -24,7 +24,7 @@ export const NewCardsData = [
     title: "Bills Payments Upload",
     description:
       "Upload your bill payment transaction to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Payment",
     buttonLink: "/paymentform",
   },
   {
@@ -32,7 +32,7 @@ export const NewCardsData = [
     category: "CollectionReceipt",
     title: "Collection Receipt Upload",
     description: "Upload your invoices to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Collection Receipt",
     buttonLink: "/collectionreceiptform",
   },
   {
@@ -40,7 +40,7 @@ export const NewCardsData = [
     category: "PettyCash",
     title: "Petty Cash Upload",
     description: "Upload your payments to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Petty Cash",
     buttonLink: "/pettycashform",
   },
 
@@ -49,7 +49,7 @@ export const NewCardsData = [
     category: "BankReconciliation",
     title: "Bank Reconciliation Upload",
     description: "Upload your SOA here for Bank Reconciliation.",
-    buttonText: "View Portal",
+    buttonText: "Create a Bank Reconciliation",
     buttonLink: "/bankreconciliationform",
   },
 
@@ -67,7 +67,7 @@ export const NewCardsData = [
     title: "Cheque Disbursement Upload",
     description:
       "Upload your Cheque Disbursement to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Cheque Disbursement",
     buttonLink: "/chequedisbursementform",
   },
   {
@@ -75,7 +75,7 @@ export const NewCardsData = [
     category: "Deposit",
     title: "Deposit Upload",
     description: "Upload your Deposit to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Deposit",
     buttonLink: "/depositform",
   },
   {
@@ -83,7 +83,7 @@ export const NewCardsData = [
     category: "Withdrawal",
     title: "Withdrawal Upload",
     description: "Upload your Withdrawal to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Withdrawal",
     buttonLink: "/withdrawform",
   },
   {
@@ -91,7 +91,7 @@ export const NewCardsData = [
     category: "Transfer",
     title: "Fund Transfer Upload",
     description: "Upload your Fund Transfers to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Transfer",
     buttonLink: "/transferform",
   },
     {
@@ -99,7 +99,7 @@ export const NewCardsData = [
     category: "Tin",
     title: "Customer Tin Registration",
     description: "Register Customer TIN Number.",
-    buttonText: "View Portal",
+    buttonText: "Register Customer TIN",
     buttonLink: "/customertinform",
   },
       {
@@ -107,10 +107,11 @@ export const NewCardsData = [
     category: "Tin",
     title: "Vendor Tin Registration",
     description: "Register Vendor or SupplierTIN Number.",
-    buttonText: "View Portal",
+    buttonText: "Register Vendor TIN",
     buttonLink: "/vendortinform",
   },
-  {
+
+{
     id: 14,
     category: "Documentation",
     title: "Documentation Folder",
