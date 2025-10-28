@@ -13,7 +13,7 @@ import {
   Overlay,
   Transition,
 } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./LogIn.css";
 import axios from "axios";
 import DeactivatedAccountModal from "../../components/DeactivatedAccount/DeactivatedAccount";
@@ -30,11 +30,13 @@ import CalamansiPielogo from "/Joe.png";
 
 function LogIn() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [clientId, setClientId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [forgotOpened, setForgotOpened] = React.useState(false);
   const [alreadyLoggedIn, setAlreadyLoggedIn] = useState(false);
+  const from = location.state?.from?.pathname || '/dashboard';
   const [pendingCreds, setPendingCreds] = useState<{
     clientId: string;
     password: string;
@@ -117,7 +119,7 @@ function LogIn() {
           localStorage.setItem("firstLogin", "true");
         } else {
           refreshSession();
-          navigate("/dashboard");
+           navigate(from, { replace: true });
         }
 
         if (
@@ -212,7 +214,7 @@ function LogIn() {
         localStorage.setItem("sessionId", res.data.sessionId);
 
         await refreshSession();
-        navigate("/dashboard");
+         navigate(from, { replace: true });
         setAlreadyLoggedIn(false);
         setPendingCreds(null);
       }

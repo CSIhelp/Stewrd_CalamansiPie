@@ -93,7 +93,7 @@ function App() {
           </ProtectedRoute>
         } />
                 <Route path="/bankreconciliation" element={
-          <ProtectedRoute accountantOnly={true}>
+          <ProtectedRoute>
             <BankReconciliation/>
           </ProtectedRoute>
         } />
@@ -226,7 +226,7 @@ function App() {
         <Route
           path="/bankreconciliationform"
           element={
-            <ProtectedRoute accountantOnly={true} >
+            <ProtectedRoute  >
               <BankReconciliationFrame />
             </ProtectedRoute>
           }
