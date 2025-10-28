@@ -14,8 +14,21 @@ function BankReconciliation() {
   const { bookmarks } = useBookmarks();
   const [error, setError] = React.useState<string | null>(null);
 
+const userRole = localStorage.getItem("userRole");
+  const BankReconciliationCards = NewCardsData.filter(
+    (card) => card.category === "BankReconciliation" || card.category === "BankReconciliationReport"
+  );
 
-  const BankReconciliationCards = NewCardsData.filter((card) => card.category === "BankReconciliation");
+
+  const filteredCards = BankReconciliationCards.filter((card) => {
+    if (card.role) {
+      
+      return Array.isArray(card.role)
+        ? card.role.includes(userRole)
+        : card.role === userRole;
+    }
+    return true; 
+  });
 
   const isBookmarked = (cardId: number): boolean =>
     bookmarks.some((bm) => bm.cardId === cardId);
@@ -33,7 +46,7 @@ function BankReconciliation() {
 
             {error && <Alert color="red">{error}</Alert>}
 
-            {BankReconciliationCards.map((card) => (
+              {filteredCards.map((card) => (
               <NewItemCard
                 key={card.id}
                 cardId={card.id}
@@ -42,7 +55,6 @@ function BankReconciliation() {
                 buttonText={card.buttonText}
                 buttonLink={card.buttonLink}
                 category={card.category}
-     
               />
             ))}
           </Card>

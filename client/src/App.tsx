@@ -35,6 +35,8 @@ import TransferFrame from "./pages/Transfer/TransferFrame";
 import DepositFrame from "./pages/Deposit/DepositFrame";
 import ChequeDisbursementFrame from "./pages/ChequeDisbursement/ChequeDisbursementFrame";
 import BankReconciliationFrame from "./pages/BankReconciliation/BankReconciliationFrame";
+import BRUploadReportFrame from "./pages/BankReconciliation/BRUploadReportFrame";
+import BRReportFrame from "./pages/BankReconciliation/BRReportFrame";
 import LooseLeafFrame from "./pages/LooseLeaf/LooseLeafFrame";
 import TinFrame from "./pages/Tin/TinFrame";
 import TinVendorFrame from "./pages/Tin/TinVendorFrame";
@@ -228,6 +230,22 @@ function App() {
           element={
             <ProtectedRoute  >
               <BankReconciliationFrame />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/uploadreportform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <BRUploadReportFrame />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/bankreconciliationreportform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <BRReportFrame/>
             </ProtectedRoute>
           }
         />

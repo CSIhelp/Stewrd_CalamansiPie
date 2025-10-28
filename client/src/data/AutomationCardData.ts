@@ -110,13 +110,33 @@ export const NewCardsData = [
     buttonText: "Register Vendor TIN",
     buttonLink: "/vendortinform",
   },
-
-{
+  {
     id: 14,
     category: "Documentation",
     title: "Documentation Folder",
     description: "Access All The Documentation Files",
     buttonText: "View Documentation",
-    buttonLink: "Sample",
+    buttonLink: "https://drive.google.com/drive/folders/1gp281R2fYr1Z5Vt_DLrT5E15vETOFq1t?usp=drive_link",
   },
+  {
+    id: 15,
+    category: "BankReconciliationReport",
+    title: "Bank Reconciliation Report Upload",
+    description: "Upload Report for Bank Reconciliation.",
+    buttonText: "Upload Bank Reconciliation Report",
+    buttonLink: "/uploadreportform",
+    role: "accountant",
+  },
+    {
+    id: 16,
+    category: "BankReconciliationReport",
+    title: "Bank Reconciliation Report",
+    description: "See Bank Reconciliation. Report here.",
+    buttonText: " Bank Reconciliation Report ",
+    buttonLink: "/bankreconciliationreportform",
+    role: "accountant",
+  },
+
 ];
+
+
