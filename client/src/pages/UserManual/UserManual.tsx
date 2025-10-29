@@ -20,7 +20,9 @@ import BillStep2 from "../../../public/UserManual/Bills/step2.png";
 import BillStep3 from "../../../public/UserManual/Bills/step3.png";
 import BillStep4 from "../../../public/UserManual/Bills/step4.png";
 import BillStep5 from "../../../public/UserManual/Bills/step5.png";
-import BillStep6 from "../../../public/UserManual/Bills/step6.png";
+import PettyStep1 from "../../../public/UserManual/PettyCash/step1.png";
+import PettyStep2 from "../../../public/UserManual/PettyCash/step2.png";
+import PettyStep3 from "../../../public/UserManual/PettyCash/step3.png";
 import PettyStep4 from "../../../public/UserManual/PettyCash/step4.png";
 import PettyStep5 from "../../../public/UserManual/PettyCash/step5.png";
 import InvoiceStep1 from "../../../public/UserManual/Invoice/step1.png";
@@ -54,6 +56,17 @@ import CollectionStep2 from "../../../public/UserManual/Collection/step2.png";
 import CollectionStep3 from "../../../public/UserManual/Collection/step3.png";
 import CollectionStep4 from "../../../public/UserManual/Collection/step4.png";
 import CollectionStep5 from "../../../public/UserManual/Collection/step5.png";
+import BankReconciliationStep1 from "../../../public/UserManual/BankReconciliation/Step 1.png";
+import BankReconciliationStep2 from "../../../public/UserManual/BankReconciliation/Step 2.png";
+import BankReconciliationStep3 from "../../../public/UserManual/BankReconciliation/Step 3.png";
+import BankReconciliationStep4 from "../../../public/UserManual/BankReconciliation/Step 4.png";
+import BankReconciliationStep5 from "../../../public/UserManual/BankReconciliation/Step 5.png";
+import BankReconciliationStep6 from "../../../public/UserManual/BankReconciliation/Step 6.png";
+import BankReconciliationStep7 from "../../../public/UserManual/BankReconciliation/Step 7.png";
+import BankReconciliationStep8 from "../../../public/UserManual/BankReconciliation/Step 8.png";
+import BankReconciliationStep9 from "../../../public/UserManual/BankReconciliation/Step 9.png";
+import BankReconciliationStep10 from "../../../public/UserManual/BankReconciliation/Step 10.png";
+import BankReconciliationStep11 from "../../../public/UserManual/BankReconciliation/Step 11.png";
 
 //Components
 import Header from "../../components/Header/Header";
@@ -212,7 +225,7 @@ export default function UserManual() {
                   style={{ cursor: "pointer", textDecoration: "underline" }}
                 >
                   {" "}
-                  Bill Expenses Form
+                Petty Cash Expenses Form
                 </a>
               </List.Item>
             </List>
@@ -223,7 +236,7 @@ export default function UserManual() {
             {" "}
             - This Email will receive the email receipt.{" "}
           </p>
-          <img src={BillStep1} className="imgUser1" />
+          <img src={PettyStep1} className="imgUser1" />
           <h4 className="StepTitle">
             {" "}
             2. Choose the TIN number of the supplier you want to make an expense
@@ -231,26 +244,27 @@ export default function UserManual() {
             your supplier.{" "}
           </h4>
           <p className="StepDescription"> - Example:000-000-000</p>
-          <img src={BillStep2} className="imgUser1" />
+          <img src={PettyStep2} className="imgUser1" />
           <h4 className="StepTitle">
             {" "}
-            3.Choose Petty Cash in the dropdown for Type of Expense.
+            3.Fill in the information for your Petty Cash expense.
           </h4>
-          <img src={BillStep3} className="imgUser1" />
+          <img src={PettyStep3} className="imgUser1" />
           <h4 className="StepTitle">
             {" "}
-            4.Fill in the information for your Petty Cash expense.
+            4.Confirmation Page
           </h4>
-          <img src={PettyStep4} className="imgUser1" />
-          <h4 className="StepTitle"> 5.Confirmation Page</h4>
-          <p className="StepDescription">
+                    <p className="StepDescription">
             {" "}
             - A confirmation page with the information entered will appear.
             Choose Yes or No in the dropdown and click submit. If Yes, the bill
             expense will be entered. If No, the expense will be cancelled and
             you will be taken back to the start.
           </p>
-          <img src={PettyStep5} className="imgUser1" />
+          <img src={PettyStep4} className="imgUser1" />
+          <h4 className="StepTitle"> 5.Check your email for your receipt.</h4>
+
+          <img src={PettyStep5} className="imgUser2" />
         </>
       ),
     },
@@ -260,7 +274,7 @@ export default function UserManual() {
       content: (
         <>
           {" "}
-          <h1> Bills User Manual </h1>
+          <h1>  Bills User Manual </h1>
           <h3 className="UserManualSubheading">
             Form that allows the user to record bill expenses.
           </h3>
@@ -295,15 +309,10 @@ export default function UserManual() {
           <img src={BillStep2} className="imgUser1" />
           <h4 className="StepTitle">
             {" "}
-            3.Choose Bill in the dropdown for Type of Expense.
+            3.Fill in the information for your bill expense.
           </h4>
           <img src={BillStep3} className="imgUser1" />
-          <h4 className="StepTitle">
-            {" "}
-            4.Fill in the information for your bill expense.
-          </h4>
-          <img src={BillStep4} className="imgUser1" />
-          <h4 className="StepTitle"> 5.Confirmation Page</h4>
+          <h4 className="StepTitle"> 4.Confirmation Page</h4>
           <p className="StepDescription">
             {" "}
             - A confirmation page with the information entered will appear.
@@ -311,9 +320,9 @@ export default function UserManual() {
             expense will be entered. If No, the expense will be cancelled and
             you will be taken back to the start.
           </p>
-          <img src={BillStep5} className="imgUser1" />
-          <h4 className="StepTitle"> 6.Check your email for your receipt.</h4>
-          <img src={BillStep6} className="imgUser2" />
+          <img src={BillStep4} className="imgUser1" />
+          <h4 className="StepTitle"> 5.Check your email for your receipt.</h4>
+          <img src={BillStep5} className="imgUser2" />
         </>
       ),
     },
@@ -594,6 +603,100 @@ export default function UserManual() {
           <img src={WithdrawStep3} className="imgUser1" />
           <h4 className="StepTitle"> 4.Check your email for your receipt.</h4>
           <img src={WithdrawStep4} className="imgUser2" />
+        </>
+      ),
+    },
+
+        {
+      value: "bankreconciliation",
+      label: "Bank Reconciliation",
+      content: (
+        <>
+          {" "}
+          <h1> Bank Reconciliation User Manual </h1>
+          <h3 className="UserManualSubheading">
+            Instruction on how to upload SOA for Bank Reconciliation
+          </h3>
+          <Group className="UserManualRequirments">
+            <h2 className="UserManualHeading"> Requirements </h2>
+            <List>
+              <List.Item>
+                <a
+                  onClick={() => navigate("/bankreconciliationform")}
+                  style={{ cursor: "pointer", textDecoration: "underline" }}
+                >
+                  {" "}
+                  Bank Reconciliaiton Form
+                </a>
+              </List.Item>           
+                 <ListItem>
+                Access to your registered email account
+              </ListItem>
+
+            </List>
+          </Group>
+          <h2 className="UserManualHeading"> Bank Reconciliation Tutorial </h2>
+          <h4 className="StepTitle">
+            {" "}
+            1. Check your email account every first of the month
+          </h4>
+          <p className="StepDescription">
+            {" "}
+            - An email containing the link to the Bank Reconciliation Form
+            will be sent to your registered email account.
+          </p>
+
+          <img src={BankReconciliationStep1 } className="imgUser2" />
+          <h4 className="StepTitle">
+            {" "}
+            2.Open the email promptly and click the button (Upload SOA)
+          </h4>
+          <img src={BankReconciliationStep2} className="imgUser1" />
+          <h4 className="StepTitle">3. Upon clicking, it will bring the user to the Official STEWRD Website (Log In Page) </h4>
+          <p className="StepDescription">
+            {" "}
+            - Log in using your Client ID and Password.
+          </p>
+          <img src={BankReconciliationStep3} className="imgUser1" />
+          <h4 className="StepTitle"> 4.The user will be directed automatically in the Bank Reconciliation Form </h4>
+          <img src={BankReconciliationStep4} className="imgUser2" />
+                    <h4 className="StepTitle"> 5.Fill in the information to proceed </h4>
+          <img src={BankReconciliationStep5} className="imgUser2" />
+                    <h4 className="StepTitle"> 6.Choose the bank type for you Statement of Account:</h4>
+          <img src={BankReconciliationStep6} className="imgUser2" />
+                    <h4 className="StepTitle">7. Click “Choose File” to select the statement of account document then “Submit”.</h4>
+                    <p className="StepDescription">
+            {" "}
+            - Supported file types are .xls or .xlsx. </p><div className="
+            "></div>
+          <img src={BankReconciliationStep7 } className="imgUser1" />
+                    <h4 className="StepTitle"> 8. The confirmation page will show after your successful submission. </h4>
+          <img src={BankReconciliationStep8 } className="imgUser1" />
+           <h2 className="UserManualHeading"> Record/Submit the inquired transactions Tutorial </h2>
+
+               <h4 className="StepTitle">
+            {" "}
+            1. Check your email account if you received a “For Inquiry Transactions” email.
+          </h4>
+          <p className="StepDescription">
+            {" "}
+            - Email is sent once the Accountant is done checking your the transactions.
+          </p>
+           <img src={BankReconciliationStep9} className="imgUser2" />
+
+                          <h4 className="StepTitle">
+            {" "}
+            2. Once inside the email, click the “Visit Portal” button.
+          </h4>
+           <img src={BankReconciliationStep10} className="imgUser1" />
+           
+           
+        <h4 className="StepTitle">3. Upon clicking, it will bring the user to the Official STEWRD Website (Log In Page) </h4>
+          <p className="StepDescription">
+            {" "}
+            - Log in using your Client ID and Password.
+          </p>
+          <img src={BankReconciliationStep11} className="imgUser1" />
         </>
       ),
     },

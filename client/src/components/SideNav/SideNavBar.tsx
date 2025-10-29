@@ -51,7 +51,7 @@ const SideBarLinks = [
   { link: "/deposit", label: "Deposits", icon: IconCashPlus },
   { link: "/transfer", label: "Transfers", icon: IconCashBanknoteMove },
   { link: "/withdraw", label: "Withdrawals", icon: IconCashMinus },
-  { link: "/tinregistration", label: "Tin Registration", icon: IconContract },
+  { link: "/tinregistration", label: "TIN Registration", icon: IconContract },
     {
     link: "/bankreconciliation",
     label: "Bank Reconciliation",

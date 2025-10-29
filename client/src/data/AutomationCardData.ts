@@ -97,7 +97,7 @@ export const NewCardsData = [
     {
     id: 12,
     category: "Tin",
-    title: "Customer Tin Registration",
+    title: "Customer TIN Registration",
     description: "Register Customer TIN Number.",
     buttonText: "Register Customer TIN",
     buttonLink: "/customertinform",
@@ -105,7 +105,7 @@ export const NewCardsData = [
       {
     id: 13,
     category: "Tin",
-    title: "Vendor Tin Registration",
+    title: "Vendor TIN Registration",
     description: "Register Vendor or SupplierTIN Number.",
     buttonText: "Register Vendor TIN",
     buttonLink: "/vendortinform",

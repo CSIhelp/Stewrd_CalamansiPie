@@ -50,7 +50,7 @@
 
 .UserManualtab[data-active="true"] {
   color: #ffffff;
-  background-color: #009444;
+  background-color:  #29aae1;
   border-bottom: none;
   border-radius: 10px;
 }
@@ -116,7 +116,7 @@
   bottom: 25px;
   right: 25px;
   z-index: 1000;
-  background-color: #009444;
+  background-color:  #29aae1;
   color: white;
   border-radius: 50%;
   width: 50px;
@@ -293,11 +293,11 @@
   padding: 10px 14px;
   font-size: 15px;
   border-radius: 8px;
-  color: #009444;
+  color:  #29aae1;
 }
 
 .UserManualtab[data-active="true"] {
-  background-color: #009444;
+  background-color:  #29aae1;
   color: white;
 }
 }
