@@ -51,22 +51,23 @@ const SideBarLinks = [
   { link: "/deposit", label: "Deposits", icon: IconCashPlus },
   { link: "/transfer", label: "Transfers", icon: IconCashBanknoteMove },
   { link: "/withdraw", label: "Withdrawals", icon: IconCashMinus },
-  { link: "/tinregistration", label: "Tin Registration", icon: IconContract },
-];
-
-const reportLinks = [
-  {
+  { link: "/tinregistration", label: "TIN Registration", icon: IconContract },
+    {
     link: "/bankreconciliation",
     label: "Bank Reconciliation",
     icon: IconBuildingBank,
   },
+];
+
+const reportLinks = [
+
   { link: "/looseleaf", label: "Looseleaf", icon: IconCashRegister },
-  { link: "/taxcompliance", label: "Tax Compliance", icon: IconClipboard },
-  {
-    link: "/financialreport",
-    label: "Financial Reports",
-    icon: IconBuildingBank,
-  },
+  // { link: "/taxcompliance", label: "Tax Compliance", icon: IconClipboard },
+  // {
+  //   link: "/financialreport",
+  //   label: "Financial Reports",
+  //   icon: IconBuildingBank,
+  // },
 ];
 
 export function SideNavBar() {

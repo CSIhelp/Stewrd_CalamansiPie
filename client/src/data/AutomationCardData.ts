@@ -7,7 +7,7 @@ export const NewCardsData = [
     category: "Invoice",
     title: "Invoices Upload",
     description: "Upload your invoices to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create an Invoice",
     buttonLink: "/invoiceform",
   },
   {
@@ -15,7 +15,7 @@ export const NewCardsData = [
     category: "Bills",
     title: "Bills Upload",
     description: "Upload your Bills to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Bill",
     buttonLink: "/billsform",
   },
   {
@@ -24,7 +24,7 @@ export const NewCardsData = [
     title: "Bills Payments Upload",
     description:
       "Upload your bill payment transaction to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Payment",
     buttonLink: "/paymentform",
   },
   {
@@ -32,7 +32,7 @@ export const NewCardsData = [
     category: "CollectionReceipt",
     title: "Collection Receipt Upload",
     description: "Upload your invoices to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Collection Receipt",
     buttonLink: "/collectionreceiptform",
   },
   {
@@ -40,7 +40,7 @@ export const NewCardsData = [
     category: "PettyCash",
     title: "Petty Cash Upload",
     description: "Upload your payments to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Petty Cash",
     buttonLink: "/pettycashform",
   },
 
@@ -49,7 +49,7 @@ export const NewCardsData = [
     category: "BankReconciliation",
     title: "Bank Reconciliation Upload",
     description: "Upload your SOA here for Bank Reconciliation.",
-    buttonText: "View Portal",
+    buttonText: "Create a Bank Reconciliation",
     buttonLink: "/bankreconciliationform",
   },
 
@@ -67,7 +67,7 @@ export const NewCardsData = [
     title: "Cheque Disbursement Upload",
     description:
       "Upload your Cheque Disbursement to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Cheque Disbursement",
     buttonLink: "/chequedisbursementform",
   },
   {
@@ -75,7 +75,7 @@ export const NewCardsData = [
     category: "Deposit",
     title: "Deposit Upload",
     description: "Upload your Deposit to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Deposit",
     buttonLink: "/depositform",
   },
   {
@@ -83,7 +83,7 @@ export const NewCardsData = [
     category: "Withdrawal",
     title: "Withdrawal Upload",
     description: "Upload your Withdrawal to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Withdrawal",
     buttonLink: "/withdrawform",
   },
   {
@@ -91,23 +91,23 @@ export const NewCardsData = [
     category: "Transfer",
     title: "Fund Transfer Upload",
     description: "Upload your Fund Transfers to the system for processing.",
-    buttonText: "View Portal",
+    buttonText: "Create a Transfer",
     buttonLink: "/transferform",
   },
     {
     id: 12,
     category: "Tin",
-    title: "Customer Tin Registration",
+    title: "Customer TIN Registration",
     description: "Register Customer TIN Number.",
-    buttonText: "View Portal",
+    buttonText: "Register Customer TIN",
     buttonLink: "/customertinform",
   },
       {
     id: 13,
     category: "Tin",
-    title: "Vendor Tin Registration",
+    title: "Vendor TIN Registration",
     description: "Register Vendor or SupplierTIN Number.",
-    buttonText: "View Portal",
+    buttonText: "Register Vendor TIN",
     buttonLink: "/vendortinform",
   },
   {
@@ -116,6 +116,27 @@ export const NewCardsData = [
     title: "Documentation Folder",
     description: "Access All The Documentation Files",
     buttonText: "View Documentation",
-    buttonLink: "Sample",
+    buttonLink: "https://drive.google.com/drive/folders/1gp281R2fYr1Z5Vt_DLrT5E15vETOFq1t?usp=drive_link",
   },
+  {
+    id: 15,
+    category: "BankReconciliationReport",
+    title: "Bank Reconciliation Report Upload",
+    description: "Upload Report for Bank Reconciliation.",
+    buttonText: "Upload Bank Reconciliation Report",
+    buttonLink: "/uploadreportform",
+    role: "accountant",
+  },
+    {
+    id: 16,
+    category: "BankReconciliationReport",
+    title: "Bank Reconciliation Report",
+    description: "See Bank Reconciliation. Report here.",
+    buttonText: " Bank Reconciliation Report ",
+    buttonLink: "/bankreconciliationreportform",
+    role: "accountant",
+  },
+
 ];
+
+

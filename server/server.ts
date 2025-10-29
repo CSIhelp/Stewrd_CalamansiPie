@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.text({ type: "*/*" }));
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://customize.stewrd-calamansipie.pages.dev", "https://stewrd-calamansipie.pages.dev" ], 
+    origin: ["http://localhost:5173", "https://customize.stewrd-calamansipie.pages.dev", "https://stewrd-calamansipie.pages.dev", "https://calamansistewrd.crowdsourcesolutions.ph" ], 
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
     credentials: true,

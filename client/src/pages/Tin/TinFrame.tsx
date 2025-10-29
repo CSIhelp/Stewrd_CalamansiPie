@@ -28,7 +28,7 @@ export default function TinFrame() {
       <Card shadow="sm" radius="md" withBorder className="TinFormCard">
         <Group className="TinFrameTop" > 
         <Text className="TinFrameTitle">
-          Customer Tin Form
+          Customer TIN Form
         </Text>
         <Button className="BackButton" onClick={handleBack }>
           Back To Dashboard

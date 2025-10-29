@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import type { ReactNode, FC } from 'react';
 
 interface ProtectedRouteProps {
@@ -12,10 +12,11 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, adminOnly, accounta
 
   const userRole = localStorage.getItem('userRole'); // "admin" or "user"
   const isAuthenticated = !!userRole;
+    const location = useLocation();
 
   if (!isAuthenticated) {
     // Not logged in
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace state={{ from: location }} />;
   }
   if (adminOnly && userRole !== 'admin') {
     // Logged in but not admin
