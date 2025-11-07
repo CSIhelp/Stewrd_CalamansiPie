@@ -62,12 +62,12 @@ const SideBarLinks = [
 const reportLinks = [
 
   { link: "/looseleaf", label: "Looseleaf", icon: IconCashRegister },
-  // { link: "/taxcompliance", label: "Tax Compliance", icon: IconClipboard },
-  // {
-  //   link: "/financialreport",
-  //   label: "Financial Reports",
-  //   icon: IconBuildingBank,
-  // },
+  { link: "/taxcompliance", label: "Tax Compliance", icon: IconClipboard },
+  {
+    link: "/financialreport",
+    label: "Financial Reports",
+    icon: IconBuildingBank,
+  },
 ];
 
 export function SideNavBar() {

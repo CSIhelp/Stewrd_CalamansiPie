@@ -22,6 +22,8 @@ import Withdraw from './pages/Withdraw/Withdraw';
 import Transfer from './pages/Transfer/Transfer';
 import UserManual from './pages/UserManual/UserManual';
 import Tin from "./pages/Tin/TIN";
+import Compliance from "./pages/Compliance/Compliance";
+import Report from "./pages/Report/Report";
 
 
 //N8n frames
@@ -40,6 +42,17 @@ import BRReportFrame from "./pages/BankReconciliation/BRReportFrame";
 import LooseLeafFrame from "./pages/LooseLeaf/LooseLeafFrame";
 import TinFrame from "./pages/Tin/TinFrame";
 import TinVendorFrame from "./pages/Tin/TinVendorFrame";
+import QapFrame from "./pages/Compliance/Qap";
+import SawtFrame from "./pages/Compliance/Sawt";
+import AlphaListFrame from "./pages/Compliance/AlphaList";
+import SalesFrame from "./pages/Compliance/Sales";
+import PurchaseFrame from "./pages/Compliance/Purchase";
+import SawtViewFrame from "./pages/Compliance/SawtView";
+import AlphaListView from "./pages/Compliance/AlphaListView";
+import QapView from "./pages/Compliance/QapView";
+import SlspView from "./pages/Compliance/SlspView";
+import AapFrame from "./pages/Compliance/AlphaListView";
+import ReportFrame from "./pages/Report/ReportFrame";
 
 import BackLogoutModal from './components/LogoutModal/LogOut';
 import { useSession } from './hooks/useSession';
@@ -129,6 +142,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Tin />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/financialreport"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <Report />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/taxcompliance"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <Compliance />
             </ProtectedRoute>
           }
         />
@@ -278,6 +307,91 @@ function App() {
             <UserManual />
           </ProtectedRoute>
         } />
+                
+        <Route
+          path="/reportform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <ReportFrame />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/qapform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <QapFrame />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/purchaseform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <PurchaseFrame />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/alphalistform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <AlphaListFrame />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/salesform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <SalesFrame />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/sawtform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <SawtFrame />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/sawtviewform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <SawtViewFrame />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/qapviewform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <QapView />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/aapviewform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <AapFrame />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/slspviewform"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <SlspView />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

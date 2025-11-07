@@ -67,6 +67,48 @@ import BankReconciliationStep8 from "../../../public/UserManual/BankReconciliati
 import BankReconciliationStep9 from "../../../public/UserManual/BankReconciliation/Step 9.png";
 import BankReconciliationStep10 from "../../../public/UserManual/BankReconciliation/Step 10.png";
 import BankReconciliationStep11 from "../../../public/UserManual/BankReconciliation/Step 11.png";
+import BankReconAccStep1 from "../../../public/UserManual/BankReconAcc/Step1.png";
+import BankReconAccStep2 from "../../../public/UserManual/BankReconAcc/Step2.png";
+import BankReconAccStep3 from "../../../public/UserManual/BankReconAcc/Step3.1.png";
+import BankReconAccStep31 from "../../../public/UserManual/BankReconAcc/Step3.2.png";
+import BankReconAccStep4 from "../../../public/UserManual/BankReconAcc/Step4.png";
+import BankReconAccStep5 from "../../../public/UserManual/BankReconAcc/Step5.png";
+import BankReconAccStep6 from "../../../public/UserManual/BankReconAcc/Step6.png";
+import BankReconAccStep7 from "../../../public/UserManual/BankReconAcc/Step7.png";
+import BankReconAccStep8 from "../../../public/UserManual/BankReconAcc/Step8.png";
+import BankReconAccStep9 from "../../../public/UserManual/BankReconAcc/Step9.png";
+import BankReconAccStep10 from "../../../public/UserManual/BankReconAcc/Step10.png";
+import BankReconAccStep11 from "../../../public/UserManual/BankReconAcc/Step11.png";
+import BankReconAccStep12 from "../../../public/UserManual/BankReconAcc/Step12.png";
+import BankReconAccStep13 from "../../../public/UserManual/BankReconAcc/Step13.png";
+import BankReconAccStep14 from "../../../public/UserManual/BankReconAcc/Step14.png";
+import BankReconAccStep15 from "../../../public/UserManual/BankReconAcc/Step15.png";
+import LooseLeafStep1 from "../../../public/UserManual/LooseLeaf/step1.png";
+import LooseLeafStep2 from "../../../public/UserManual/LooseLeaf/step2.png";
+import LooseLeafStep3 from "../../../public/UserManual/LooseLeaf/step3.png";
+import LooseLeafStep4 from "../../../public/UserManual/LooseLeaf/step4.png";
+import LooseLeafStep5 from "../../../public/UserManual/LooseLeaf/step5.png";
+import SLSPStep1 from "../../../public/UserManual/SLSP/step2.png";
+import SLSPStep2 from "../../../public/UserManual/SLSP/step2.5.png";
+import SLSPStep3 from "../../../public/UserManual/SLSP/step3.png";
+import SLSPStep4 from "../../../public/UserManual/SLSP/step4.png";
+import SLSPStep5 from "../../../public/UserManual/SLSP/step5.png";
+import SLSPStep6 from "../../../public/UserManual/SLSP/step6.png";
+import SLSPStep7 from "../../../public/UserManual/SLSP/step7.png";
+import SLSPStep8 from "../../../public/UserManual/SLSP/step8.png";
+import SLSPStep9 from "../../../public/UserManual/SLSP/step8.5.png";
+import SLSPStep10 from "../../../public/UserManual/SLSP/step10.png";
+import SLSPStep11 from "../../../public/UserManual/SLSP/step11.png";
+import SLSPStep12 from "../../../public/UserManual/SLSP/step11.5.png";
+import SAWTStep1 from "../../../public/UserManual/SAWT/step2.png";
+import SAWTStep2 from "../../../public/UserManual/SAWT/step2.5.png";
+import SAWTStep3 from "../../../public/UserManual/SAWT/step3.png";
+import SAWTStep4 from "../../../public/UserManual/SAWT/step4.png";
+import SAWTStep5 from "../../../public/UserManual/SAWT/step5.png";
+import SAWTStep7 from "../../../public/UserManual/SAWT/step7.png";
+import SAWTStep10 from "../../../public/UserManual/SAWT/step10.png";
+import SAWTStep11 from "../../../public/UserManual/SAWT/step11.png";
+import SAWTStep12 from "../../../public/UserManual/SAWT/step11.5.png";
 
 //Components
 import Header from "../../components/Header/Header";
@@ -77,6 +119,7 @@ export default function UserManual() {
   const [activeTab, setActiveTab] = useState<string | null>("getting-started");
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+ const userRole = localStorage.getItem("userRole");
   const tabs = [
   
     {
@@ -700,6 +743,609 @@ export default function UserManual() {
         </>
       ),
     },
+   ...(userRole === "accountant"
+      ? [
+          {
+            value: "AccountantBankReconciliation",
+            label: " Accountant Bank Reconciliation",
+            content: (
+              <>
+                <h1> Bank Reconciliation User Manual </h1>
+                <h3 className="UserManualSubheading">
+                  Bank Reconciliation for Accountants User Manual
+                </h3>
+                <Group className="UserManualRequirments">
+                  <h2 className="UserManualHeading"> Requirements </h2>
+                  <List>
+                    <List.Item>
+                      <a
+                        onClick={() =>
+                          window.open(
+                            "https://docs.google.com/spreadsheets/d/1ZohvisAm62h_wckovfYhVMgp5ZxfV0PTactI6aeIHtM/edit?usp=sharing"
+                          )
+                        }
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {" "}
+                        Bank Reconciliaiton Spreadsheet
+                      </a>
+                    </List.Item>
+                    <ListItem>Access to your registered email account</ListItem>
+                  </List>
+                </Group>
+                <h2 className="UserManualHeading">
+                  {" "}
+                  Bank Reconciliation Tutorial{" "}
+                </h2>
+                 <p className="StepDescription">
+  <strong> NOTE: </strong> If client has submitted SOA and no inquiry is needed, proceed to{" "}
+  <a
+    href="#upload-bank-reconciliation"
+    style={{ color: "#007bff", textDecoration: "underline", cursor: "pointer" }}
+    onClick={(e) => {
+      e.preventDefault();
+      document
+        .getElementById("upload-bank-reconciliation")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }}
+  >
+    Upload Bank Reconciliation Report
+  </a>{" "}
+ 
+</p>
+                <h4 className="StepTitle">
+                  {" "}
+                  1. Upon the submission of Statement of Account. The accountant
+                  will receive an email notification
+                </h4>
+                <p className="StepDescription">
+                  {" "}
+                  - An email containing Upload details will be sent to your
+                  registered email account.
+                </p>
+
+                <img src={BankReconAccStep1} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  2. Go to the Google Sheet of{" "}
+                  <a
+                    onClick={() =>
+                      window.open(
+                        "https://docs.google.com/spreadsheets/d/1ZohvisAm62h_wckovfYhVMgp5ZxfV0PTactI6aeIHtM/edit?usp=sharing"
+                      )
+                    }
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#007bff",
+                    }}
+                  >
+                    SOA_Submissions{" "}
+                  </a>
+                  . The data should be available there.
+                </h4>
+                <img src={BankReconAccStep2} className="imgUser2" />
+                <h4 className="StepTitle">
+                  3.Edit & Save something first to trigger the automatic
+                  creation of checkbox.
+                </h4>
+                <p className="StepDescription"> Before:</p>
+
+                <img src={BankReconAccStep3} className="imgUser2" />
+                <p className="StepDescription"> After:</p>
+
+                <img src={BankReconAccStep31} className="imgUser2" />
+
+                <h4 className="StepTitle">
+                  {" "}
+                  4.Once the checkbox has been applied, delete the edited
+                  content (if not necessary for bank reconciliation.){" "}
+                </h4>
+
+                <h4 className="StepTitle">
+                  {" "}
+                  5.Check the checkbox under the “For Inquiry” columns for the
+                  transactions you want to inquire about
+                </h4>
+                <img src={BankReconAccStep4} className="imgUser2" />
+                <h4 className="StepTitle">
+                  {" "}
+                  6.Click the “SEND INQUIRY” button and a confirmation dialog
+                  box should come out.{" "}
+                </h4>
+                <img src={BankReconAccStep5} className="imgUser1" />
+                <h4 className="StepTitle">
+                  7. Wait for 30 seconds and the “Inquired” column should also
+                  be checked in relation to the items you inquired about.{" "}
+                </h4>
+                <p className="StepDescription">
+                  {" "}
+                  - Once checked, it confirms that the inquiry email has been
+                  sent.{" "}
+                </p>
+                <div
+                  className="
+            "
+                ></div>
+                <img src={BankReconAccStep6} className="imgUser2" />
+
+                <h2  id="upload-bank-reconciliation" className="UserManualHeading">
+                  {" "}
+                  How to upload the Bank Reconciliation Report:{" "}
+                </h2>
+                    
+                <h4 className="StepTitle">
+                  {" "}
+                  1. Export Bank Reconciliation Report from QBO as PDF.
+                </h4>
+                <p className="StepDescription">
+                  {" "}
+                <strong> NOTE: </strong> After exporting the file, if no inquiries were made, Manually Log In to STEWRD Website and proceed to step 5 of Upload Bank Reconciliation Report.
+                </p>
+                  <h4 className="StepTitle">
+                  {" "}
+                 
+                  2. The accountant will receive an email to Upload the Bank
+                  Reconciliation Report
+                </h4>
+                
+                <p className="StepDescription">
+                  {" "}
+                  - after the allotted time for clients to record their
+                  transaction is done. 
+                </p>
+
+                <img src={BankReconAccStep7} className="imgUser2" />
+
+                <h4 className="StepTitle">
+                  {" "}
+                  3. Open the email promptly and click the “Upload Report”. 
+                </h4>
+                <img src={BankReconAccStep8} className="imgUser1" />
+
+                <h4 className="StepTitle">
+                  4. Upon clicking, it will bring the accountant to the Official
+                  STEWRD Website (Log In Page){" "}
+                </h4>
+                <p className="StepDescription">
+                  {" "}
+                  - Log in using your Client ID and Password.
+                </p>
+                <img src={BankReconAccStep9} className="imgUser1" />
+                <h4 className="StepTitle">
+                  5. After Loging In, Click the Bank Reconciliation{" "}
+                </h4>
+                <p className="StepDescription">
+                  {" "}
+                  - Located In the Side Navigation.
+                </p>
+                <img src={BankReconAccStep15} className="imgUser1" />
+
+                <h4 className="StepTitle">
+                  {" "}
+                  6.Click Upload Bank Reconciliation Report{" "}
+                </h4>
+
+                <img src={BankReconAccStep10} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  7. Click “Choose File” to select the bank reconciliation
+                  report then “Submit”
+                </h4>
+
+                <img src={BankReconAccStep11} className="imgUser1" />
+
+
+                <img src={BankReconAccStep12} className="imgUser1" />
+
+                <h4 className="StepTitle">
+                  {" "}
+                  8.The accountant can go back to the bank reconciliation tab
+                  and click the “Bank Reconciliation Report”.
+                </h4>
+
+                <img src={BankReconAccStep13} className="imgUser2" />
+
+                <h4 className="StepTitle">
+                  9.The accountant can view the uploaded Bank Reconciliation
+                  Reports here:{" "}
+                </h4>
+
+                <img src={BankReconAccStep14} className="imgUser2" />
+              </>
+            ),
+          },
+        ]
+      : []),
+
+    ...(userRole === "accountant"
+      ? [
+          {
+            value: "looseleaf",
+            label: "Loaseleaf ",
+            content: (
+              <>
+                {" "}
+                <h1>Manual Generation of Looseleaf User Manual </h1>
+                <h3 className="UserManualSubheading">
+                  Instruction on how to generate looseleaf manually
+                </h3>
+                <Group className="UserManualRequirments">
+                  <h2 className="UserManualHeading"> Requirements </h2>
+                  <List>
+                    <List.Item>
+                      <a
+                        onClick={() => navigate("/looseleafform")}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {" "}
+                        Looseleaf Form
+                      </a>
+                    </List.Item>
+                  </List>
+                </Group>
+                <h2 className="UserManualHeading">
+                  {" "}
+                  Generate looseleaf Tutorial{" "}
+                </h2>
+                <h4 className="StepTitle"> 1. Log into Stewrd's Web Portal</h4>
+                <h4 className="StepTitle">
+                  {" "}
+                  2. Navigate to Reports → Looseleaf Generator
+                </h4>
+                <h4 className="StepTitle">
+                  {" "}
+                  3. Select any date of the month you want the report to be
+                  generated
+                </h4>
+                <img src={LooseLeafStep2} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  4.Select email where the report will be sent:
+                </h4>
+                <p className="StepDescription">
+                  {" "}
+                  - My Registered Email (Will go to
+                  help@crowdsourcesolutions.ph, inspire@crowdsourcesolutions.ph,
+                  solve@crowdsourcesolutions.ph)
+                </p>
+                <img src={LooseLeafStep3} className="imgUser1" />
+                <p className="StepDescription">
+                  {" "}
+                  - Another Email Address (Must enter on customEmail on where
+                  the report will be sent)
+                </p>
+                <img src={LooseLeafStep4} className="imgUser2" />
+                <h4 className="StepTitle">
+                  {" "}
+                  5.Check your email within 5 minutes if you have received the
+                  report.
+                </h4>
+                <h4 className="StepTitle">
+                  {" "}
+                  6. You can now view your Looseleaf report on your email
+                </h4>
+                <img src={LooseLeafStep5} className="imgUser2" />
+              </>
+            ),
+          },
+        ]
+      : []),
+    ...(userRole === "accountant"
+      ? [
+          {
+            value: "SummaryAlphalistofWithholdingTaxatSourceSAWT",
+            label: "Summary Alphalist of Withholding Tax at Source",
+            content: (
+              <>
+                {" "}
+                <h1> Summary Alphalist of Withholding Tax at Source (SAWT) User Manual</h1>
+                <h3 className="UserManualSubheading">
+                  Instruction on how to convert QBO CSV reports to DAT files
+                </h3>
+                <Group className="UserManualRequirments">
+                  <h2 className="UserManualHeading"> Requirements </h2>
+                  <List>
+                    <List.Item>
+                      <a
+                        onClick={() => navigate("/sawtform")}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {" "}
+                        SAWT Report Upload Form
+                      </a>
+                    </List.Item>
+                    <List.Item>
+                      <a
+                        onClick={() => navigate("/sawtviewform")}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {" "}
+                        SLSP and SAWT Google Sheet
+                      </a>
+                    </List.Item>
+                  </List>
+                </Group>
+                <h2 className="UserManualHeading">
+                  {" "}
+                  How to upload SAWT Reports{" "}
+                </h2>
+                <h4 className="StepTitle">
+                  {" "}
+                  1. Download the appropriate Transaction Reports from
+                  QuickBooks Online as a CSV file.
+                </h4>
+                <h4 className="StepTitle">
+                  {" "}
+                  2. Remove rows 1-3 and row 4 until row 5 becomes the header.
+                </h4>
+                <p className="StepDescription">Before:</p>
+                <img src={SAWTStep1} className="imgUser2" />
+                <p className="StepDescription">After:</p>
+                <img src={SAWTStep2} className="imgUser2" />
+                <h4 className="StepTitle"> 3. In the A1, add the word ‘ATC’ as the header title and fill in the ATC code for each row.</h4>
+                <img src={SAWTStep3} className="imgUser2" />
+                <h4 className="StepTitle"> 4. Save the file.</h4>
+                <img src={SAWTStep4} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  5.Upload the report to the{" "}
+                  <a
+                    onClick={() => navigate("/sawtform")}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#007bff"
+                    }}
+                  >
+                    {" "}
+                    SAWT Report Upload Form.{" "}
+                  </a>
+                </h4>
+                <img src={SAWTStep5} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  5. Go to the SLSP and SAWT Google Sheet Template in tab ‘SAWT Template’.
+                </h4>
+                    <h4 className="StepTitle">
+                  {" "}
+                  6. Wait for it to fill up.
+                </h4>
+                 <p className="StepDescription">
+                  <a 
+                    onClick={() => navigate("/sawtviewform")}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#007bff"
+                    }}
+                  > - SLSP and Sawt Google Sheet</a>
+                  </p>
+                <img src={SAWTStep7} className="imgUser2" />
+              
+                <h4 className="StepTitle">
+                  {" "}
+                  8.Take the time to double check all the information and
+                  correct anything wrong or missing.
+                </h4>
+                <p className="StepDescription">
+                  (e.g. missing TINs, missing Supplier Addresses, wrong values,
+                  etc).{" "}
+                </p>
+
+                <h4 className="StepTitle">
+                  {" "}
+                  9. Go to the Convert to DAT tab in the Google Sheets.
+                </h4>
+                <h4 className="StepTitle">
+                  {" "}
+                  10.Click the ‘Convert Sales and Purchases to DAT File and Send
+                  Email’ button.
+                </h4>
+                <p className="StepDescription1" color="Red">
+                  {" "}
+                  <strong> IMPORTANT: </strong> Once submitted, the sheets will
+                  clear up and you will no longer be able to edit the templates.
+                  Ensure that all information is complete and final before
+                  submitting.
+                </p>
+                <img src={SAWTStep10} className="imgUser2" />
+                <h4 className="StepTitle">
+                  {" "}
+                  11. Two emails will be sent to you; one with the DAT files and
+                  one with an XLSX copy of the Google Sheet.
+                </h4>
+                <img src={SAWTStep11} className="imgUser2" />
+                <img src={SAWTStep12} className="imgUser2" />
+              </>
+            ),
+          },
+        ]
+      : []),
+      ...(userRole === "accountant"
+      ? [
+          {
+            value: "SalesandPurchases(SLSP)",
+            label: "Sales and Purchases (SLSP) ",
+            content: (
+              <>
+                {" "}
+                <h1> Sales and Purchases Compliance (SLSP) User Manual</h1>
+                <h3 className="UserManualSubheading">
+                  Instruction on how to convert QBO CSV reports to DAT files
+                </h3>
+                <Group className="UserManualRequirments">
+                  <h2 className="UserManualHeading"> Requirements </h2>
+                  <List>
+                    <List.Item>
+                      <a
+                        onClick={() => navigate("/salesform")}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {" "}
+                        SLSP Sales Form
+                      </a>
+                    </List.Item>
+                    <List.Item>
+                      <a
+                        onClick={() => navigate("/purchaseform")}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {" "}
+                        SLSP Purchases Form
+                      </a>
+                    </List.Item>
+                    <List.Item>
+                      <a
+                        onClick={() => navigate("/sawtviewform")}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {" "}
+                        SLSP and SAWT Google Sheet
+                      </a>
+                    </List.Item>
+                  </List>
+                </Group>
+                <h2 className="UserManualHeading">
+                  {" "}
+                  How to upload SLSP Reports{" "}
+                </h2>
+                <h4 className="StepTitle">
+                  {" "}
+                  1. Download the appropriate Transaction Reports from
+                  QuickBooks Online as a CSV file.
+                </h4>
+                <h4 className="StepTitle">
+                  {" "}
+                  2. For both reports, remove rows 1-3 until row 4 becomes the
+                  header
+                </h4>
+                <p className="StepDescription">Before:</p>
+                <img src={SLSPStep1} className="imgUser2" />
+                <p className="StepDescription">After:</p>
+                <img src={SLSPStep2} className="imgUser2" />
+                <h4 className="StepTitle"> 3. Save the file.</h4>
+                <img src={SLSPStep3} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  4.Upload the report to the{" "}
+                  <a
+                    onClick={() => navigate("/salesform")}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#007bff"
+                    }}
+                  >
+                    {" "}
+                    SLSP Compliance - Sales form.{" "}
+                  </a>
+                </h4>
+                <img src={SLSPStep4} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  5. Wait for the Sales Template in the Google Sheet to fill up.
+                </h4>
+                 <p className="StepDescription">
+                  <a 
+                    onClick={() => navigate("/sawtviewform")}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#007bff"
+                    }}
+                  > - SLSP and Sawt Google Sheet</a>
+                  </p>
+                <img src={SLSPStep5} className="imgUser2" />
+                <h4 className="StepTitle">
+                  {" "}
+                  6. Upload the report to the        <a
+                    onClick={() => navigate("/purchaseform")}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#007bff"
+                    }}
+                  > SLSP Compliance - Purchases form.</a>
+                </h4>
+                <img src={SLSPStep6} className="imgUser1" />
+                <h4 className="StepTitle">
+                  {" "}
+                  7. Wait for the Purchases Template in the Google Sheet to fill
+                  up.
+                </h4>
+                <p className="StepDescription">
+                  <a 
+                    onClick={() => navigate("/sawtviewform")}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#007bff"
+                    }}
+                  > - SLSP and Sawt Google Sheet</a>
+                  </p>
+                <img src={SLSPStep7} className="imgUser2" />
+                <h4 className="StepTitle">
+                  {" "}
+                  8.Take the time to double check all the information and
+                  correct anything wrong or missing.
+                </h4>
+                <p className="StepDescription">
+                  (e.g. missing TINs, missing Supplier Addresses, wrong values,
+                  etc).{" "}
+                </p>
+                      <img src={SLSPStep8} className="imgUser2" />
+                <img src={SLSPStep9} className="imgUser2" />
+                <h4 className="StepTitle">
+                  {" "}
+                  9. Go to the Convert to DAT tab in the Google Sheets.
+                </h4>
+                <h4 className="StepTitle">
+                  {" "}
+                  10.Click the ‘Convert Sales and Purchases to DAT File and Send
+                  Email’ button.
+                </h4>
+                <p className="StepDescription1" color="Red">
+                  {" "}
+                  <strong> IMPORTANT: </strong> Once submitted, the sheets will
+                  clear up and you will no longer be able to edit the templates.
+                  Ensure that all information is complete and final before
+                  submitting.
+                </p>
+                <img src={SLSPStep10} className="imgUser2" />
+                <h4 className="StepTitle">
+                  {" "}
+                  11. Two emails will be sent to you; one with the DAT files and
+                  one with an XLSX copy of the Google Sheet.
+                </h4>
+                <img src={SLSPStep11} className="imgUser2" />
+                <img src={SLSPStep12} className="imgUser2" />
+              </>
+            ),
+          },
+        ]
+      : []),
   ];
 
   const filteredTabs = tabs.filter((tab) =>
