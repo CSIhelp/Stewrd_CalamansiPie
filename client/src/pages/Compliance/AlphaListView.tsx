@@ -23,7 +23,7 @@ export default function AapFrame() {
   };
   const handleGooglesheets = () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1Wd2w8WY2cuJldvcNnz5UIow6FaU3nUGnlEwgA8kD4IM/edit?usp=sharing",
+      "https://docs.google.com/spreadsheets/d/1SNS3ZrmI6m6YPMR7plWij3L48iohui8e2meuJaFT_wc/edit?usp=sharing",
       "_blank"
     );
   }
@@ -61,7 +61,7 @@ export default function AapFrame() {
             />
             <iframe
               className="AapIframe"
-               src="https://docs.google.com/spreadsheets/d/1kYmEnkJKuwFwAqHr0BehNHVfoVRBP4hb2F3yzVId_OQ/edit?usp=sharing"
+               src="https://docs.google.com/spreadsheets/d/1SNS3ZrmI6m6YPMR7plWij3L48iohui8e2meuJaFT_wc/edit?usp=sharing"
               title="Aap"
               onLoad={() => setIsLoading(false)}
             ></iframe>

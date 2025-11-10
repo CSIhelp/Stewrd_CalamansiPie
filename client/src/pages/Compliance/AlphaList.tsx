@@ -54,7 +54,7 @@ export default function AlphaListFrame() {
             />
             <iframe
               className="AlphaListIframe"
-              src="https://primary-production-a810.up.railway.app/form/6ebb9a37-96d1-4aaa-887c-045699a630ba"
+              src="https://primary-production-a810.up.railway.app/form/e6f1e204-48bd-4ff2-a2b1-1ccfa3a3a5f9"
               title="AlphaList"
               onLoad={() => setIsLoading(false)}
             ></iframe>
