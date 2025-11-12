@@ -62,12 +62,12 @@ const SideBarLinks = [
 const reportLinks = [
 
   { link: "/looseleaf", label: "Looseleaf", icon: IconCashRegister },
-  // { link: "/taxcompliance", label: "Tax Compliance", icon: IconClipboard },
-  // {
-  //   link: "/financialreport",
-  //   label: "Financial Reports",
-  //   icon: IconBuildingBank,
-  // },
+  { link: "/taxcompliance", label: "Tax Compliance", icon: IconClipboard },
+  {
+    link: "/financialreport",
+    label: "Financial Reports",
+    icon: IconBuildingBank,
+  },
 ];
 
 export function SideNavBar() {
@@ -120,9 +120,15 @@ export function SideNavBar() {
   ));
 
   // Filter cards by search query
-  const filteredCards = NewCardsData.filter((card) =>
-    card.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+const filteredCards = NewCardsData.filter((card) => {
+  // Hide accountant cards if user is not admin or accountant
+  if (card.role === "accountant" && (userRole !== "accountant")) {
+    return false;
+  }
+
+  // Search filter
+  return card.title.toLowerCase().includes(searchQuery.toLowerCase());
+});
 
   if (isMobile && !opened) {
     return (

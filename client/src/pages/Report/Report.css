@@ -1,0 +1,73 @@
+.ReportContainer {
+  display: flex;
+  flex-direction: row !important;
+  width: 100%;
+}
+.ReportCardContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100vw !important;
+  margin-left: 30vw;
+  margin-top: 2vw;
+  align-items: center;
+  justify-items: center;
+}
+
+.ReportCard {
+  width: 60vw !important;
+  margin-left: 1vw;
+  margin-bottom: 2vw;
+  border-radius: 10px;
+}
+
+.ReportTitleCard {
+  width: 52vw !important;
+  margin-left: 1vw;
+  margin-bottom: 2vw;
+  border-bottom: 1px solid #877e7e;
+  font-size: 0.8vw;
+}
+
+@media (min-width: 760px) and (max-width: 1023px) {
+  .ReportContainer {
+    flex-direction: row;
+  }
+
+  .ReportCardContainer {
+    width: calc(100% - 250px); /* smaller sidebar */
+    margin-left: 250px !important;
+    padding: 1rem;
+  }
+
+  .ReportCard {
+    width: 60vw !important;
+    margin-left: 0;
+  }
+
+  .ReportTitleCard {
+    width: 50%;
+    font-size: 1vw;
+  }
+}
+@media (max-width: 759px) {
+  .ReportContainer {
+    flex-direction: column;
+  }
+
+  .ReportCardContainer {
+    width: 100%;
+    margin-left: 0vw !important;
+    padding: 1rem;
+  }
+
+  .ReportCard {
+    width: 80vw !important;
+    margin-left: 0;
+  }
+
+  .ReportTitleCard {
+    width: 70vw !important;
+    font-size: 2.5vw;
+    margin-left: 0;
+  }
+}
