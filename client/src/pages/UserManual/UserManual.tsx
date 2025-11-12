@@ -1720,7 +1720,7 @@ export default function UserManual() {
                 <List>
                   <List.Item>
                     <a
-                      onClick={() => navigate("/aapform")}
+                      onClick={() => navigate("/alphalistform")}
                       style={{
                         cursor: "pointer",
                         textDecoration: "underline",
