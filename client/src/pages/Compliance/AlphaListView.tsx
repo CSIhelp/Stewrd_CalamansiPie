@@ -29,7 +29,7 @@ export default function AapFrame() {
   }
   return (
     <>
-      <Header title="Review Annual Alphalist of Payees Form" />
+      <Header title="Review QAP and AAP Form" />
       <Container className="AapFrameContainer">
         <Card
           shadow="sm"

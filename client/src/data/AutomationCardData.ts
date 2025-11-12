@@ -150,7 +150,7 @@ export const NewCardsData = [
     id: 16,
     category: "Compliance",
     title: "Quarterly Alphalist of Payees (QAP)",
-    description: " Upload Report for Annual Alphalist of Payees.",
+    description: " Upload Report for Quarterly Alphalist of Payees.",
     buttonText: " Submit QAP ",
     buttonLink: "/qapform",
     role: "accountant",
