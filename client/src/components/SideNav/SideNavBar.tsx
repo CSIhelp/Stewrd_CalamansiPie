@@ -18,6 +18,7 @@ import {
   IconChevronUp,
   IconChevronDown,
   IconContract,
+  IconShoppingBagCheck
 } from "@tabler/icons-react";
 
 import {
@@ -51,6 +52,11 @@ const SideBarLinks = [
   { link: "/deposit", label: "Deposits", icon: IconCashPlus },
   { link: "/transfer", label: "Transfers", icon: IconCashBanknoteMove },
   { link: "/withdraw", label: "Withdrawals", icon: IconCashMinus },
+      {
+    link: "/purchaseorder",
+    label: "Purchase Order",
+    icon: IconShoppingBagCheck,
+  },
   { link: "/tinregistration", label: "TIN Registration", icon: IconContract },
     {
     link: "/bankreconciliation",

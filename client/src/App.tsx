@@ -24,6 +24,7 @@ import UserManual from './pages/UserManual/UserManual';
 import Tin from "./pages/Tin/TIN";
 import Compliance from "./pages/Compliance/Compliance";
 import Report from "./pages/Report/Report";
+import PurchaseOrder from "./pages/PurchaseOrder/PurchaseOrder";
 
 
 //N8n frames
@@ -53,6 +54,7 @@ import QapView from "./pages/Compliance/QapView";
 import SlspView from "./pages/Compliance/SlspView";
 import AapFrame from "./pages/Compliance/AlphaListView";
 import ReportFrame from "./pages/Report/ReportFrame";
+import PurchaseOrderFrame from "./pages/PurchaseOrder/PurchaseOrderFrame";
 
 import BackLogoutModal from './components/LogoutModal/LogOut';
 import { useSession } from './hooks/useSession';
@@ -137,6 +139,15 @@ function App() {
             <Transfer />
           </ProtectedRoute>
         } />
+
+                <Route
+          path="/purchaseorder"
+          element={
+            <ProtectedRoute>
+              <PurchaseOrder />
+            </ProtectedRoute>
+          }
+        />
                 <Route
           path="/tinregistration"
           element={
@@ -233,6 +244,15 @@ function App() {
           element={
             <ProtectedRoute>
               <TransferFrame />
+            </ProtectedRoute>
+          }
+        />
+
+                <Route
+          path="/purchaseorderform"
+          element={
+            <ProtectedRoute>
+              <PurchaseOrderFrame />
             </ProtectedRoute>
           }
         />

@@ -228,7 +228,16 @@ export const NewCardsData = [
     buttonText: " View SLSP and SAWT  Report",
     buttonLink: "/sawtviewform",
     role: "accountant",
-  }
+  },
+  {
+  id: 26,
+      category: "PurchaseOrder",
+    title: "Purchase Order",
+    description: " Record your Purchase Order here ",
+    buttonText: "Record your Purchase Order",
+    buttonLink: "/purchaseorderform",
+
+}
 ];
 
 
