@@ -67,7 +67,7 @@ const AccountantBankReconciliation = () => {
         <a
           onClick={() =>
             window.open(
-              "https://docs.google.com/spreadsheets/d/1aKeYWJEKYd77jvk2GDwIrHku_t8s0HnHIfYb1zs4pXk/edit?usp=sharing"
+              "https://docs.google.com/spreadsheets/d/1ZohvisAm62h_wckovfYhVMgp5ZxfV0PTactI6aeIHtM/edit?usp=sharing"
             )
           }
           style={{
