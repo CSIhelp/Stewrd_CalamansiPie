@@ -20,7 +20,8 @@ import ChequeDisburment from './pages/ChequeDisbursement/ChequeDisbursement';
 import Deposit from './pages/Deposit/Deposit';
 import Withdraw from './pages/Withdraw/Withdraw';
 import Transfer from './pages/Transfer/Transfer';
-import UserManual from './pages/UserManual/UserManual';
+import UserManual from "./pages/UserManual/UserManualPage";
+import AccUserManual from "./pages/UserManual/UserManual";
 import Tin from "./pages/Tin/TIN";
 import Compliance from "./pages/Compliance/Compliance";
 import Report from "./pages/Report/Report";
@@ -322,11 +323,22 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/usermanual" element={
-          <ProtectedRoute>
-            <UserManual />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/usermanual"
+          element={
+            <ProtectedRoute>
+              <UserManual />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/accusermanual"
+          element={
+            <ProtectedRoute accountantOnly={true}>
+              <AccUserManual />
+            </ProtectedRoute>
+          }
+        />  
                 
         <Route
           path="/reportform"

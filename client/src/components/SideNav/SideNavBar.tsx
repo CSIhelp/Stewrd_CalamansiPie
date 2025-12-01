@@ -260,7 +260,7 @@ const filteredCards = NewCardsData.filter((card) => {
 
         <Group className={classes.documentation} justify="space-between">
           <NavLink
-            to="/usermanual"
+            to="/userManual"
             className={({ isActive }) =>
               isActive ? classes.activeLink : classes.link
             }
@@ -271,6 +271,16 @@ const filteredCards = NewCardsData.filter((card) => {
           </NavLink>{" "}
           {userRole === "accountant" && (
             <>
+            <NavLink
+            to="/accuserManual"
+            className={({ isActive }) =>
+              isActive ? classes.activeLink : classes.link
+            }
+            onClick={() => setActive("User Manual")}
+          >
+            <IconClipboard className={classes.linkIcon} stroke={1.5} />
+            <span> Accountant User Manual</span>
+          </NavLink>
               <NavLink
                 to="/documentation"
                 className={({ isActive }) =>
@@ -278,7 +288,7 @@ const filteredCards = NewCardsData.filter((card) => {
                 }
                 onClick={() => setActive("Documentation")}
               >
-                <IconClipboard className="linkIcon" stroke={1.5} />
+                <IconClipboard className={classes.linkIcon} stroke={1.5} />
                 <span>Documentation</span>
               </NavLink>{" "}
             </>

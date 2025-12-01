@@ -17,6 +17,7 @@
   align-self: flex-start;
 }
 
+
 .UserManualtabs {
   border-radius: 10px;
   background: white;
@@ -50,7 +51,7 @@
 
 .UserManualtab[data-active="true"] {
   color: #ffffff;
-  background-color:  #009444;
+  background-color: #29AAE1;
   border-bottom: none;
   border-radius: 10px;
 }
@@ -116,7 +117,7 @@
   bottom: 25px;
   right: 25px;
   z-index: 1000;
-  background-color:  #009444;
+  background-color: #29AAE1;
   color: white;
   border-radius: 50%;
   width: 50px;
@@ -128,7 +129,10 @@
 }
 
 .UserManualBurger:hover {
-  background-color: #8a1ab6;
+  background-color: #98d5ee ;
+}
+.StepDescription1{
+  color: red;
 }
 
 
@@ -293,11 +297,11 @@
   padding: 10px 14px;
   font-size: 15px;
   border-radius: 8px;
-  color:  #009444;
+  color: #29AAE1;
 }
 
 .UserManualtab[data-active="true"] {
-  background-color:  #009444;
+  background-color: #29AAE1;
   color: white;
 }
 }
